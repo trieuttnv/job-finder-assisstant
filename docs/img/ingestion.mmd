@@ -1,0 +1,36 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+flowchart LR
+  classDef ui      fill:#DCEDC8,stroke:#82B366,color:#111,font-weight:bold
+  classDef step    fill:#FFC233,stroke:#D79B00,color:#111,font-weight:bold
+  classDef llm     fill:#7EA6E0,stroke:#6C8EBF,color:#111,font-weight:bold
+  classDef check   fill:#EE9A9A,stroke:#B85450,color:#111,font-weight:bold
+  classDef ext     fill:#CB94D7,stroke:#9673A6,color:#111,font-weight:bold
+  classDef store   fill:#E0E0E0,stroke:#666,color:#111
+  classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
+  subgraph SRC["Sources"]
+    direction TB
+    PDF["CV (PDF)"]:::ext
+    GIT["Learning repo (Git)"]:::ext
+    CSV["LinkedIn CSV"]:::designed
+    DB["Database"]:::designed
+    WEB["Website"]:::designed
+  end
+  subgraph CON["Source Connector (per kind of Source)"]
+    direction LR
+    S1["① Discover"]:::step --> S2["② Fetch"]:::step --> S3["③ Snapshot<br/>redact · hash"]:::step --> S4["④ Extract/Map<br/>model draft or mapper"]:::llm
+  end
+  subgraph SH["Shared stages"]
+    direction LR
+    S5["⑤ Normalise"]:::step --> S6["⑥ Validate"]:::check --> S7["⑦ Provenance"]:::step --> S8["⑧ Diff"]:::step --> S9["⑨ Review /<br/>Quarantine"]:::ui --> S10["⑩ Publish"]:::step
+  end
+  SRC --> S1
+  S3 --> RAW[("raw/ Snapshots<br/>immutable")]:::store
+  S4 --> S5
+  S6 -.->|invalid| Q[("quarantine/")]:::store
+  S9 -.->|"rejected: fix and re-run"| S4
+  S10 --> REL[("entries/ + releases/<br/>git tag knowledge-version")]:::store
+  REL -->|"verify at startup"| SVC["Ask service"]:::step
+  style CON fill:#FFF2CC,stroke:#333,stroke-dasharray:5 5
+  style SH fill:#FBE4EC,stroke:#333,stroke-dasharray:5 5
+  style SRC fill:#F4E5F8,stroke:#333,stroke-dasharray:5 5
+  linkStyle 12 stroke:#D7592F,stroke-width:2px,stroke-dasharray:6 4,color:#D7592F

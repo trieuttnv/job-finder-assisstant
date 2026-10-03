@@ -36,6 +36,18 @@ _Avoid_: excerpt, source text
 A recorded disagreement between two or more **Entries** about the same topic, together with the rule for answering when a question depends on it.
 _Avoid_: inconsistency, discrepancy
 
+**Source Connector**:
+The part of ingestion specific to one kind of **Source** (PDF, Git, CSV, database, website): it discovers, fetches and snapshots the **Source** and drafts its **Entries**.
+_Avoid_: loader, reader, crawler
+
+**Release**:
+One published, versioned set of reviewed **Entries**, pinned to one **Snapshot** per **Source**; the only knowledge the assistant ever loads.
+_Avoid_: index, build, dataset
+
+**Quarantine**:
+The holding place for drafts and **Entries** that failed a check, each with its reason; nothing in it is ever published.
+_Avoid_: dead letter, rejects
+
 **Redaction**:
 Text removed from a **Snapshot** before commit, replaced by a labelled placeholder.
 _Avoid_: masking, anonymisation

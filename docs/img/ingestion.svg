@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 790" width="1100" height="790" font-family="Helvetica, Arial, sans-serif">
+<title>Ingestion pipeline: ten stages</title>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
+</defs>
+<rect x="1.5" y="1.5" width="1097" height="787" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Ingestion pipeline: ten stages</text>
+<g id="zones">
+<rect x="20" y="90" width="195" height="290" rx="16" fill="#F4E5F8" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="117.5" y="114.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Sources</text>
+<rect x="235" y="230" width="795" height="120" rx="16" fill="#FFF2CC" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="632.5" y="254.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Source Connector (per kind of Source)</text>
+<rect x="20" y="500" width="1060" height="116" rx="16" fill="#FBE4EC" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="550.0" y="524.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Shared stages</text>
+</g>
+<g id="edges">
+<path d="M215,298 L255,298" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M395,298 L435,298" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M575,298 L615,298" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M775,298 L815,298" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M190,568 L214,568" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M364,568 L388,568" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M538,568 L562,568" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M712,568 L736,568" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M886,568 L910,568" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M695,326 L695,380" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M850,326 L850,485 L115,485 L115,540" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M870,540 L870,465 L960,465 L960,326" fill="none" stroke="#D7592F" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<path d="M289,596 L289,670" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<path d="M985,596 L985,670" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M870,712 L740,712" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+</g>
+<g id="nodes">
+<rect x="35" y="130" width="165" height="36" rx="8" fill="#CB94D7" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="117.5" y="152.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">CV (PDF)</text>
+<rect x="35" y="178" width="165" height="36" rx="8" fill="#CB94D7" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="117.5" y="200.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Learning repo (Git)</text>
+<rect x="35" y="226" width="165" height="36" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="117.5" y="248.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">LinkedIn CSV</text>
+<rect x="35" y="274" width="165" height="36" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="117.5" y="296.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Database</text>
+<rect x="35" y="322" width="165" height="36" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="117.5" y="344.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Website</text>
+<rect x="255" y="270" width="140" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="325.0" y="302.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Discover</text>
+<rect x="435" y="270" width="140" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="505.0" y="302.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Fetch</text>
+<rect x="615" y="270" width="160" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="695.0" y="294.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Snapshot</text>
+<text x="695.0" y="311.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">redact · hash</text>
+<rect x="815" y="270" width="190" height="56" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="910.0" y="294.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">Extract/Map</text>
+<text x="910.0" y="310.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">model draft or mapper</text>
+<rect x="40" y="540" width="150" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="115.0" y="572.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Normalise</text>
+<rect x="214" y="540" width="150" height="56" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="289.0" y="572.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Validate</text>
+<rect x="388" y="540" width="150" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="463.0" y="572.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Provenance</text>
+<rect x="562" y="540" width="150" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="637.0" y="572.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Diff</text>
+<rect x="736" y="540" width="150" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="811.0" y="564.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Review /</text>
+<text x="811.0" y="581.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Quarantine</text>
+<rect x="910" y="540" width="150" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="985.0" y="572.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Publish</text>
+<path d="M620,390 a75.0,10 0 0 1 150,0 v50 a75.0,10 0 0 1 -150,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M620,390 a75.0,10 0 0 0 150,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="695.0" y="415.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">raw/ Snapshots</text>
+<text x="695.0" y="432.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">immutable</text>
+<path d="M214,680 a75.0,10 0 0 1 150,0 v44 a75.0,10 0 0 1 -150,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M214,680 a75.0,10 0 0 0 150,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="289.0" y="710.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">quarantine/</text>
+<path d="M870,680 a107.0,10 0 0 1 214,0 v64 a107.0,10 0 0 1 -214,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M870,680 a107.0,10 0 0 0 214,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="977.0" y="712.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">entries/ + releases/</text>
+<text x="977.0" y="728.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">git tag knowledge-version</text>
+<rect x="580" y="687" width="160" height="50" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="660.0" y="716.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ask service</text>
+</g>
+<g id="labels">
+<rect x="795" y="66" width="278" height="148" rx="10" fill="#FFFFFF" stroke="#999"/>
+<path d="M809,88 L847,88" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="859" y="92.5" font-size="13" fill="#222">main flow</text>
+<path d="M809,114 L847,114" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<text x="859" y="118.5" font-size="13" fill="#222">cross-cutting</text>
+<path d="M809,140 L847,140" stroke="#D7592F" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<text x="859" y="144.5" font-size="13" fill="#222">loop / feedback</text>
+<circle cx="828.0" cy="166" r="10" fill="#111"/>
+<text x="828.0" y="170.2" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="859" y="170.5" font-size="13" fill="#222">step number</text>
+<rect x="809" y="184" width="38" height="16" rx="4" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="859" y="196.5" font-size="13" fill="#222">dashed white = designed, not built</text>
+<circle cx="255" cy="270" r="11" fill="#111"/>
+<text x="255.0" y="274.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">1</text>
+<circle cx="435" cy="270" r="11" fill="#111"/>
+<text x="435.0" y="274.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">2</text>
+<circle cx="615" cy="270" r="11" fill="#111"/>
+<text x="615.0" y="274.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">3</text>
+<circle cx="815" cy="270" r="11" fill="#111"/>
+<text x="815.0" y="274.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">4</text>
+<circle cx="40" cy="540" r="11" fill="#111"/>
+<text x="40.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">5</text>
+<circle cx="214" cy="540" r="11" fill="#111"/>
+<text x="214.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">6</text>
+<circle cx="388" cy="540" r="11" fill="#111"/>
+<text x="388.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">7</text>
+<circle cx="562" cy="540" r="11" fill="#111"/>
+<text x="562.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">8</text>
+<circle cx="736" cy="540" r="11" fill="#111"/>
+<text x="736.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">9</text>
+<circle cx="910" cy="540" r="11" fill="#111"/>
+<text x="910.0" y="544.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">10</text>
+<rect x="965.0" y="385.0" width="89.1" height="33.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="968.0" y="398.0" font-size="13" fill="#D7592F" text-anchor="start" font-weight="bold">rejected:</text>
+<text x="968.0" y="414.0" font-size="13" fill="#D7592F" text-anchor="start" font-weight="bold">fix and re-run</text>
+<rect x="294.0" y="627.0" width="47.2" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="297.0" y="640.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">invalid</text>
+<rect x="753.2" y="691.0" width="103.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="805.0" y="704.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">verify at startup</text>
+</g>
+</svg>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="1100" height="680" font-family="Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" width="1100" height="700" font-family="Helvetica, Arial, sans-serif">
 <title>Knowledge model</title>
 <defs>
 <filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
@@ -6,184 +6,226 @@
 <marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
 <marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
 </defs>
-<rect x="1.5" y="1.5" width="1097" height="677" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<rect x="1.5" y="1.5" width="1097" height="697" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
 <text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Knowledge model</text>
 <g id="zones">
 </g>
 <g id="edges">
-<path d="M280,300 L425,300" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M820,275 L665,275" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M820,500 L750,500 L750,360 L665,360" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M490,390 L490,450 L600,450 L600,390" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M60,518 L120,518" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M60,544 L120,544" fill="none" stroke="#111" stroke-width="1.6"/>
-<path d="M60,570 L120,570" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M160,270 L160,330" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M280,380 L430,380" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M160,460 L160,540" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M820,230 L670,230" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M820,470 L750,470 L750,360 L670,360" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M495,414 L495,474 L605,474 L605,414" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M450,593 L510,593" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M450,619 L510,619" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M450,645 L510,645" fill="none" stroke="#111" stroke-width="1.6"/>
 </g>
 <g id="nodes">
-<g filter="url(#sh)"><rect x="40" y="220" width="240" height="178" rx="8" fill="#FFFFFF" stroke="#333"/></g>
-<path d="M40,254 L40,228 a8,8 0 0 1 8,-8 L272,220 a8,8 0 0 1 8,8 L280,254 z" fill="#E0E0E0" stroke="#333"/>
-<text x="160.0" y="242.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">SOURCE</text>
-<path d="M40,254 L280,254" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="270.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="122.0" y="270.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
-<text x="268.0" y="270.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
-<rect x="41" y="278" width="238" height="24" fill="#F6F6F1"/>
-<path d="M40,278 L280,278" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="294.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="122.0" y="294.5" font-size="13" fill="#111" text-anchor="start">kind</text>
-<path d="M40,302 L280,302" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="318.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="122.0" y="318.5" font-size="13" fill="#111" text-anchor="start">snapshotPath</text>
-<rect x="41" y="326" width="238" height="24" fill="#F6F6F1"/>
-<path d="M40,326 L280,326" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="342.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">date</text>
-<text x="122.0" y="342.5" font-size="13" fill="#111" text-anchor="start">collectedOn</text>
-<path d="M40,350 L280,350" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="366.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="122.0" y="366.5" font-size="13" fill="#111" text-anchor="start">commit</text>
-<rect x="41" y="374" width="238" height="24" fill="#F6F6F1"/>
-<path d="M40,374 L280,374" stroke="#CCC" stroke-width="0.8"/>
-<text x="52.0" y="390.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="122.0" y="390.5" font-size="13" fill="#111" text-anchor="start">redactions</text>
-<rect x="40" y="220" width="240" height="178" rx="8" fill="none" stroke="#333"/>
-<g filter="url(#sh)"><rect x="425" y="140" width="240" height="250" rx="8" fill="#FFFFFF" stroke="#333"/></g>
-<path d="M425,174 L425,148 a8,8 0 0 1 8,-8 L657,140 a8,8 0 0 1 8,8 L665,174 z" fill="#E0E0E0" stroke="#333"/>
-<text x="545.0" y="162.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">ENTRY</text>
-<path d="M425,174 L665,174" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="190.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="190.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
-<text x="653.0" y="190.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
-<rect x="426" y="198" width="238" height="24" fill="#F6F6F1"/>
-<path d="M425,198 L665,198" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="214.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="214.5" font-size="13" fill="#111" text-anchor="start">type</text>
-<path d="M425,222 L665,222" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="238.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="238.5" font-size="13" fill="#111" text-anchor="start">source</text>
-<text x="653.0" y="238.5" font-size="12" fill="#555" text-anchor="end" font-weight="bold">FK</text>
-<rect x="426" y="246" width="238" height="24" fill="#F6F6F1"/>
-<path d="M425,246 L665,246" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="262.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="262.5" font-size="13" fill="#111" text-anchor="start">parent</text>
-<text x="653.0" y="262.5" font-size="12" fill="#555" text-anchor="end" font-weight="bold">FK</text>
-<path d="M425,270 L665,270" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="286.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="286.5" font-size="13" fill="#111" text-anchor="start">employer</text>
-<rect x="426" y="294" width="238" height="24" fill="#F6F6F1"/>
-<path d="M425,294 L665,294" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="310.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="310.5" font-size="13" fill="#111" text-anchor="start">title</text>
-<path d="M425,318 L665,318" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="334.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="334.5" font-size="13" fill="#111" text-anchor="start">start</text>
-<rect x="426" y="342" width="238" height="24" fill="#F6F6F1"/>
-<path d="M425,342 L665,342" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="358.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="358.5" font-size="13" fill="#111" text-anchor="start">end</text>
-<path d="M425,366 L665,366" stroke="#CCC" stroke-width="0.8"/>
-<text x="437.0" y="382.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="507.0" y="382.5" font-size="13" fill="#111" text-anchor="start">quote</text>
-<rect x="425" y="140" width="240" height="250" rx="8" fill="none" stroke="#333"/>
-<g filter="url(#sh)"><rect x="820" y="210" width="240" height="130" rx="8" fill="#FFFFFF" stroke="#333"/></g>
-<path d="M820,244 L820,218 a8,8 0 0 1 8,-8 L1052,210 a8,8 0 0 1 8,8 L1060,244 z" fill="#E0E0E0" stroke="#333"/>
-<text x="940.0" y="232.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">CONFLICT</text>
-<path d="M820,244 L1060,244" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="260.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="260.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
-<text x="1048.0" y="260.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
-<rect x="821" y="268" width="238" height="24" fill="#F6F6F1"/>
-<path d="M820,268 L1060,268" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="284.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="284.5" font-size="13" fill="#111" text-anchor="start">topic</text>
-<path d="M820,292 L1060,292" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="308.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="308.5" font-size="13" fill="#111" text-anchor="start">topicTerms</text>
-<rect x="821" y="316" width="238" height="24" fill="#F6F6F1"/>
-<path d="M820,316 L1060,316" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="332.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="332.5" font-size="13" fill="#111" text-anchor="start">rule</text>
-<rect x="820" y="210" width="240" height="130" rx="8" fill="none" stroke="#333"/>
-<g filter="url(#sh)"><rect x="820" y="420" width="240" height="202" rx="8" fill="#FFFFFF" stroke="#333"/></g>
-<path d="M820,454 L820,428 a8,8 0 0 1 8,-8 L1052,420 a8,8 0 0 1 8,8 L1060,454 z" fill="#E0E0E0" stroke="#333"/>
-<text x="940.0" y="442.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">GOLD_LABEL</text>
-<path d="M820,454 L1060,454" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="470.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="470.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">questionId</text>
-<text x="1048.0" y="470.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
-<rect x="821" y="478" width="238" height="24" fill="#F6F6F1"/>
-<path d="M820,478 L1060,478" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="494.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="494.5" font-size="13" fill="#111" text-anchor="start">split</text>
-<path d="M820,502 L1060,502" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="518.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="518.5" font-size="13" fill="#111" text-anchor="start">category</text>
-<rect x="821" y="526" width="238" height="24" fill="#F6F6F1"/>
-<path d="M820,526 L1060,526" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="542.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="542.5" font-size="13" fill="#111" text-anchor="start">expect</text>
-<path d="M820,550 L1060,550" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="566.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="566.5" font-size="13" fill="#111" text-anchor="start">mustContain</text>
-<rect x="821" y="574" width="238" height="24" fill="#F6F6F1"/>
-<path d="M820,574 L1060,574" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="590.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
-<text x="902.0" y="590.5" font-size="13" fill="#111" text-anchor="start">mustNotClaim</text>
-<path d="M820,598 L1060,598" stroke="#CCC" stroke-width="0.8"/>
-<text x="832.0" y="614.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">boolean</text>
-<text x="902.0" y="614.5" font-size="13" fill="#111" text-anchor="start">verified</text>
-<rect x="820" y="420" width="240" height="202" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="40" y="140" width="240" height="130" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M40,174 L40,148 a8,8 0 0 1 8,-8 L272,140 a8,8 0 0 1 8,8 L280,174 z" fill="#E0E0E0" stroke="#333"/>
+<text x="160.0" y="162.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">SOURCE</text>
+<path d="M40,174 L280,174" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="190.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="190.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
+<text x="268.0" y="190.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<rect x="41" y="198" width="238" height="24" fill="#F6F6F1"/>
+<path d="M40,198 L280,198" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="214.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="214.5" font-size="13" fill="#111" text-anchor="start">connector</text>
+<path d="M40,222 L280,222" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="238.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="238.5" font-size="13" fill="#111" text-anchor="start">locator</text>
+<rect x="41" y="246" width="238" height="24" fill="#F6F6F1"/>
+<path d="M40,246 L280,246" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="262.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="262.5" font-size="13" fill="#111" text-anchor="start">redactions</text>
+<rect x="40" y="140" width="240" height="130" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="40" y="330" width="240" height="130" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M40,364 L40,338 a8,8 0 0 1 8,-8 L272,330 a8,8 0 0 1 8,8 L280,364 z" fill="#E0E0E0" stroke="#333"/>
+<text x="160.0" y="352.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">SNAPSHOT</text>
+<path d="M40,364 L280,364" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="380.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="380.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
+<text x="268.0" y="380.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<text x="242.0" y="380.5" font-size="12" fill="#777" text-anchor="end" font-style="italic">sha256</text>
+<rect x="41" y="388" width="238" height="24" fill="#F6F6F1"/>
+<path d="M40,388 L280,388" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="404.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="404.5" font-size="13" fill="#111" text-anchor="start">source</text>
+<text x="268.0" y="404.5" font-size="12" fill="#555" text-anchor="end" font-weight="bold">FK</text>
+<path d="M40,412 L280,412" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="428.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">datetime</text>
+<text x="122.0" y="428.5" font-size="13" fill="#111" text-anchor="start">fetchedAt</text>
+<rect x="41" y="436" width="238" height="24" fill="#F6F6F1"/>
+<path d="M40,436 L280,436" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="452.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="452.5" font-size="13" fill="#111" text-anchor="start">connectorVersion</text>
+<rect x="40" y="330" width="240" height="130" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="40" y="540" width="240" height="106" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M40,574 L40,548 a8,8 0 0 1 8,-8 L272,540 a8,8 0 0 1 8,8 L280,574 z" fill="#E0E0E0" stroke="#333"/>
+<text x="160.0" y="562.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">RELEASE</text>
+<path d="M40,574 L280,574" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="590.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="590.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">version</text>
+<text x="268.0" y="590.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<rect x="41" y="598" width="238" height="24" fill="#F6F6F1"/>
+<path d="M40,598 L280,598" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="614.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="614.5" font-size="13" fill="#111" text-anchor="start">previousVersion</text>
+<path d="M40,622 L280,622" stroke="#CCC" stroke-width="0.8"/>
+<text x="52.0" y="638.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="122.0" y="638.5" font-size="13" fill="#111" text-anchor="start">fileHashes</text>
+<rect x="40" y="540" width="240" height="106" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="430" y="140" width="240" height="274" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M430,174 L430,148 a8,8 0 0 1 8,-8 L662,140 a8,8 0 0 1 8,8 L670,174 z" fill="#E0E0E0" stroke="#333"/>
+<text x="550.0" y="162.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">ENTRY</text>
+<path d="M430,174 L670,174" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="190.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="190.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
+<text x="658.0" y="190.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<rect x="431" y="198" width="238" height="24" fill="#F6F6F1"/>
+<path d="M430,198 L670,198" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="214.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="214.5" font-size="13" fill="#111" text-anchor="start">type</text>
+<path d="M430,222 L670,222" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="238.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="238.5" font-size="13" fill="#111" text-anchor="start">snapshot</text>
+<text x="658.0" y="238.5" font-size="12" fill="#555" text-anchor="end" font-weight="bold">FK</text>
+<rect x="431" y="246" width="238" height="24" fill="#F6F6F1"/>
+<path d="M430,246 L670,246" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="262.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="262.5" font-size="13" fill="#111" text-anchor="start">parent</text>
+<text x="658.0" y="262.5" font-size="12" fill="#555" text-anchor="end" font-weight="bold">FK</text>
+<path d="M430,270 L670,270" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="286.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="286.5" font-size="13" fill="#111" text-anchor="start">employer</text>
+<rect x="431" y="294" width="238" height="24" fill="#F6F6F1"/>
+<path d="M430,294 L670,294" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="310.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="310.5" font-size="13" fill="#111" text-anchor="start">title</text>
+<path d="M430,318 L670,318" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="334.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="334.5" font-size="13" fill="#111" text-anchor="start">start</text>
+<rect x="431" y="342" width="238" height="24" fill="#F6F6F1"/>
+<path d="M430,342 L670,342" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="358.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="358.5" font-size="13" fill="#111" text-anchor="start">end</text>
+<path d="M430,366 L670,366" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="382.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="382.5" font-size="13" fill="#111" text-anchor="start">quote</text>
+<rect x="431" y="390" width="238" height="24" fill="#F6F6F1"/>
+<path d="M430,390 L670,390" stroke="#CCC" stroke-width="0.8"/>
+<text x="442.0" y="406.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="512.0" y="406.5" font-size="13" fill="#111" text-anchor="start">span</text>
+<rect x="430" y="140" width="240" height="274" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="820" y="170" width="240" height="106" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M820,204 L820,178 a8,8 0 0 1 8,-8 L1052,170 a8,8 0 0 1 8,8 L1060,204 z" fill="#E0E0E0" stroke="#333"/>
+<text x="940.0" y="192.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">CONFLICT</text>
+<path d="M820,204 L1060,204" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="220.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="220.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">id</text>
+<text x="1048.0" y="220.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<rect x="821" y="228" width="238" height="24" fill="#F6F6F1"/>
+<path d="M820,228 L1060,228" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="244.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="244.5" font-size="13" fill="#111" text-anchor="start">topicTerms</text>
+<path d="M820,252 L1060,252" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="268.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="268.5" font-size="13" fill="#111" text-anchor="start">rule</text>
+<rect x="820" y="170" width="240" height="106" rx="8" fill="none" stroke="#333"/>
+<g filter="url(#sh)"><rect x="820" y="400" width="240" height="154" rx="8" fill="#FFFFFF" stroke="#333"/></g>
+<path d="M820,434 L820,408 a8,8 0 0 1 8,-8 L1052,400 a8,8 0 0 1 8,8 L1060,434 z" fill="#E0E0E0" stroke="#333"/>
+<text x="940.0" y="422.0" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">GOLD_LABEL</text>
+<path d="M820,434 L1060,434" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="450.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="450.5" font-size="13" fill="#111" text-anchor="start" font-weight="bold">questionId</text>
+<text x="1048.0" y="450.5" font-size="12" fill="#8A5A00" text-anchor="end" font-weight="bold">PK</text>
+<rect x="821" y="458" width="238" height="24" fill="#F6F6F1"/>
+<path d="M820,458 L1060,458" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="474.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="474.5" font-size="13" fill="#111" text-anchor="start">category</text>
+<path d="M820,482 L1060,482" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="498.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="498.5" font-size="13" fill="#111" text-anchor="start">mustContain</text>
+<rect x="821" y="506" width="238" height="24" fill="#F6F6F1"/>
+<path d="M820,506 L1060,506" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="522.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">string</text>
+<text x="902.0" y="522.5" font-size="13" fill="#111" text-anchor="start">mustNotClaim</text>
+<path d="M820,530 L1060,530" stroke="#CCC" stroke-width="0.8"/>
+<text x="832.0" y="546.5" font-size="13" fill="#666" text-anchor="start" font-style="italic">boolean</text>
+<text x="902.0" y="546.5" font-size="13" fill="#111" text-anchor="start">verified</text>
+<rect x="820" y="400" width="240" height="154" rx="8" fill="none" stroke="#333"/>
 </g>
 <g id="labels">
-<path d="M289.0,308.0 L289.0,292.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M295.0,308.0 L295.0,292.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M409.0,300.0 L425.0,309.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M409.0,300.0 L425.0,300.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M409.0,300.0 L425.0,291.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="402.0" cy="300.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<rect x="337.8" y="277.0" width="28.4" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
-<text x="352.0" y="290.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">has</text>
-<path d="M804.0,275.0 L820.0,284.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M804.0,275.0 L820.0,275.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M804.0,275.0 L820.0,266.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="797.0" cy="275.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<path d="M681.0,275.0 L665.0,266.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M681.0,275.0 L665.0,275.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M681.0,275.0 L665.0,284.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M686.0,283.0 L686.0,267.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<rect x="724.2" y="252.0" width="35.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
-<text x="742.0" y="265.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">links</text>
-<path d="M804.0,500.0 L820.0,509.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M804.0,500.0 L820.0,500.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M804.0,500.0 L820.0,491.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="797.0" cy="500.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<path d="M681.0,360.0 L665.0,351.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M681.0,360.0 L665.0,360.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M681.0,360.0 L665.0,369.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="688.0" cy="360.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<rect x="755.0" y="422.0" width="35.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
-<text x="758.0" y="435.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">cites</text>
-<path d="M482.0,399.0 L498.0,399.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M482.0,405.0 L498.0,405.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M600.0,406.0 L609.0,390.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M600.0,406.0 L600.0,390.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M600.0,406.0 L591.0,390.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="600.0" cy="413.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<rect x="514.2" y="457.0" width="61.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
-<text x="545.0" y="470.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">parent of</text>
-<rect x="40" y="470" width="300" height="122" rx="10" fill="#FFFFFF" stroke="#999"/>
-<text x="54.0" y="492.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">Crow&#x27;s foot (read at the entity it touches)</text>
-<path d="M69.0,526.0 L69.0,510.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M75.0,526.0 L75.0,510.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<text x="136.0" y="522.5" font-size="13" fill="#222" text-anchor="start">exactly one</text>
-<path d="M76.0,544.0 L60.0,535.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M76.0,544.0 L60.0,544.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M76.0,544.0 L60.0,553.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<circle cx="83.0" cy="544.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
-<text x="136.0" y="548.5" font-size="13" fill="#222" text-anchor="start">zero or many</text>
-<path d="M76.0,570.0 L60.0,561.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M76.0,570.0 L60.0,570.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M76.0,570.0 L60.0,579.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<path d="M81.0,578.0 L81.0,562.0" stroke="#111" stroke-width="1.6" fill="none"/>
-<text x="136.0" y="574.5" font-size="13" fill="#222" text-anchor="start">one or many</text>
+<path d="M152.0,279.0 L168.0,279.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M152.0,285.0 L168.0,285.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,314.0 L151.0,330.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,314.0 L160.0,330.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,314.0 L169.0,330.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="160.0" cy="307.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<rect x="173.0" y="292.0" width="63.1" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="176.0" y="305.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">frozen as</text>
+<path d="M289.0,388.0 L289.0,372.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M295.0,388.0 L295.0,372.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M414.0,380.0 L430.0,389.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M414.0,380.0 L430.0,380.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M414.0,380.0 L430.0,371.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="407.0" cy="380.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<rect x="333.6" y="357.0" width="42.9" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="355.0" y="370.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">yields</text>
+<path d="M160.0,524.0 L151.0,540.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,524.0 L160.0,540.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,524.0 L169.0,540.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="160.0" cy="517.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<path d="M160.0,476.0 L169.0,460.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,476.0 L160.0,460.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M160.0,476.0 L151.0,460.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M152.0,481.0 L168.0,481.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<rect x="173.0" y="492.0" width="131.0" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="176.0" y="505.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">pins one per Source</text>
+<path d="M804.0,230.0 L820.0,239.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M804.0,230.0 L820.0,230.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M804.0,230.0 L820.0,221.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="797.0" cy="230.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<path d="M686.0,230.0 L670.0,221.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M686.0,230.0 L670.0,230.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M686.0,230.0 L670.0,239.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M691.0,238.0 L691.0,222.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<rect x="727.2" y="207.0" width="35.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="745.0" y="220.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">links</text>
+<path d="M804.0,470.0 L820.0,479.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M804.0,470.0 L820.0,470.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M804.0,470.0 L820.0,461.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="797.0" cy="470.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<path d="M686.0,360.0 L670.0,351.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M686.0,360.0 L670.0,360.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M686.0,360.0 L670.0,369.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="693.0" cy="360.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<rect x="755.0" y="407.0" width="35.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="758.0" y="420.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">cites</text>
+<path d="M487.0,423.0 L503.0,423.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M487.0,429.0 L503.0,429.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M605.0,430.0 L614.0,414.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M605.0,430.0 L605.0,414.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M605.0,430.0 L596.0,414.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="605.0" cy="437.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<rect x="519.2" y="481.0" width="61.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="550.0" y="494.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">parent of</text>
+<rect x="430" y="545" width="300" height="122" rx="10" fill="#FFFFFF" stroke="#999"/>
+<text x="444.0" y="567.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">Crow&#x27;s foot (read at the entity it touches)</text>
+<path d="M459.0,601.0 L459.0,585.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M465.0,601.0 L465.0,585.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<text x="526.0" y="597.5" font-size="13" fill="#222" text-anchor="start">exactly one</text>
+<path d="M466.0,619.0 L450.0,610.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M466.0,619.0 L450.0,619.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M466.0,619.0 L450.0,628.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<circle cx="473.0" cy="619.0" r="5.5" fill="#FFFEF9" stroke="#111" stroke-width="1.6"/>
+<text x="526.0" y="623.5" font-size="13" fill="#222" text-anchor="start">zero or many</text>
+<path d="M466.0,645.0 L450.0,636.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M466.0,645.0 L450.0,645.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M466.0,645.0 L450.0,654.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<path d="M471.0,653.0 L471.0,637.0" stroke="#111" stroke-width="1.6" fill="none"/>
+<text x="526.0" y="649.5" font-size="13" fill="#222" text-anchor="start">one or many</text>
 </g>
 </svg>

@@ -1,39 +1,48 @@
 %%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
 erDiagram
-  SOURCE ||--o{ ENTRY : "has"
+  SOURCE ||--o{ SNAPSHOT : "frozen as"
+  SNAPSHOT ||--o{ ENTRY : "yields"
   ENTRY ||--o{ ENTRY : "parent of"
   CONFLICT }o--|{ ENTRY : "links"
+  RELEASE }o--|{ SNAPSHOT : "pins one per Source"
   GOLD_LABEL }o--o{ ENTRY : "cites"
   SOURCE {
     string id PK
-    string kind
-    string snapshotPath
-    date collectedOn
-    string commit
+    string connector
+    string locator
     string redactions
+  }
+  SNAPSHOT {
+    string id PK "sha256"
+    string source FK
+    datetime fetchedAt
+    string connectorVersion
   }
   ENTRY {
     string id PK
     string type
-    string source FK
+    string snapshot FK
     string parent FK
     string employer
     string title
     string start
     string end
     string quote
+    string span
   }
   CONFLICT {
     string id PK
-    string topic
     string topicTerms
     string rule
   }
+  RELEASE {
+    string version PK
+    string previousVersion
+    string fileHashes
+  }
   GOLD_LABEL {
     string questionId PK
-    string split
     string category
-    string expect
     string mustContain
     string mustNotClaim
     boolean verified
