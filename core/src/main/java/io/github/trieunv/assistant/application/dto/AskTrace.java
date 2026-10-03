@@ -29,6 +29,7 @@ public class AskTrace {
   private final long retrievalLatencyMs;
   private final long modelLatencyMs;
   private final long totalLatencyMs;
+  private final AskConfig config;
 
   @Builder
   @Getter

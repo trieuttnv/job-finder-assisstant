@@ -28,7 +28,7 @@ public class AssistantProperties {
   @Setter
   public static class Model {
 
-    @NotBlank private String provider;
+    @NotNull private ModelProvider provider;
     @NotBlank private String id;
     private String apiKey;
 

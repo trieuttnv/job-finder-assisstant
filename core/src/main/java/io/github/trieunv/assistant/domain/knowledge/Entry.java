@@ -1,5 +1,6 @@
 package io.github.trieunv.assistant.domain.knowledge;
 
+import io.github.trieunv.assistant.domain.exception.AssistantDomainException;
 import java.util.Objects;
 
 /**
@@ -19,9 +20,11 @@ public record Entry(
     String quote) {
 
   public Entry {
-    Objects.requireNonNull(id, "Entry id cannot be null");
-    Objects.requireNonNull(type, "Entry type cannot be null");
-    Objects.requireNonNull(source, "Entry source cannot be null");
-    Objects.requireNonNull(quote, "Entry quote cannot be null");
+    if (Objects.isNull(id) || Objects.isNull(type) || Objects.isNull(source)) {
+      throw new AssistantDomainException("Entry " + id + " needs an id, a type and a Source");
+    }
+    if (Objects.isNull(quote) || quote.isBlank()) {
+      throw new AssistantDomainException("Entry " + id + " has no Quote");
+    }
   }
 }

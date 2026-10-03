@@ -2,6 +2,7 @@ package io.github.trieunv.assistant.application.service;
 
 import io.github.trieunv.assistant.application.dto.AnswerResult;
 import io.github.trieunv.assistant.application.dto.AnsweredClaim;
+import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.dto.AskTrace;
 import io.github.trieunv.assistant.application.dto.AskTrace.ClaimTrace;
@@ -41,6 +42,7 @@ public class AskQuestionService implements AskQuestionUseCase {
   private final ModelPort model;
   private final TraceSinkPort traceSink;
   private final SystemPrompt systemPrompt;
+  private final AskConfig config;
   private final Clock clock;
   private final OutputGuardrail outputGuardrail = new OutputGuardrail();
 
@@ -98,6 +100,7 @@ public class AskQuestionService implements AskQuestionUseCase {
             .retrievalLatencyMs(millisBetween(startedAt, retrievedAt))
             .modelLatencyMs(millisBetween(retrievedAt, answeredAt))
             .totalLatencyMs(millisBetween(startedAt, System.nanoTime()))
+            .config(config)
             .build());
 
     return AnswerResult.builder()

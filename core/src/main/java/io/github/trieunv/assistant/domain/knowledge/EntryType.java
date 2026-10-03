@@ -1,5 +1,6 @@
 package io.github.trieunv.assistant.domain.knowledge;
 
+import io.github.trieunv.assistant.domain.exception.AssistantDomainException;
 import java.util.Arrays;
 
 public enum EntryType {
@@ -24,6 +25,6 @@ public enum EntryType {
     return Arrays.stream(values())
         .filter(type -> type.code.equals(code))
         .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("Unknown Entry type: " + code));
+        .orElseThrow(() -> new AssistantDomainException("Unknown Entry type: " + code));
   }
 }

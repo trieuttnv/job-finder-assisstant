@@ -15,7 +15,8 @@ assistant:
   model:
     provider: ${MODEL_PROVIDER:anthropic}
     id: ${MODEL_ID:claude-sonnet-5-5}
-    api-key: ${ANTHROPIC_API_KEY:}
+    # No default for the secret: it must come from the environment (.env).
+    api-key: ${ANTHROPIC_API_KEY}
     base-url: ${ANTHROPIC_BASE_URL:}
     timeout: ${MODEL_TIMEOUT_MS:20000}ms
     max-output-tokens: ${MODEL_MAX_OUTPUT_TOKENS:800}

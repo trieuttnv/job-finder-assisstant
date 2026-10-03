@@ -19,6 +19,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.metadata.Usage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.util.StringUtils;
 
 /**
  * Claude through Spring AI, with the claims schema enforced by Anthropic structured output. One
@@ -49,7 +50,7 @@ public class AnthropicModelAdapter implements ModelPort {
             .timeout(timeout)
             .maxRetries(0)
             .outputSchema(converter.getJsonSchema());
-    if (Objects.nonNull(baseUrl) && !baseUrl.isBlank()) {
+    if (StringUtils.hasText(baseUrl)) {
       options.baseUrl(baseUrl);
     }
     this.chatModel = AnthropicChatModel.builder().options(options.build()).build();

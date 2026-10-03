@@ -7,6 +7,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
+/** Rules about the core alone. Rules spanning modules live in app-cli's architecture test. */
 @AnalyzeClasses(
     packages = "io.github.trieunv.assistant",
     importOptions = ImportOption.DoNotIncludeTests.class)
@@ -34,13 +35,4 @@ class ArchitectureTest {
           .should()
           .dependOnClassesThat()
           .resideInAnyPackage("..application..", "..adapter..");
-
-  @ArchTest
-  static final ArchRule applicationNeverUsesAdapters =
-      noClasses()
-          .that()
-          .resideInAPackage("..application..")
-          .should()
-          .dependOnClassesThat()
-          .resideInAPackage("..adapter..");
 }

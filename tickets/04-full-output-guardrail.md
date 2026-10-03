@@ -12,3 +12,8 @@
 - [ ] No surviving claim, or drop ratio above the threshold → "I couldn't put together a verified answer."
 - [ ] Unit tests per rule and per normalisation; tests through the `Ask` use case for the withheld answer
 - [ ] AI-usage log entry appended
+
+## Comments
+
+- 2026-10-04 (ticket 01 review): the CLI renderer already prints "N statements removed: not supported by my sources." when `removedClaims > 0` (singular for 1), tested in `AnswerRendererTest`. This ticket still owns the box: confirm the line appears *exactly* when claims were dropped through the `Ask` use case, including the withheld-answer cases.
+

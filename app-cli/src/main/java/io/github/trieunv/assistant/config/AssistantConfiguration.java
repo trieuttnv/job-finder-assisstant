@@ -4,6 +4,7 @@ import io.github.trieunv.assistant.adapter.out.anthropic.AnthropicModelAdapter;
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
+import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
@@ -27,22 +28,34 @@ public class AssistantConfiguration {
         model,
         new JsonlTraceSinkAdapter(properties.getTraceDir()),
         systemPrompt(properties.getPrompt()),
+        askConfig(properties),
         Clock.systemUTC());
   }
 
   @Bean
   ModelPort modelPort(AssistantProperties properties) {
     var model = properties.getModel();
-    if (!"anthropic".equals(model.getProvider())) {
-      throw new IllegalStateException(
-          "MODEL_PROVIDER=" + model.getProvider() + " is not supported; use anthropic");
-    }
-    return new AnthropicModelAdapter(
-        model.getApiKey(),
-        model.getBaseUrl(),
-        model.getId(),
-        model.getTimeout(),
-        model.getMaxOutputTokens());
+    return switch (model.getProvider()) {
+      case ANTHROPIC ->
+          new AnthropicModelAdapter(
+              model.getApiKey(),
+              model.getBaseUrl(),
+              model.getId(),
+              model.getTimeout(),
+              model.getMaxOutputTokens());
+    };
+  }
+
+  private static AskConfig askConfig(AssistantProperties properties) {
+    var model = properties.getModel();
+    return AskConfig.builder()
+        .provider(model.getProvider().name().toLowerCase())
+        .modelId(model.getId())
+        .timeoutMs(model.getTimeout().toMillis())
+        .maxOutputTokens(model.getMaxOutputTokens())
+        .retrievalTopK(properties.getRetrieval().getTopK())
+        .promptVersion(properties.getPrompt().getVersion())
+        .build();
   }
 
   private static SystemPrompt systemPrompt(AssistantProperties.Prompt prompt) {

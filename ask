@@ -3,11 +3,14 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# .env fills in settings; anything already set in the shell wins over it.
 if [[ -f .env ]]; then
+  already_set="$(export -p)"
   set -a
   # shellcheck disable=SC1091
   source .env
   set +a
+  eval "$already_set"
 fi
 
 jar=app-cli/target/assistant-cli.jar

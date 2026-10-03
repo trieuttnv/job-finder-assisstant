@@ -8,6 +8,7 @@ import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
 import io.github.trieunv.assistant.application.dto.AnsweredClaim;
+import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.dto.ModelReply;
 import io.github.trieunv.assistant.application.dto.SourceReference;
@@ -37,6 +38,16 @@ class AskQuestionTest {
   private static final Path FIXTURE_KNOWLEDGE = Path.of("src/test/resources/knowledge");
   private static final SystemPrompt PROMPT =
       new SystemPrompt("answer-test", "Answer from Entries.");
+
+  private static final AskConfig CONFIG =
+      AskConfig.builder()
+          .provider("stub")
+          .modelId("stub-model")
+          .timeoutMs(20000)
+          .maxOutputTokens(800)
+          .retrievalTopK(6)
+          .promptVersion("answer-test")
+          .build();
 
   @TempDir Path traceDir;
 
@@ -145,6 +156,13 @@ class AskQuestionTest {
       assertThat(trace.get("inputTokens").asInt()).isEqualTo(120);
       assertThat(trace.get("outputTokens").asInt()).isEqualTo(30);
       assertThat(trace.has("totalLatencyMs")).isTrue();
+      var config = trace.get("config");
+      assertThat(config.get("provider").asString()).isEqualTo("stub");
+      assertThat(config.get("modelId").asString()).isEqualTo("stub-model");
+      assertThat(config.get("timeoutMs").asLong()).isEqualTo(20000);
+      assertThat(config.get("maxOutputTokens").asInt()).isEqualTo(800);
+      assertThat(config.get("retrievalTopK").asInt()).isEqualTo(6);
+      assertThat(config.get("promptVersion").asString()).isEqualTo("answer-test");
     }
   }
 
@@ -162,10 +180,11 @@ class AskQuestionTest {
     var entries = new YamlKnowledgeBasePersistenceAdapter(FIXTURE_KNOWLEDGE).loadEntries();
     var service =
         new AskQuestionService(
-            new LuceneRetrieverAdapter(entries, 6),
+            new LuceneRetrieverAdapter(entries, CONFIG.getRetrievalTopK()),
             stubModel,
             new JsonlTraceSinkAdapter(traceDir),
             PROMPT,
+            CONFIG,
             Clock.systemUTC());
     return service.ask(AskQuestionCommand.builder().question(question).build());
   }
