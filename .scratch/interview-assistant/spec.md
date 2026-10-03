@@ -2,7 +2,7 @@
 
 Status: ready-for-agent
 
-Source design: [README.md](../../README.md) (RFC, Approved 2026-10-03). Terms: [CONTEXT.md](../../CONTEXT.md). Decisions: [docs/adr/](../../docs/adr/).
+Source design: [README.md](../../README.md) (RFC, Approved 2026-10-03, revision 27; Detailed Design organised by the five tasks). Terms: [CONTEXT.md](../../CONTEXT.md). Decisions: [docs/adr/](../../docs/adr/).
 
 ## Problem Statement
 
@@ -31,6 +31,8 @@ A command-line assistant that answers questions about the Subject only from a sm
 13. As an Interviewer, I want questions about employers or projects the Subject never had to get no invented details, so that I can trust that what is shown is real.
 14. As an Interviewer, I want instructions hidden in my question ("ignore your rules and…") to have no effect on what is shown, so that the assistant can't be turned against the Subject.
 15. As an Interviewer, I want dates, employers and titles in answers to match the CV exactly, so that I can rely on them.
+15a. As an Interviewer, I want an ambiguous question ("Tell me about your biggest project") answered with the main candidates, each cited, so that the assistant never picks an unsupported "biggest" for me.
+15b. As an Interviewer, I want "Something went wrong. Please try again." with a trace id when something unexpected fails, so that I can report it without seeing internals.
 
 ### Knowledge base
 
@@ -69,6 +71,7 @@ A command-line assistant that answers questions about the Subject only from a sm
 42. As the Subject, I want the model call to time out after a configured time with no retry, so that a hung provider ends in the fixed message instead of an endless wait.
 43. As the Subject, I want a missing or invalid API key detected at startup and every question answered with the fixed unavailable message, so that the failure is clear and safe.
 44. As the Subject, I want unparseable or empty model output treated as unusable and answered with the fixed unavailable message, so that DeepSeek's occasional empty JSON or any schema break is safe.
+44a. As the Subject, I want to compare a paid model (Sonnet) and an open-weights model (DeepSeek) on the same prompt, Entries and questions, with each model's raw output kept in the trace, so that I can verify the prompt and the output of each, not only the guardrail-filtered answer.
 45. As a reviewer, I want every setting to come from the environment with an example file naming each variable, so that I can run the project without reading the code.
 46. As a reviewer, I want no real key ever committed, so that the repository is safe to share.
 
@@ -105,7 +108,8 @@ A command-line assistant that answers questions about the Subject only from a sm
 - **Modules.** A Maven multi-module build in Ports and Adapters style: a core module (domain and application) with no framework imports, enforced by an architecture test; an outbound adapters module; a CLI application module; an evaluation application module. Java 21, Spring Boot 4.1.1, Spring AI 2.0.1.
 - **Inbound port.** One `Ask` use case taking a question and returning an answer value: mode (answered, not in sources, unverified, unavailable), surviving claims with citation numbers, Conflict notices, sources (number, Entry id, Source, Quote), removed-claims count and trace id. The CLI and the eval runner both call it; the designed HTTP API (`POST /api/v1/asks`) would too.
 - **Outbound ports.** `KnowledgeBase` (load Snapshots, Entries, Conflicts; run ingest checks), `Retriever` (BM25 with filters and expansion), `ModelPort` (one structured call, returning claims and token usage), `ProviderAssignment` (environment-based), `TraceSink` (append one JSON line).
-- **Knowledge schema.** Entry: id, type (role, bullet, skill-group, education, summary, project), source, optional parent, typed fields (employer, title, start, end), quote. Source record: id, kind, snapshot location, collected date, commit, what was copied, redactions. Conflict: id, topic, topic terms, the Entry ids on each side, rule. Readable ids such as `cv.role.tamara.b1` (ADR 0001).
+- **Knowledge ingestion (build).** Each Snapshot is committed by hand under the knowledge folder with a provenance record (date, commit, what was copied, redactions); a model drafts each Source's Entry file once and the Subject reviews it. The ten-stage ingestion pipeline with Source connectors is production design only (ADR 0009).
+- **Knowledge schema.** Entry: id, type from a fixed list (role, bullet, skill-group, education, summary, project; schema files per type are production only), source, optional parent, typed fields (employer, title, start, end), quote. Source record: id, kind, snapshot location, collected date, commit, what was copied, redactions. Conflict: id, topic, topic terms, the Entry ids on each side, rule. Readable ids such as `cv.role.tamara.b1` (ADR 0001).
 - **Ingest checks**, failing startup with the Entry id and reason: schema valid, ids unique, parents resolve, Quote word for word in its Snapshot, typed fields appear in the Quote. It reports ids added, changed or removed against the previous run.
 - **Retrieval.** In-memory Lucene BM25 over Quotes and typed fields, top-k from config (default 6). Known employer, technology and Entry-type names, built from the Entries, filter or boost. Each hit is expanded with its role header and the other side of any Conflict (ADR 0002).
 - **Input Guardrail.** If no Entry scores above the configured floor, return "not in sources" with no model call. The floor is set on the dev split just above unrelated questions' scores.
@@ -113,11 +117,11 @@ A command-line assistant that answers questions about the Subject only from a sm
 - **Model output contract.** JSON `{claims: [{text, entryIds[]}], notInSources}` via Spring AI structured output. Anything that doesn't parse, or is empty, is unusable.
 - **Output Guardrail** (ADR 0004). A claim is dropped if it cites no Entry or an Entry not retrieved; if it contains a number or date absent from its cited Entries; or if it names an employer, product or technology absent from its cited Entries (names from all Entries plus a committed technology list). Number words become digits, units and punctuation are stripped and known aliases match before comparing. The answer is withheld as unverified when no claim survives or the drop ratio exceeds the configured maximum (default 0.5). The not-in-sources flag becomes the fixed message.
 - **Conflict rendering.** Code appends the Conflict notice with both sides cited when a surviving claim cites either side or the question contains one of the Conflict's topic terms.
-- **Model adapters** (ADR 0005). Anthropic (`claude-sonnet-5-5`, default) and DeepSeek (`deepseek-flash`, JSON mode, model id set explicitly), chosen by environment. A per-call timeout from config; no retry on timeout. The API Gateway (authentication, rate limit), retry, circuit breaker, Statsig assignment and Opik tracing are designed only and not built (ADR 0007).
-- **Fallback messages**, fixed and written by code: "That isn't in my sources.", "I couldn't put together a verified answer.", "The assistant can't answer right now. Please try again." A fallback prints no Sources block.
+- **Model adapters** (ADR 0005). Anthropic (`claude-sonnet-5-5`, default) and DeepSeek (`deepseek-flash`, JSON mode, model id set explicitly), chosen by environment. Running both is an experiment comparing a paid and an open-weights model: the prompt is verified against both before any run (DeepSeek's JSON mode needs the word "json" in the prompt), and each model's raw output is kept in the trace. A per-call timeout from config; no retry on timeout. The API Gateway (authentication, rate limit), retry, circuit breaker, Statsig assignment and Opik tracing are designed only and not built (ADR 0007).
+- **Fallback messages**, fixed and written by code: "That isn't in my sources.", "I couldn't put together a verified answer.", "The assistant can't answer right now. Please try again." and, for anything unexpected, "Something went wrong. Please try again." with the trace id. A fallback prints no Sources block. The designed HTTP API maps the first two to `200` and failures to `400`, `401`, `429`, `500`, `502`, `503` and `504` as in the README's error-code table; the CLI prints the same messages.
 - **Traces.** One JSON line per question in a dated local file, git-ignored, with the fields in story 47. Cost is token usage times the configured price per million tokens.
 - **Configuration.** Environment variables only, named in an example file: provider, model id, both API keys, timeout, max output tokens, input and output price, top-k, score floor, drop ratio, prompt version, knowledge and trace directories.
-- **Evaluation dataset.** One YAML file of 30 items: id, split, category, question, expect (answer or fallback), gold (Entry ids, must-contain term groups with synonyms, must-not-claim regular expressions), reword-of link, verified flag. Model-drafted, Subject-verified.
+- **Evaluation dataset.** One YAML file of 30 items: id, split, category, question, expect (answer or fallback), gold (Entry ids, must-contain term groups with synonyms, must-not-claim regular expressions), reword-of link, verified flag. Six per category, 20 dev and 10 held-out; at least two adversarial items test recombination (a real achievement at the wrong employer); three reworded pairs; ambiguous items expect the main candidates, each cited. Model-drafted, Subject-verified.
 - **Evaluation runner and scorer.** One documented command with provider, repetitions and split options. It runs each question through the `Ask` use case, reads the traces, scores with code only (ADR 0006), prints the table, writes a results folder with config and commit, and exits non-zero only on a Hard Line. A no-LLM baseline mode answers with the retrieved Quotes.
 - **AI-usage log.** Each ticket appends what was model-generated, what changed after review and minutes spent to the AI-usage log; the README note is written from it.
 
@@ -127,6 +131,7 @@ A command-line assistant that answers questions about the Subject only from a sm
 - **Seam 1: the `Ask` use case** (main seam). Fixture knowledge files and a scripted stub `ModelPort`. Covers retrieval and expansion, the Input Guardrail (including that the stub is never called), each Output Guardrail rule and normalisation, the drop-ratio withholding, Conflict rendering and its relevance rule, the not-in-sources flag, every fallback (timeout, error, missing key, unparseable or empty output) and the rendered answer shape.
 - **Seam 2: ingest.** Fixture Snapshots and Entry files. Covers each startup failure (Quote not found, duplicate id, dangling parent, invalid schema, typed field not in Quote) with its message, and the added/changed/removed id report.
 - **Seam 3: the eval scorer.** Hand-built answers with known outcomes in, metric values out, for every metric including edge cases (no gold ids, all refusals, reworded pairs).
+- **Rendered output** through seam 1: every answer's citation numbers match its Sources block; every fallback has no Sources block; the removed-claims line appears exactly when claims were dropped.
 - **Architecture test** that the core module imports no Spring, Spring AI, Lucene or Jackson.
 - **Not unit-tested:** the real Anthropic and DeepSeek adapters. They are exercised only by the evaluation command against the real providers.
 - **Prior art:** none; this is a new repository. The first tests at each seam set the pattern.
@@ -138,6 +143,7 @@ A command-line assistant that answers questions about the Subject only from a sm
 - Embeddings or hybrid retrieval.
 - An injection pattern list or a model-based scope classifier.
 - An LLM judge.
+- The ten-stage ingestion pipeline and its Source connectors (PDF, Git, CSV, database, website), release manifests and review queues: designed in the README, not built (ADR 0009).
 - Live fetching of any Source, and any Source beyond the CV and the learning-repository snapshot.
 - Synthetic content in the knowledge base.
 

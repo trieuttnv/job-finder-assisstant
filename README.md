@@ -7,7 +7,7 @@
 | **Date** | 2026-10-03 |
 | **Brief** | docs/problem.txt, docs/requirement-summary.md |
 | **Decision records** | [docs/adr/](docs/adr/) |
-| **Revision** | 20 — Task 5: ingestion pipeline added to the decision record |
+| **Revision** | 27 — Architecture: components table with the API Gateway |
 
 ## Summary
 
@@ -28,36 +28,17 @@ The constraints that bind every task:
 - Results committed honestly, failures included.
 - Synthetic and redacted content labelled; reuse declared.
 
-## Goals and Non-Goals
+## Goals
 
-### Goals
+Five outcomes this design commits to. What the brief asks to be *written* (decision record, AI use, self-review) is in [Task 5](#task-5-engineering-leadership-decisions-and-ai-use), not here.
 
-Each goal is an outcome the system commits to, with the metric that proves it ([Evaluation](#task-3-evaluation-reliability-and-testing)) and the brief task it serves. What the brief asks to be *written* (decision record, AI use, self-review) is in Task 5.
-
-**Functional**
-
-1. **No fabrication.** No shown claim names an employer, role, qualification, project or achievement its sources lack. *Hallucination rate; 0 on adversarial.* (T1–T3)
-2. **Every shown claim is cited.** Each citation resolves to an Entry that supports the claim. *Citation correctness.* (T2, T4)
-3. **Says so when it can't answer.** Unanswerable and out-of-scope questions get a clear fallback, and answerable ones don't. *Refusal correctness, over-refusal.* (T3, T4)
-4. **Conflicts are shown, never merged.** When sources disagree, both sides are shown and cited. *Conflict questions.* (T1)
-5. **Sources and fallback are visible** in every response. (T4)
-
-**Non-functional**
-
-6. **Verifiable.** The knowledge base is provably a copy of its Sources, and every quality claim comes from an evaluation anyone can rerun. *Quote provenance 100%; one eval command.* (T1, T3)
-7. **Predictable under failure.** Every failure path ends in a fixed message and has a test. (T2)
-8. **Measured cost and latency.** Cost per question and p95 are measured per provider, with one model call per question. (T2)
-9. **Extensible knowledge.** A new Source is added with data and review, not a redesign. (T1)
-10. **Secure and private.** No secret committed; only the question and retrieved Entries leave the machine; provider retention stated. (T2)
-11. **Runnable by a stranger** in under ten minutes from this README. (Submission)
-
-### Non-Goals
-
-- **An integration for every source.** Not expected by the brief; extra sources are collected once and committed.
-- **Running the production design for this exercise.** The service, API Gateway, retry, circuit breaker, Statsig and the canary are designed here; the build runs the same core locally from a CLI.
-- **A polished UI.** A basic interface that shows sources and the fallback is enough.
-- **Anything beyond the Subject's professional background.** It is refused or answered as "not in my sources".
-- **Production data or internal systems.** The exercise is self-contained.
+| # | Goal |
+|---|---|
+| G1 | **Trustworthy answers.** The assistant never invents an employer, role, qualification, project or achievement, and every stated fact is cited to its source |
+| G2 | **Honest about its limits.** When it can't answer, it says so clearly instead of guessing |
+| G3 | **Knowledge that grows without redesign.** New Sources are added as data or a connector, never by changing what exists |
+| G4 | **Quality proven by evidence.** Every quality claim comes from an evaluation anyone can rerun, failures included |
+| G5 | **Runnable and accountable.** A stranger runs it from this README, and any answer can be explained from its trace |
 
 ## Proposed Solution
 
@@ -80,23 +61,11 @@ This README is the production design. The exercise builds a subset of it, the sa
 | Evaluation | ✅ `./eval.sh` | Same suite as the canary promotion check |
 | Deployment | Local | Kubernetes with an Argo Rollouts canary |
 
+*Note on the two model adapters:* running Anthropic and DeepSeek side by side is an **experiment** to compare how a paid model and an open-weights model behave on the same prompt, Entries and questions. The two differ in how they follow the claim schema (DeepSeek's JSON mode needs the word "json" in the prompt and can return empty content), so both the prompt and each model's raw output must be verified carefully: the raw output is kept in every trace, and the evaluation reports each provider separately (Task 2, Step 5).
+
 ![System context](docs/img/system-context.svg)
 
 *Source: [system-context.mmd](docs/img/system-context.mmd). Dashed white = designed, not built.*
-
-**Failure-mode controls.** Each way the assistant could mislead an Interviewer, the control that stops it, and how we know the control works.
-
-| Risk | Control | Metric | Test |
-|---|---|---|---|
-| Invented employer, role, product or technology | Output Guardrail name check | Hallucination rate | Unit tests per rule; adversarial eval |
-| Invented number or date | Output Guardrail number check, after normalisation | Hallucination rate | Unit tests; adversarial eval |
-| Real words recombined into a false claim | None in code; caught only by the eval | Hallucination rate on recombination adversarials | Eval |
-| Knowledge base says more than its Source | Quote check at ingest | Quote provenance (Hard Line) | Ingest tests |
-| Conflict hidden or merged | Conflict rendered by code; merged claim fails the name check | Conflict questions | Unit tests; eval |
-| Unanswerable question answered | Input Guardrail floor; `notInSources` | Refusal correctness | Eval |
-| Injected instruction obeyed | Question and Entries passed as data; Output Guardrail | Hallucination rate on adversarial (Hard Line) | Eval |
-| Provider slow or down | Timeout; retry and circuit breaker *(designed)* | `unavailable` rate | Stub-provider tests |
-| Cost runaway | One call, capped output; gateway rate limit *(designed)* | Mean cost per question | Eval |
 
 ### Detailed Design
 
@@ -106,7 +75,7 @@ This README is the production design. The exercise builds a subset of it, the sa
 
 *Source: [container.mmd](docs/img/container.mmd).*
 
-#### Task 1: Knowledge layer
+#### Task 1: Knowledge Layer
 
 The knowledge layer turns the source into Entry(chunk). Refer to ADR 0001-typed-entries-with-verbatim-quotes.md
 
@@ -279,6 +248,8 @@ The answer shows "N statements removed: not supported by my sources." If none su
 ##### Step 5. Choose the model, and know when to switch
 
 `ModelPort` has two adapters: Anthropic (`claude-sonnet-5-5`, the default) and DeepSeek (`deepseek-flash`, JSON mode) ([ADR 0005](docs/adr/0005-switchable-model-adapters-anthropic-and-deepseek.md)). Sonnet is the default because following the claim schema and combining sources matter more here than price. The build picks one with `MODEL_PROVIDER` and `MODEL_ID`, which is also how the evaluation compares them; in production the Statsig experiment `model_provider` assigns each request ([Statsig Experiment](#statsig-experiment)).
+
+**This is an experiment.** Comparing a paid model (Sonnet) with an open-weights one (DeepSeek) on identical inputs shows how much of the system's behaviour depends on the model. The prompt is verified against both before any run, and each model's raw output is checked in the traces, not only its guardrail-filtered answer: a model that passes the Output Guardrail by having most of its claims dropped is behaving worse than its answer suggests.
 
 **Evidence that would make us switch:** the other model matches the default on hallucination rate and citation correctness at lower cost or p95, or the default's hallucination rate rises above its threshold after a provider update.
 
@@ -526,16 +497,6 @@ Every ticket appends to [docs/ai-usage.md](docs/ai-usage.md) what a model genera
 
 *From the actual minutes recorded per ticket in the build plan, next to the estimates in the [Deployment Plan](#deployment-plan).*
 
-#### Cross-task design
-
-Each decision's effect on the measured outcomes is in the [impact matrix](docs/impact-matrix.md). Four pairs pull against each other; each is resolved here and its residual risk is in Risks and Mitigations.
-
-| Tension | Resolution |
-|---|---|
-| **Score floor vs over-refusal.** A high Input Guardrail floor refuses answerable paraphrases; a low one sends more unanswerable questions to their one model call | Low floor, set on dev just above the scores of unrelated questions. `notInSources` and the Output Guardrail stop fabrication behind it. Over-refusal and refusal correctness are both reported |
-| **Output Guardrail strictness vs honest paraphrase.** "four percent" for "4%" or "Alipay" for "Alipay (Alibaba Group)" would be dropped | Before comparing, number words become digits and units and punctuation are stripped; names match known aliases taken from the Entries. The prompt asks for numbers and names exactly as written. Remaining false drops are tagged in the error analysis |
-| **Conflict expansion vs noise.** Expansion can bring a Conflict into an unrelated answer | The notice renders only when a surviving claim cites either side, or the question contains one of the Conflict's topic terms from `conflicts.yaml` |
-| **Eval vs guardrail blind spot.** The Output Guardrail can't see a false claim built from real words ("I grew the Alipay team to 13 at Tamara"), and an eval that mirrors its rules would report 0 | At least 2 of the 6 adversarial questions target recombination (a real achievement at the wrong employer, a real role at the wrong dates), with `mustNotClaim` patterns written by the Subject, not derived from the guardrail |
 
 ### Dependencies
 
@@ -584,6 +545,8 @@ A new repository with no existing system to change. Two compatibility rules stil
 **Calls out.** One HTTPS call per answered question, to the assigned provider. Error handling, timeout, retry and circuit breaking are in [Task 2, Step 6](#task-2-ai-system-and-back-end). Latency is kept low by sending only the retrieved Entries (not the whole corpus), temperature 0 and a cap on output tokens.
 
 ### Scalability and Performance
+
+**Targets.** p95 end to end ≤ 10 s per provider, measured from traces and reported, not enforced. Cost per question and per full evaluation run are measured and reported with no fixed target; one model call per question keeps cost proportional to traffic.
 
 **Measured numbers** (cost per question and p95 for each provider) come from the committed eval runs and are filled in here when the build lands. The estimate from list prices, at about 2,500 input and 300 output tokens: **about $0.008 per question on Sonnet 5.5** and **about $0.001 on DeepSeek Flash**. One full eval run (30 questions × 3 repetitions on Sonnet, plus 1 on DeepSeek) is therefore about **$0.75**.
 
@@ -644,30 +607,9 @@ Every setting comes from the environment; `.env.example` names each one.
 
 *Designed, not built* ([ADR 0008](docs/adr/0008-canary-with-eval-gate-and-statsig-provider-experiment.md)).
 
-| | |
-|---|---|
-| **Experiment** | `model_provider` |
-| **Variants** | Control: Anthropic, Claude Sonnet 5.5 (90%). Treatment: DeepSeek (10%) |
-| **Unit** | Client key, so one client always gets the same provider |
-| **Primary metrics** | Output Guardrail drop rate, share of `unverified` answers, mean cost per question, p95 |
-| **Guardrail metrics** | `unavailable` rate; Interviewer-reported wrong answers |
-| **Before it starts** | The treatment must pass the eval's Hard Lines offline |
-| **Stop rule** | Stop and return to 100% control if the treatment's drop rate or `unverified` share is more than 5 points above control for an hour, or any wrong-answer report traces to the treatment |
-
-The SDK evaluates assignments locally after it starts, so no request waits on Statsig. If Statsig is unreachable at startup, every request gets the control variant.
 
 ### Testing and Validation
 
-| Layer | What is tested | How |
-|---|---|---|
-| Domain | Each Output Guardrail rule, normalisation, Conflict rendering, Input Guardrail, ingest checks, every eval metric | JUnit, no Spring, no network |
-| Use case | Each failure path in [Task 2, Step 6](#task-2-ai-system-and-back-end): timeout, error, bad JSON, empty output, missing key | A stub `ModelPort` |
-| Architecture | The domain imports no framework | ArchUnit |
-| System | The whole pipeline on 30 questions | `./eval.sh` (see Evaluation) |
-
-**Success.** The Hard Lines always hold: no hallucination on adversarial questions, Quote provenance 100%. Targets, reported and not gated: refusal correctness ≥ 0.9, over-refusal ≤ 0.1, citation correctness ≥ 0.9, answer correctness ≥ 0.7 on held-out.
-
-**Rollback.** In the build, a change that breaks a Hard Line is reverted (prompt, Entries or config are all in git). In production, the canary aborts and Argo returns traffic to the stable version (see Deployment Plan).
 
 ### Deployment Plan
 
@@ -703,32 +645,9 @@ The SDK evaluates assignments locally after it starts, so no request waits on St
 
 ### Monitoring and Alerting
 
-**Built.** Every question writes one trace line with everything needed to reproduce the answer (see Integration and Communication). The eval reads the same lines.
-
-**Production (designed).** Traces go to **Opik**, self-hosted in the cluster: one trace per question with a span per pipeline step, the prompt version, model, tokens, cost and the guardrail decisions attached, so any answer can be opened and explained. Metrics go to Prometheus:
-
-| Signal | Alert when |
-|---|---|
-| Output Guardrail drop rate | above twice its 7-day baseline for 30 min (the model may be drifting) |
-| `unverified` share of answers | above 10% for 30 min |
-| `unavailable` share, circuit state | above 5% for 5 min, or a circuit open for 5 min |
-| p95 end to end | above 15 s for 15 min |
-| Cost per day | above the daily budget |
-| Wrong-answer report from an Interviewer | always; opens an incident with the trace id |
-
-Prompts and completions are kept in traces for 30 days and never in metrics or logs.
 
 ## Risks and Mitigations
 
-| Risk | Likelihood / impact | Mitigation | Owner |
-|---|---|---|---|
-| A false claim built from real words passes the Output Guardrail | Medium / high | Recombination adversarials in the eval; the README states the limit ([ADR 0004](docs/adr/0004-output-guardrail-is-code.md)) | Subject |
-| Low score floor lets unanswerable questions reach the model | Medium / low | `notInSources` plus the Output Guardrail; refusal correctness reported | Subject |
-| Normalisation in the Output Guardrail lets a wrong number match | Low / high | Normalisation only maps number words and units, never rounds; unit tests per rule | Subject |
-| Conflict notice misses a relevant question | Low / medium | Topic terms in `conflicts.yaml`; Conflict questions in the eval | Subject |
-| DeepSeek stores data in China and may train on it | Certain if used / medium | Off by default; used only by explicit choice for the eval; production experiment limited to traffic allowed to go there | Subject |
-| DeepSeek returns empty content in JSON mode | Low / low | Treated as unusable output: plain error, counted in over-refusal | Subject |
-| Ten held-out questions give wide error bars | High / medium | Report min–max over repetitions; state the sample size next to every number | Subject |
 
 ## Future Considerations
 
@@ -796,7 +715,6 @@ Practices borrowed from Shirin Khosravi Jam and Shantanu Ladhwe (Jam with AI), w
 
 ### C. Grilling session
 
-2026-10-03, one session with Claude Code: 15 question rounds across the five tasks, the system-design restructure and the four tensions; about 50 decisions. Terms in [CONTEXT.md](CONTEXT.md); decisions in [ADRs 0001–0008](docs/adr/).
 
 ### D. Financial-systems lens
 
