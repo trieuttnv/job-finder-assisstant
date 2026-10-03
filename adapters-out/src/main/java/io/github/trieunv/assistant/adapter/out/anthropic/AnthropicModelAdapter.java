@@ -95,13 +95,15 @@ public class AnthropicModelAdapter implements ModelPort {
           : new AssistantApplicationException(
               ErrorCode.MODEL_UNAVAILABLE, "Anthropic call failed", e);
     }
+    var inputTokens = Optional.ofNullable(usage).map(Usage::getPromptTokens).orElse(0);
+    var outputTokens = Optional.ofNullable(usage).map(Usage::getCompletionTokens).orElse(0);
     return ModelReply.builder()
         .provider(PROVIDER)
         .modelId(modelId)
         .rawOutput(rawOutput)
-        .answer(parse(rawOutput))
-        .inputTokens(Optional.ofNullable(usage).map(Usage::getPromptTokens).orElse(0))
-        .outputTokens(Optional.ofNullable(usage).map(Usage::getCompletionTokens).orElse(0))
+        .answer(parse(rawOutput, inputTokens, outputTokens))
+        .inputTokens(inputTokens)
+        .outputTokens(outputTokens)
         .build();
   }
 
@@ -122,7 +124,7 @@ public class AnthropicModelAdapter implements ModelPort {
    * Any output that is empty, malformed, or has a claim without text or with a blank id is
    * unusable.
    */
-  private ModelAnswer parse(String rawOutput) {
+  private ModelAnswer parse(String rawOutput, int inputTokens, int outputTokens) {
     try {
       if (!StringUtils.hasText(rawOutput)) {
         throw new IllegalArgumentException("empty model output");
@@ -141,7 +143,7 @@ public class AnthropicModelAdapter implements ModelPort {
       return new ModelAnswer(claims, document.isNotInSources());
     } catch (RuntimeException e) {
       throw new ModelOutputUnusableException(
-          "Model output does not fit the claims schema", rawOutput, e);
+          "Model output does not fit the claims schema", rawOutput, inputTokens, outputTokens, e);
     }
   }
 }

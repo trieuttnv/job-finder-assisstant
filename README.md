@@ -591,10 +591,10 @@ Every setting comes from the environment; `.env.example` names each one.
 | `MODEL_ID` | provider's default (see Dependencies) | The exact model; recorded in every trace |
 | `ANTHROPIC_API_KEY` | — | Required when the provider is `anthropic` |
 | `DEEPSEEK_API_KEY` | — | Required when the provider is `deepseek` |
-| `ANTHROPIC_BASE_URL` | Anthropic's endpoint | Only to point the Anthropic adapter at a local mock in tests; leave unset for real calls |
+| `ANTHROPIC_BASE_URL`, `DEEPSEEK_BASE_URL` | each provider's endpoint | Only to point an adapter at a local stub of its API; leave unset for real calls |
 | `MODEL_TIMEOUT_MS` | `20000` | Longer waits before "can't answer right now" |
 | `MODEL_MAX_OUTPUT_TOKENS` | `800` | Caps answer length and cost |
-| `MODEL_PRICE_IN_USD_PER_MTOK`, `MODEL_PRICE_OUT_USD_PER_MTOK` | the default model's list price | Used only to compute cost per question |
+| `MODEL_PRICE_IN_USD_PER_MTOK`, `MODEL_PRICE_OUT_USD_PER_MTOK` | the list price of `claude-sonnet-5-5` ($2 / $10); none for other models | Used only to compute cost per question; set them for DeepSeek, or its traces record no cost |
 | `RETRIEVAL_TOP_K` | `6` | More Entries: higher recall, more tokens |
 | `RETRIEVAL_MIN_SCORE` | set on dev | The Input Guardrail floor (see Cross-task design) |
 | `GUARD_MAX_DROP_RATIO` | `0.5` | Lower withholds more partial answers |

@@ -120,13 +120,19 @@ class AskFallbacksTest {
   void shouldKeepTheModelsRawOutputInTheTrace_whenItsOutputIsUnusable() throws Exception {
     ModelPort unusable =
         prompt -> {
-          throw new ModelOutputUnusableException("no schema", "Sure! I led 50 engineers.", null);
+          throw new ModelOutputUnusableException(
+              "no schema", "Sure! I led 50 engineers.", 300, 20, null);
         };
 
     var answer = ask(AskFixture.CONFIG, ANSWERABLE, unusable);
 
     assertThat(answer.getMode()).isEqualTo(AnswerMode.UNAVAILABLE);
-    assertThat(onlyTrace().get("rawOutput").asString()).isEqualTo("Sure! I led 50 engineers.");
+    var trace = onlyTrace();
+    assertThat(trace.get("rawOutput").asString()).isEqualTo("Sure! I led 50 engineers.");
+    assertThat(trace.get("inputTokens").asInt()).isEqualTo(300);
+    assertThat(trace.get("provider").asString()).isEqualTo("stub");
+    // The provider billed the call even though its output was unusable.
+    assertThat(trace.get("costUsd").asDouble()).isPositive();
     assertThat(renderer.render(answer)).doesNotContain("50");
   }
 
@@ -169,6 +175,7 @@ class AskFallbacksTest {
   private static AskConfig withFloor(double minScore) {
     var base = AskFixture.CONFIG;
     return AskConfig.builder()
+        .price(base.getPrice())
         .provider(base.getProvider())
         .modelId(base.getModelId())
         .retrievalTopK(base.getRetrievalTopK())

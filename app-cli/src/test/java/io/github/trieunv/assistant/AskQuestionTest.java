@@ -2,6 +2,7 @@ package io.github.trieunv.assistant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.Assertions.within;
 
 import io.github.trieunv.assistant.adapter.in.cli.AnswerRenderer;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
@@ -193,6 +194,9 @@ class AskQuestionTest {
       assertThat(trace.get("inputTokens").asInt()).isEqualTo(120);
       assertThat(trace.get("outputTokens").asInt()).isEqualTo(30);
       assertThat(trace.has("totalLatencyMs")).isTrue();
+      assertThat(trace.has("guardrailLatencyMs")).isTrue();
+      // 120 input tokens at $2/MTok plus 30 output tokens at $10/MTok.
+      assertThat(trace.get("costUsd").asDouble()).isCloseTo(0.00054, within(1e-9));
       var config = trace.get("config");
       assertThat(config.get("provider").asString()).isEqualTo("stub");
       assertThat(config.get("modelId").asString()).isEqualTo("stub-model");

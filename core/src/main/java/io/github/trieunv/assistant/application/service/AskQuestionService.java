@@ -68,6 +68,8 @@ public class AskQuestionService implements AskQuestionUseCase {
             .question(command.getQuestion())
             .promptVersion(systemPrompt.version())
             .promptHash(systemPrompt.hash())
+            .provider(config.getProvider())
+            .modelId(config.getModelId())
             .config(config);
     AnswerResult result;
     try {
@@ -107,7 +109,11 @@ public class AskQuestionService implements AskQuestionUseCase {
       reply = model.generate(prompt);
     } catch (AssistantApplicationException e) {
       if (e instanceof ModelOutputUnusableException unusable) {
-        trace.rawOutput(unusable.getRawOutput());
+        trace
+            .rawOutput(unusable.getRawOutput())
+            .inputTokens(unusable.getInputTokens())
+            .outputTokens(unusable.getOutputTokens())
+            .costUsd(costUsd(unusable.getInputTokens(), unusable.getOutputTokens()));
       }
       trace.failure(describe(e)).modelLatencyMs(millisSince(retrievedAt));
       return fallback(AnswerMode.UNAVAILABLE, traceId);
@@ -119,7 +125,20 @@ public class AskQuestionService implements AskQuestionUseCase {
         .notInSources(reply.getAnswer().notInSources())
         .inputTokens(reply.getInputTokens())
         .outputTokens(reply.getOutputTokens())
+        .costUsd(costUsd(reply.getInputTokens(), reply.getOutputTokens()))
         .modelLatencyMs(millisSince(retrievedAt));
+    var answeredAt = System.nanoTime();
+    var result = verifiedAnswer(question, reply, retrievedById, traceId, trace);
+    trace.guardrailLatencyMs(millisSince(answeredAt));
+    return result;
+  }
+
+  private AnswerResult verifiedAnswer(
+      String question,
+      ModelReply reply,
+      Map<EntryId, Entry> retrievedById,
+      TraceId traceId,
+      AskTrace.AskTraceBuilder trace) {
 
     // A negative answer is never generated: the flag becomes the fixed message, claims unshown.
     if (reply.getAnswer().notInSources()) {
@@ -238,6 +257,13 @@ public class AskQuestionService implements AskQuestionUseCase {
 
   private static long millisBetween(long startNanos, long endNanos) {
     return (endNanos - startNanos) / 1_000_000;
+  }
+
+  /** Cost of one call at the configured price, or null when no price is configured. */
+  private Double costUsd(int inputTokens, int outputTokens) {
+    return Optional.ofNullable(config.getPrice())
+        .map(price -> price.costUsd(inputTokens, outputTokens))
+        .orElse(null);
   }
 
   private static long millisSince(long startNanos) {

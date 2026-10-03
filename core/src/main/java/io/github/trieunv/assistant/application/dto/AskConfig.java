@@ -23,5 +23,9 @@ public class AskConfig {
 
   /** Above this share of dropped claims the answer is withheld as unverified. */
   private final double guardMaxDropRatio;
+
+  /** The price traces compute cost with; null when none is configured or known. */
+  private final TokenPrice price;
+
   private final String promptVersion;
 }

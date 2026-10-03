@@ -1,12 +1,14 @@
 package io.github.trieunv.assistant.config;
 
 import io.github.trieunv.assistant.adapter.out.anthropic.AnthropicModelAdapter;
+import io.github.trieunv.assistant.adapter.out.deepseek.DeepSeekModelAdapter;
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
 import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.dto.LoadedKnowledge;
+import io.github.trieunv.assistant.application.dto.TokenPrice;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
 import io.github.trieunv.assistant.application.port.in.LoadKnowledgeUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
@@ -19,6 +21,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.time.Clock;
+import java.util.Objects;
+import java.util.Optional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -64,9 +68,16 @@ public class AssistantConfiguration {
     return switch (model.getProvider()) {
       case ANTHROPIC ->
           new AnthropicModelAdapter(
-              model.getApiKey(),
-              model.getBaseUrl(),
-              model.getId(),
+              model.getAnthropic().getApiKey(),
+              model.getAnthropic().getBaseUrl(),
+              model.resolvedId(),
+              model.getTimeout(),
+              model.getMaxOutputTokens());
+      case DEEPSEEK ->
+          new DeepSeekModelAdapter(
+              model.getDeepseek().getApiKey(),
+              model.getDeepseek().getBaseUrl(),
+              model.resolvedId(),
               model.getTimeout(),
               model.getMaxOutputTokens());
     };
@@ -74,9 +85,16 @@ public class AssistantConfiguration {
 
   private static AskConfig askConfig(AssistantProperties properties) {
     var model = properties.getModel();
+    var configuredPrice =
+        Objects.nonNull(model.getPriceInUsdPerMtok())
+                && Objects.nonNull(model.getPriceOutUsdPerMtok())
+            ? Optional.of(
+                new TokenPrice(model.getPriceInUsdPerMtok(), model.getPriceOutUsdPerMtok()))
+            : Optional.<TokenPrice>empty();
     return AskConfig.builder()
         .provider(model.getProvider().name().toLowerCase())
-        .modelId(model.getId())
+        .modelId(model.resolvedId())
+        .price(configuredPrice.or(() -> ModelProvider.listPrice(model.resolvedId())).orElse(null))
         .timeoutMs(model.getTimeout().toMillis())
         .maxOutputTokens(model.getMaxOutputTokens())
         .retrievalTopK(properties.getRetrieval().getTopK())

@@ -1,6 +1,7 @@
 package io.github.trieunv.assistant.config;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -36,14 +39,42 @@ public class AssistantProperties {
   public static class Model {
 
     @NotNull private ModelProvider provider;
-    @NotBlank private String id;
-    private String apiKey;
 
-    /** Blank means Anthropic's default endpoint. */
-    private String baseUrl;
+    /** Blank means the provider's default model. */
+    private String id;
 
     @NotNull private Duration timeout;
     @Positive private int maxOutputTokens;
+
+    /** Blank means the model's list price when known, otherwise no cost is recorded. */
+    @PositiveOrZero private Double priceInUsdPerMtok;
+
+    @PositiveOrZero private Double priceOutUsdPerMtok;
+
+    @Valid private Provider anthropic = new Provider();
+    @Valid private Provider deepseek = new Provider();
+
+    @AssertTrue(message = "MODEL_ID must belong to MODEL_PROVIDER; leave it empty for its default")
+    public boolean isModelIdOfProvider() {
+      return Objects.isNull(provider) || provider.ownsModelId(resolvedId());
+    }
+
+    public String resolvedId() {
+      return Optional.ofNullable(id)
+          .filter(value -> !value.isBlank())
+          .orElse(provider.defaultModelId());
+    }
+  }
+
+  /** One provider's credentials and endpoint. */
+  @Getter
+  @Setter
+  public static class Provider {
+
+    private String apiKey;
+
+    /** Blank means the provider's own endpoint; set only to point at a local stub. */
+    private String baseUrl;
   }
 
   @Getter

@@ -5,6 +5,7 @@ import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AskConfig;
+import io.github.trieunv.assistant.application.dto.TokenPrice;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
@@ -32,6 +33,7 @@ final class AskFixture {
           .retrievalTopK(6)
           .retrievalMinScore(0.1)
           .guardMaxDropRatio(0.5)
+          .price(new TokenPrice(2.0, 10.0))
           .promptVersion("answer-test")
           .build();
 

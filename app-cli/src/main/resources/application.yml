@@ -16,13 +16,21 @@ logging:
 assistant:
   model:
     provider: ${MODEL_PROVIDER:anthropic}
-    id: ${MODEL_ID:claude-sonnet-5-5}
-    # The secret only ever comes from the environment (.env). Unset, startup warns and every
-    # question gets the fixed unavailable message instead of failing to start.
-    api-key: ${ANTHROPIC_API_KEY:}
-    base-url: ${ANTHROPIC_BASE_URL:}
+    # Empty means the provider's default: claude-sonnet-5-5 or deepseek-flash.
+    id: ${MODEL_ID:}
     timeout: ${MODEL_TIMEOUT_MS:20000}ms
     max-output-tokens: ${MODEL_MAX_OUTPUT_TOKENS:800}
+    # Empty means the model's list price when known; otherwise traces record no cost.
+    price-in-usd-per-mtok: ${MODEL_PRICE_IN_USD_PER_MTOK:}
+    price-out-usd-per-mtok: ${MODEL_PRICE_OUT_USD_PER_MTOK:}
+    # Secrets only ever come from the environment (.env). Unset, startup warns and every
+    # question gets the fixed unavailable message instead of failing to start.
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      base-url: ${ANTHROPIC_BASE_URL:}
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY:}
+      base-url: ${DEEPSEEK_BASE_URL:}
   retrieval:
     top-k: ${RETRIEVAL_TOP_K:6}
     # Provisional until the dev split exists (ticket 09): just above unrelated questions' scores.

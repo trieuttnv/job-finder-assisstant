@@ -34,8 +34,14 @@ public class AskTrace {
   private final List<String> conflictIds;
   private final int inputTokens;
   private final int outputTokens;
+
+  /** Token usage times the configured price; null when either price is not configured. */
+  private final Double costUsd;
   private final long retrievalLatencyMs;
   private final long modelLatencyMs;
+
+  /** Output Guardrail, citation numbering and Conflict notices, after the model replied. */
+  private final long guardrailLatencyMs;
   private final long totalLatencyMs;
   private final AskConfig config;
 
