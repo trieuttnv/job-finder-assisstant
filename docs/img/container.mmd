@@ -1,0 +1,35 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+flowchart TB
+  classDef ui      fill:#DCEDC8,stroke:#82B366,color:#111,font-weight:bold
+  classDef step    fill:#FFC233,stroke:#D79B00,color:#111,font-weight:bold
+  classDef llm     fill:#7EA6E0,stroke:#6C8EBF,color:#111,font-weight:bold
+  classDef check   fill:#EE9A9A,stroke:#B85450,color:#111,font-weight:bold
+  classDef ext     fill:#CB94D7,stroke:#9673A6,color:#111,font-weight:bold
+  classDef store   fill:#E0E0E0,stroke:#666,color:#111
+  classDef obs     fill:#F19C99,stroke:#B85450,color:#111
+  classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
+  %% Container view. Dashed nodes = designed for production, not built.
+  CLI["CLI ./ask"]:::ui
+  API["HTTP API<br/>POST /api/v1/asks"]:::designed
+  EVAL["Eval runner<br/>./eval.sh"]:::ui
+  subgraph SVC["Ask service (Spring Boot, Ports and Adapters)"]
+    direction TB
+    RL["Rate limiter"]:::designed
+    UC["Ask use case"]:::step
+    RET["Retriever<br/>Lucene BM25"]:::step
+    IG["Input Guardrail"]:::check
+    OG["Output Guardrail"]:::check
+    CR["Conflict renderer"]:::check
+    MP["ModelPort<br/>timeout · retry · circuit breaker"]:::llm
+  end
+  CLI --> UC
+  EVAL --> UC
+  API --> RL --> UC
+  UC --> RET --> IG --> MP --> OG --> CR
+  KB[("knowledge/<br/>Snapshots · Entries · Conflicts")]:::store -->|ingest + Quote check| RET
+  MP -->|HTTPS| ANT["Anthropic"]:::llm
+  MP -->|HTTPS| DS["DeepSeek"]:::llm
+  UC -.-> SG["Statsig<br/>model_provider"]:::designed
+  UC -.-> TR["Traces<br/>JSONL · OTel"]:::obs
+  RL -.-> RD[("Redis")]:::designed
+  style SVC fill:#FFF2CC,stroke:#333,stroke-dasharray:5 5

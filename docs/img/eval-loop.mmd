@@ -1,0 +1,20 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+flowchart LR
+  classDef ui      fill:#DCEDC8,stroke:#82B366,color:#111,font-weight:bold
+  classDef step    fill:#FFC233,stroke:#D79B00,color:#111,font-weight:bold
+  classDef llm     fill:#7EA6E0,stroke:#6C8EBF,color:#111,font-weight:bold
+  classDef check   fill:#EE9A9A,stroke:#B85450,color:#111,font-weight:bold
+  classDef ext     fill:#CB94D7,stroke:#9673A6,color:#111,font-weight:bold
+  classDef store   fill:#E0E0E0,stroke:#666,color:#111
+  classDef obs     fill:#F19C99,stroke:#B85450,color:#111
+  classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
+  DS[("evals/dataset.yaml<br/>30 questions · Gold Labels")]:::store --> RUN["① eval runner<br/>per provider · N reps"]:::step
+  RUN --> UC["② Ask use case<br/>(same path as the CLI)"]:::step
+  UC --> TR[("③ traces JSONL")]:::store
+  TR --> SC["④ code scorer<br/>10 metrics"]:::check
+  DS --> SC
+  SC --> TB["⑤ table + results/<br/>config · commit"]:::ui
+  TB --> EA["⑥ error analysis<br/>Subject tags each failure"]:::ui
+  EA -.->|"dev only: tune prompt, floor, synonyms"| UC
+  SC -->|Hard Line broken| X["exit ≠ 0<br/>(blocks canary)"]:::check
+  linkStyle 6 stroke:#D7592F,stroke-width:2px,stroke-dasharray:6 4,color:#D7592F

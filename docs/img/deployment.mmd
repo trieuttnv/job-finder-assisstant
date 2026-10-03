@@ -1,0 +1,37 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+flowchart LR
+  classDef ui      fill:#DCEDC8,stroke:#82B366,color:#111,font-weight:bold
+  classDef step    fill:#FFC233,stroke:#D79B00,color:#111,font-weight:bold
+  classDef llm     fill:#7EA6E0,stroke:#6C8EBF,color:#111,font-weight:bold
+  classDef check   fill:#EE9A9A,stroke:#B85450,color:#111,font-weight:bold
+  classDef ext     fill:#CB94D7,stroke:#9673A6,color:#111,font-weight:bold
+  classDef store   fill:#E0E0E0,stroke:#666,color:#111
+  classDef obs     fill:#F19C99,stroke:#B85450,color:#111
+  classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
+  %% Production deployment (designed, not built)
+  GIT["Git push"]:::ui --> CI["CI: build image ·<br/>unit tests · eval Hard Lines"]:::step
+  CI -->|image| REG[("Registry")]:::store
+  subgraph K8S["Kubernetes cluster"]
+    direction TB
+    ING["Ingress"]:::ui
+    subgraph RO["Argo Rollout: ask-service"]
+      direction LR
+      ST["stable vN"]:::step
+      CA["canary vN+1<br/>5% → 25% → 100%"]:::step
+    end
+    AN["AnalysisRun<br/>eval Job + Prometheus:<br/>5xx · p95 · guardrail drop rate"]:::check
+    RD[("Redis<br/>rate limits")]:::store
+    OT["OTel collector"]:::obs
+  end
+  REG --> RO
+  ING --> ST
+  ING --> CA
+  AN -->|promote or abort| RO
+  ST & CA --> RD
+  ST & CA --> OT
+  ST & CA -->|getExperiment| SG["Statsig<br/>model_provider"]:::ext
+  ST & CA --> ANT["Anthropic"]:::llm
+  ST & CA --> DS["DeepSeek"]:::llm
+  AN -.->|"abort → rollback, max 1 try"| ST
+  style K8S fill:#F5F5F5,stroke:#333,stroke-dasharray:5 5
+  style RO fill:#FFF2CC,stroke:#333,stroke-dasharray:5 5

@@ -1,0 +1,19 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+flowchart LR
+  classDef ui      fill:#DCEDC8,stroke:#82B366,color:#111,font-weight:bold
+  classDef step    fill:#FFC233,stroke:#D79B00,color:#111,font-weight:bold
+  classDef llm     fill:#7EA6E0,stroke:#6C8EBF,color:#111,font-weight:bold
+  classDef check   fill:#EE9A9A,stroke:#B85450,color:#111,font-weight:bold
+  classDef ext     fill:#CB94D7,stroke:#9673A6,color:#111,font-weight:bold
+  classDef store   fill:#E0E0E0,stroke:#666,color:#111
+  classDef obs     fill:#F19C99,stroke:#B85450,color:#111
+  classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
+  %% System context: Interview Assistant. Dashed = designed, not built.
+  I["👤 Interviewer"]:::ui -->|question| AS["Interview Assistant<br/>(Ask service)"]:::step
+  AS -->|answer + sources| I
+  S["👤 Subject"]:::ui -->|reviews Entries,<br/>verifies Gold Labels| KB[("Knowledge base<br/>Snapshots + Entries")]:::store
+  KB -->|ingest| AS
+  AS -->|"Entries + question"| LLM1["🤖 Anthropic<br/>Claude Sonnet 5.5"]:::llm
+  AS -.->|"Entries + question"| LLM2["🤖 DeepSeek"]:::llm
+  AS -.->|assignment| SG["Statsig<br/>(designed)"]:::designed
+  AS -->|traces| OBS["🔍 Traces"]:::obs

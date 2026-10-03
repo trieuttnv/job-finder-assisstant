@@ -1,0 +1,36 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#FFFEF9","fontFamily":"Helvetica, Arial, sans-serif","fontSize":"14px","lineColor":"#222","primaryTextColor":"#111"}}}%%
+sequenceDiagram
+  autonumber
+  actor I as Interviewer
+  participant C as CLI / API
+  participant U as Ask use case
+  participant R as Retriever
+  participant G as Guardrails (code)
+  participant M as ModelPort
+  participant P as Provider
+  participant T as TraceSink
+  I->>C: question
+  C->>U: ask(question)
+  Note over C,U: production only: rate limit (429 if over)
+  U->>R: retrieve(question)
+  R-->>U: Entries + role headers + Conflict sides
+  U->>G: Input Guardrail(scores)
+  alt no Entry above floor
+    G-->>I: "That isn't in my sources."
+  else
+    U->>M: generate(prompt, Entries)
+    Note over M,P: timeout · production: retry once on 429/5xx, circuit breaker
+    M->>P: one call, temperature 0
+    P-->>M: {claims[], notInSources}
+    alt timeout / error / bad JSON
+      M-->>I: "The assistant can't answer right now."
+    else
+      M-->>U: claims
+      U->>G: Output Guardrail(claims, Entries)
+      G-->>U: kept, dropped
+      U->>G: render Conflicts (if relevant)
+      U-->>C: answer, sources, removed count
+      C-->>I: answer with citations
+    end
+  end
+  U->>T: trace record
