@@ -1,0 +1,27 @@
+Metric                  all    dev  heldout
+Hallucination rate       0%     0%       0%
+Refusal correctness     56%    67%      33%
+Over-refusal             0%     0%       0%
+Answer correctness      81%    79%      86%
+Citation correctness    40%    39%      41%
+Recall@k                48%    50%      43%
+Consistency             67%    67%        –
+Guardrail drop rate      0%     0%       0%
+Quote provenance       100%   100%     100%
+p95 latency           10 ms  40 ms     4 ms
+Mean cost                 –      –        –
+
+Metric                cv-direct  multi-source  ambiguous  not-answerable  adversarial
+Hallucination rate           0%            0%         0%              0%           0%
+Refusal correctness           –             –          –             83%           0%
+Over-refusal                 0%            0%         0%               –           0%
+Answer correctness          67%           83%        83%               –         100%
+Citation correctness        36%           45%        39%               –          31%
+Recall@k                    67%           50%        33%               –          33%
+Consistency                100%          100%         0%               –            –
+Guardrail drop rate          0%            0%         0%              0%           0%
+Quote provenance           100%          100%       100%            100%         100%
+p95 latency               40 ms          5 ms       4 ms            0 ms         3 ms
+Mean cost                     –             –          –               –            –
+
+Hard Lines: passed.

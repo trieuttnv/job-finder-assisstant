@@ -145,7 +145,7 @@
     entryIds: [cv.role.tamara.b3, gh-learn.kafka.idempotency, gh-learn.outbox.idempotency, cv.strengths.distributed-systems, cv.skills.resilience]
     mustContain: [["idempotency", "idempotent"]]
     mustNotClaim: []
-  verified: false
+  verified: true
 
 # Ambiguous: no single right answer; a correct answer gives the main candidates, each cited.
 
@@ -169,7 +169,7 @@
     mustContain: [["card", "cards"], ["payment gateway", "123Pay"]]
     mustNotClaim: ["(?i)\\bmy (?:biggest|largest) (?:project|thing) (?:is|was)\\b"]
   rewordOf: q13
-  verified: false
+  verified: true
 - id: q15
   split: dev
   category: ambiguous
@@ -179,7 +179,7 @@
     entryIds: [cv.strengths.people, cv.role.tamara.b5, cv.role.alipay-2017.b3, cv.role.vng.b2]
     mustContain: [["Tamara"], ["Alipay"]]
     mustNotClaim: ["(?<!n't )(?<!not )(?<!never )\\b(?:grew|led|managed|had)\\b(?:(?!\\b(?:not|never|no|didn't|haven't|wasn't)\\b)[^.]){0,30}\\b(?:1[4-9]|[2-9]\\d|\\d{3,})\\s+(?:engineers|people|reports)"]
-  verified: false
+  verified: true
 - id: q16
   split: dev
   category: ambiguous
