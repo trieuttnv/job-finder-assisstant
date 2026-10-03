@@ -2,3 +2,11 @@
 2.I created a specific skill named "grilling-exercise" for this project. It extended the grilling-to-docs skill
 3.I used Claude Code, model Opus 5.5
 4.During the grill I needed to answer many questions.
+5.During the system design review, I used research skill to find the solution
+ - Chunking
+ - The suitable way to add a new source with changing the design. The skill didn't find a approach I
+ wanted so I proposed it to search "Discover → Fetch → Snapshot → Extract/Map → Normalise → Validate → Provenance
+ → Diff → Review/Quarantine → Publish". The result is docs/adr/0009-ten-stage-ingestion-pipeline-with-source-connectors.md"
+ 6.after the design finished, to-ticket skill was invoked to generate 12 tickets.
+ 7.Each ticket was implemented by implement skill after that I used code-review skill
+
