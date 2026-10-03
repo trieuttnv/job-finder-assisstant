@@ -24,6 +24,9 @@ public class AssistantProperties {
   @NotNull private Path knowledgeDir;
   @NotNull private Path traceDir;
 
+  /** Local run state, such as the previous run's Entry ids for the startup id report. */
+  @NotNull private Path stateDir;
+
   @Getter
   @Setter
   public static class Model {

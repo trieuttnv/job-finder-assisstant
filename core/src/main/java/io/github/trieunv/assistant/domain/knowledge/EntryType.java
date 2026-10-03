@@ -1,7 +1,7 @@
 package io.github.trieunv.assistant.domain.knowledge;
 
-import io.github.trieunv.assistant.domain.exception.AssistantDomainException;
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum EntryType {
   ROLE("role"),
@@ -21,10 +21,8 @@ public enum EntryType {
     return code;
   }
 
-  public static EntryType fromCode(String code) {
-    return Arrays.stream(values())
-        .filter(type -> type.code.equals(code))
-        .findFirst()
-        .orElseThrow(() -> new AssistantDomainException("Unknown Entry type: " + code));
+  /** Empty when {@code code} is not in the fixed list. */
+  public static Optional<EntryType> fromCode(String code) {
+    return Arrays.stream(values()).filter(type -> type.code.equals(code)).findFirst();
   }
 }

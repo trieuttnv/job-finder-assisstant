@@ -10,6 +10,8 @@ logging:
     root: WARN
     # Lucene suggests the incubating Vector API; BM25 over a few dozen Entries doesn't need it.
     org.apache.lucene.internal.vectorization: ERROR
+    # A failed ingest check is reported once, by KnowledgeFailureAnalyzer, not also as a WARN.
+    org.springframework.context.annotation.AnnotationConfigApplicationContext: ERROR
 
 assistant:
   model:
@@ -27,3 +29,4 @@ assistant:
     dir: prompts
   knowledge-dir: ${KNOWLEDGE_DIR:knowledge}
   trace-dir: ${TRACE_DIR:traces}
+  state-dir: ${STATE_DIR:.state}

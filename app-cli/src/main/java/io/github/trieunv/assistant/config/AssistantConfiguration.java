@@ -1,13 +1,16 @@
 package io.github.trieunv.assistant.config;
 
+import io.github.trieunv.assistant.adapter.in.cli.IdChangesRenderer;
 import io.github.trieunv.assistant.adapter.out.anthropic.AnthropicModelAdapter;
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
+import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
+import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -21,10 +24,16 @@ public class AssistantConfiguration {
 
   @Bean
   AskQuestionUseCase askQuestionUseCase(AssistantProperties properties, ModelPort model) {
-    var entries =
-        new YamlKnowledgeBasePersistenceAdapter(properties.getKnowledgeDir()).loadEntries();
+    var knowledge =
+        new LoadKnowledgeService(
+                new YamlKnowledgeBasePersistenceAdapter(properties.getKnowledgeDir()),
+                new JsonKnowledgeStateAdapter(properties.getStateDir()))
+            .load();
+    if (!knowledge.getChanges().isEmpty()) {
+      System.err.print(new IdChangesRenderer().render(knowledge));
+    }
     return new AskQuestionService(
-        new LuceneRetrieverAdapter(entries, properties.getRetrieval().getTopK()),
+        new LuceneRetrieverAdapter(knowledge.getEntries(), properties.getRetrieval().getTopK()),
         model,
         new JsonlTraceSinkAdapter(properties.getTraceDir()),
         systemPrompt(properties.getPrompt()),

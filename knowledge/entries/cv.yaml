@@ -1,0 +1,314 @@
+# Entries of Source `cv` (knowledge/sources/cv/cv.txt). Drafted by Claude Code (Opus 5.5) from the
+# Snapshot on 2026-10-04; every Entry is reviewed by the Subject before commit.
+# One Entry per role, one per bullet linked to its role, one per summary sentence and Core
+# Strength, one per skill group, and the education line. Quotes are word for word from the
+# Snapshot (wrapped lines and justified spacing collapse to single spaces when compared).
+
+# Header and summary
+
+- id: cv.headline
+  type: summary
+  source: cv
+  quote: "Engineering Manager | Distributed Systems · Payments · Fraud & Risk"
+- id: cv.contact
+  type: summary
+  source: cv
+  quote: "linkedin.com/in/trieu-nguyen-1069611b · Germany · EU Blue Card Holder"
+- id: cv.summary.s1
+  type: summary
+  source: cv
+  quote: "Engineering leader with 15+ years building distributed systems for payments and fintech."
+- id: cv.summary.s2
+  type: summary
+  source: cv
+  quote: "Takes complex, ambiguous projects from concept to production, designing for high throughput, low latency, and fault tolerance."
+- id: cv.summary.s3
+  type: summary
+  source: cv
+  quote: "Domain depth in card issuing and processing, BNPL and credit, customer onboarding (KYC, underwriting), fraud and risk, and settlement and reconciliation, with 100+ bank and card network integrations."
+- id: cv.summary.s4
+  type: summary
+  source: cv
+  quote: "Hands-on in Java, Spring Boot, microservices, and event-driven systems on AWS/GCP, and runs production with SRE: SLOs and SLIs, incident process, and war rooms."
+- id: cv.summary.s5
+  type: summary
+  source: cv
+  quote: "Built three engineering teams from the ground up, two of them to 13 engineers, and shipped a payment gateway and two card products from zero."
+
+# Core Strengths
+
+- id: cv.strengths.distributed-systems
+  type: summary
+  source: cv
+  quote: "Hands-on Distributed Systems Engineering: Builds distributed payment systems for high throughput and low latency with Java, Spring Boot, MySQL, RabbitMQ, and Redis on AWS/GCP. Uses idempotency, outbox, distributed locks, and circuit breakers to keep money flows correct under failure."
+- id: cv.strengths.card-issuing
+  type: summary
+  source: cv
+  quote: "Card Issuing: Card issuing and processing end-to-end: onboarding, KYC, underwriting, authorization, billing, repayment, settlement, and reconciliation."
+- id: cv.strengths.payment-processing
+  type: summary
+  source: cv
+  quote: "Payment Processing: Integrated 100+ banks and card networks, including Visa, Mastercard, and Cybersource. Deep understanding of the end-to-end credit card processing flow."
+- id: cv.strengths.platform-architecture
+  type: summary
+  source: cv
+  quote: "Payment & Card Platform Architecture: Designs payment gateways and card platforms end-to-end, from high-level architecture to service design and transaction flows. Drives RFCs and Buy vs Build ADRs."
+- id: cv.strengths.fraud-risk
+  type: summary
+  source: cv
+  quote: "Fraud, Risk & Compliance: Built a fraud Decision Management system from scratch at 123Pay and led the fraud detection migration from ThreatMatrix to Cybersource at Alipay. Hands-on with card tokenization and PCI-DSS compliance across SEA and GCC markets."
+- id: cv.strengths.stakeholders
+  type: summary
+  source: cv
+  quote: "Stakeholder & Partner Management: Negotiates scope, priorities, and release timelines directly with engineering, business, and external partners such as banks, Visa, Mastercard, and Cybersource, turning ambiguous requirements into a real product."
+- id: cv.strengths.people
+  type: summary
+  source: cv
+  quote: "People Leadership & Team Building: Built engineering teams from the ground up three times: 123Pay, Alipay Vietnam (to 13 engineers), and Tamara (1 to 13). Owns the full management cycle: hiring, 1:1 coaching, performance reviews, promotions, and managing underperformance through to termination."
+
+# Tamara, Oct 2022 – Sep 2026
+
+- id: cv.role.tamara
+  type: role
+  source: cv
+  employer: Tamara
+  title: Engineering Manager
+  start: 2022-10
+  end: 2026-09
+  quote: "Engineering Manager Oct 2022 – Sep 2026 Tamara (Fintech, Series C, first Saudi Arabia Unicorn) · Berlin, Germany"
+- id: cv.role.tamara.b1
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Built two card products from scratch: Developed the Tamara BNPL Card and Tamara Credit Card entirely from zero, with no initial team or requirements. The system was designed for 60M DAU with ~500ms response time."
+- id: cv.role.tamara.b2
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Managed whole card lifecycle: Customer onboarding, KYC, underwriting (credit bureau check, affordability, risk scoring, credit limit), regulatory check, contract, card issuance, authorization, billing, settlement."
+- id: cv.role.tamara.b3
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Hands-on engineering: Designed and implemented distributed microservices and event-driven systems on AWS/GCP using Java, Spring Boot, MySQL, RabbitMQ, and Redis. Applied idempotency, outbox pattern, Redis distributed locks, retry, circuit breaker, and rate limiting."
+- id: cv.role.tamara.b4
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "End-to-end architecture: Led the architecture design across card processing, authorization, billing, repayment, fraud, accounting, and loan management. Owned it from high-level design to detailed service design and end-to-end transaction flows, with no existing architecture to build on. Evaluated trade-offs across scalability, latency, reliability, resiliency, and future extensibility."
+- id: cv.role.tamara.b5
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Team & people: Grew the BNPL Card team from 1 to a peak of 13 engineers alongside 1 to 4 Product Managers. Hiring, onboarding, 1:1 coaching, performance reviews, promotions, and termination."
+- id: cv.role.tamara.b6
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Domain boundaries & Buy vs Build: Defined domain boundaries and service responsibilities with senior EMs and Tech Leads, and drove RFCs on APIs, data ownership, and integration patterns. Wrote Buy vs Build analyses covering time-to-market, scalability, operational complexity, vendor dependency, customization, and maintainability."
+- id: cv.role.tamara.b7
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Production operations: Staged rollouts, monitoring, and on-call. Worked with SRE on production incidents and defined SLOs and SLIs."
+- id: cv.role.tamara.b8
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Goal-setting: Drove the OKR process for the BNPL Card team, setting quarterly objectives and individual target agreements aligned with delivery priorities."
+- id: cv.role.tamara.b9
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "Stakeholder alignment: Partnered with Product and business to define business flows, prioritise requirements, and renegotiate scope and timelines when requirements were ambiguous."
+- id: cv.role.tamara.b10
+  type: bullet
+  parent: cv.role.tamara
+  source: cv
+  quote: "AI-first engineering: Used Cursor daily for coding and code review, and introduced AI-assisted development practices to the team."
+
+# Alipay, Sep 2017 – Sep 2022
+
+- id: cv.role.alipay-2017
+  type: role
+  source: cv
+  employer: Alipay
+  title: Engineering Manager/Tech Lead
+  start: 2017-09
+  end: 2022-09
+  quote: "Engineering Manager/Tech Lead Sep 2017 – Sep 2022 Alipay (Alibaba Group) · Ho Chi Minh City, Vietnam"
+- id: cv.role.alipay-2017.b1
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Payment gateway architecture: Owned the channel integration layer connecting 100+ banks across Lazada, Daraz, Tmall, and AliExpress."
+- id: cv.role.alipay-2017.b2
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Hands-on architecture: Personally designed key integration architecture for a distributed system built with Java, Spring Boot, and RabbitMQ. Reviewed all major technical decisions and provided hands-on production support."
+- id: cv.role.alipay-2017.b3
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Team & people: Built the Vietnam engineering team from the ground up to 13 engineers at peak. Hiring, onboarding, 1:1 coaching, performance reviews, promotions, and managing underperformance through to termination."
+- id: cv.role.alipay-2017.b4
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Payment success: Improved overall payment success rate by 4% across platforms processing hundreds of millions of transactions."
+- id: cv.role.alipay-2017.b5
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Production operations: Worked with SRE on monitoring, production incidents, and payment success rate. Defined SLOs, SLIs, and the incident process. Led production incident war rooms and coordinated stakeholders."
+- id: cv.role.alipay-2017.b6
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Process improvement: Delivered channel efficiency improvements that reduced bank integration effort by ~30% and increased delivery quality."
+- id: cv.role.alipay-2017.b7
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "Domain expertise: Deep experience with Cybersource and Mastercard: Card on File, tokenization, fraud decisioning, settlement, and monitoring."
+- id: cv.role.alipay-2017.b8
+  type: bullet
+  parent: cv.role.alipay-2017
+  source: cv
+  quote: "External stakeholder resolution: Primary technical contact for banks, Visa, Mastercard, and Cybersource. Resolved integration issues directly with counterpart engineers and TAMs where standard support channels stalled."
+
+# Pebg, June 2017 – Aug 2017
+
+- id: cv.role.pebg
+  type: role
+  source: cv
+  employer: Pebg
+  title: Senior Software Engineer
+  start: 2017-06
+  end: 2017-08
+  quote: "Senior Software Engineer June 2017 – Aug 2017 Pebg · Fintech · Dubai, UAE"
+- id: cv.role.pebg.b1
+  type: bullet
+  parent: cv.role.pebg
+  source: cv
+  quote: "Short-term role; returned to Alipay after determining the opportunity was not the right fit."
+
+# Alipay, Aug 2015 – May 2017
+
+- id: cv.role.alipay-2015
+  type: role
+  source: cv
+  employer: Alipay
+  title: Senior Software Engineer
+  start: 2015-08
+  end: 2017-05
+  quote: "Senior Software Engineer Aug 2015 – May 2017 Alipay (Alibaba Group) · Ho Chi Minh City, Vietnam"
+- id: cv.role.alipay-2015.b1
+  type: bullet
+  parent: cv.role.alipay-2015
+  source: cv
+  quote: "Led and implemented payment gateway integration for Lazada, one of Southeast Asia's largest ecommerce platforms, delivering end-to-end channel connectivity from requirements through to production."
+- id: cv.role.alipay-2015.b2
+  type: bullet
+  parent: cv.role.alipay-2015
+  source: cv
+  quote: "Led and implemented fraud detection migration from ThreatMatrix to Cybersource (Visa). Worked directly with the Head of Fraud and Visa's Technical Account Manager to clarify requirements and drive implementation. Migration completed successfully and recognized with a company celebration."
+
+# Atlassian, Sep 2014 – Jul 2015
+
+- id: cv.role.atlassian
+  type: role
+  source: cv
+  employer: Atlassian
+  title: Senior Software Engineer
+  start: 2014-09
+  end: 2015-07
+  quote: "Senior Software Engineer Sep 2014 – Jul 2015 Atlassian · Ho Chi Minh City, Vietnam"
+- id: cv.role.atlassian.b1
+  type: bullet
+  parent: cv.role.atlassian
+  source: cv
+  quote: "Worked on core platform projects providing common plugins used across products including Jira, Confluence, HipChat, and Bamboo."
+
+# VNG Corporation, 123Pay, Feb 2011 – Aug 2014
+
+- id: cv.role.vng
+  type: role
+  source: cv
+  employer: VNG Corporation, 123Pay
+  title: Technical Lead
+  start: 2011-02
+  end: 2014-08
+  quote: "Technical Lead Feb 2011 – Aug 2014 VNG Corporation, 123Pay (now ZaloPay) · Ho Chi Minh City, Vietnam"
+- id: cv.role.vng.b1
+  type: bullet
+  parent: cv.role.vng
+  source: cv
+  quote: "Payment gateway from 0: Founded and shipped the 123Pay (now ZaloPay) payment gateway entirely from scratch: requirements, system design, switch/routing, implementation, deployment, and reconciliation."
+- id: cv.role.vng.b2
+  type: bullet
+  parent: cv.role.vng
+  source: cv
+  quote: "Team building: Grew the engineering team from 1 developer to a full product team; held end-to-end technical and operational accountability."
+- id: cv.role.vng.b3
+  type: bullet
+  parent: cv.role.vng
+  source: cv
+  quote: "Bank & network integrations: Integrated 15+ banks and networks directly: VCB, BIDV, Smartlink, Banknet, Visa, Mastercard, JCB, Cybersource, and telco providers."
+- id: cv.role.vng.b4
+  type: bullet
+  parent: cv.role.vng
+  source: cv
+  quote: "Fraud / Cybersource: Built a Decision Management (risk/fraud) system from scratch; worked directly with the Cybersource TAM on all technical issues."
+- id: cv.role.vng.b5
+  type: bullet
+  parent: cv.role.vng
+  source: cv
+  quote: "Received a special project bonus from the VP after rolling out a key product demonstration under tight timeline to the CEO and executive board."
+
+# Earlier roles, Nov 2005 – Jan 2011
+
+- id: cv.role.earlier
+  type: role
+  source: cv
+  employer: KMS Technology, IBM, First Consultant Group, Fusione Technology
+  title: Software Engineer / Senior Software Engineer
+  start: 2005-11
+  end: 2011-01
+  quote: "Software Engineer / Senior Software Engineer Nov 2005 – Jan 2011 Earlier roles: KMS Technology, IBM, First Consultant Group, Fusione Technology · Ho Chi Minh City, Vietnam"
+- id: cv.role.earlier.b1
+  type: bullet
+  parent: cv.role.earlier
+  source: cv
+  quote: "Enterprise and web software engineering."
+
+# Technical Skills
+
+- id: cv.skills.languages
+  type: skill-group
+  source: cv
+  quote: "Languages & Frameworks: Java · Spring Boot · Distributed Systems · Microservices · Event-Driven Systems · REST APIs"
+- id: cv.skills.payments
+  type: skill-group
+  source: cv
+  quote: "Payments & Domain: Payment Gateway · Card Issuing & Processing · Fraud Detection & Risk Engines · Customer Onboarding (KYC, Underwriting) · BNPL & Credit Card · PCI-DSS · Cybersource · Visa/Mastercard · Multi-bank Integration · Settlement & Reconciliation"
+- id: cv.skills.infrastructure
+  type: skill-group
+  source: cv
+  quote: "Infrastructure & Cloud: AWS · GCP · Docker · Kubernetes · MySQL · RabbitMQ · Redis · SRE Practices (SLO/SLI, Incident Management)"
+- id: cv.skills.resilience
+  type: skill-group
+  source: cv
+  quote: "Resilience Patterns: Idempotency · Outbox · Distributed Locks (Redis) · Retry · Circuit Breaker · Rate Limiting"
+- id: cv.skills.leadership
+  type: skill-group
+  source: cv
+  quote: "Leadership: People Management (Hiring · Onboarding · Performance · Career Development · Coaching · Offboarding) · Extreme Ownership · 0→1 Product Delivery · Team Building (1→13) · Stakeholder Scope & Timeline Negotiation · Architecture Review & RFCs · Buy vs Build Analysis · Agile/Scrum"
+
+# Education
+
+- id: cv.education
+  type: education
+  source: cv
+  quote: "Bachelor of Engineering, Computer Science · University of Natural Science, Ho Chi Minh City, Vietnam"

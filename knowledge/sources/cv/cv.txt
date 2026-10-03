@@ -1,0 +1,122 @@
+TRIEU NGUYEN
+Engineering Manager | Distributed Systems · Payments · Fraud & Risk
+[redacted-email]  ·  linkedin.com/in/trieu-nguyen-1069611b  ·  Germany  ·  EU Blue Card Holder
+PROFESSIONAL SUMMARY
+Engineering  leader  with  15+  years  building  distributed  systems  for  payments  and  fintech.  Takes  complex,
+ambiguous projects from concept to production, designing for high throughput, low latency, and fault  tolerance.
+Domain depth in card issuing and processing, BNPL and credit, customer onboarding (KYC, underwriting), fraud
+and risk, and settlement and reconciliation, with 100+ bank and card network integrations. Hands-on in Java, Spring
+Boot,  microservices,  and event-driven systems on AWS/GCP,  and runs production with  SRE:  SLOs and SLIs,
+incident process, and war rooms. Built three engineering teams from the ground up, two of them to 13 engineers,
+and shipped a payment gateway and two card products from zero.
+CORE STRENGTHS
+• Hands-on Distributed Systems Engineering: Builds distributed payment systems for high throughput and low
+latency  with  Java,  Spring  Boot,  MySQL,  RabbitMQ,  and  Redis  on  AWS/GCP.  Uses  idempotency,  outbox,
+distributed locks, and circuit breakers to keep money flows correct under failure.
+• Card Issuing: Card issuing and processing end-to-end: onboarding, KYC, underwriting, authorization, billing,
+repayment, settlement, and reconciliation.
+• Payment Processing: Integrated 100+ banks and card networks, including Visa, Mastercard, and Cybersource.
+Deep understanding of the end-to-end credit card processing flow.
+• Payment & Card Platform Architecture: Designs payment gateways and card platforms end-to-end, from high-
+level architecture to service design and transaction flows. Drives RFCs and Buy vs Build ADRs.
+• Fraud, Risk & Compliance: Built a fraud Decision Management system from scratch at 123Pay and led the
+fraud detection migration from ThreatMatrix to Cybersource at Alipay. Hands-on with card tokenization and PCI-
+DSS compliance across SEA and GCC markets.
+• Stakeholder  &  Partner  Management: Negotiates  scope,  priorities,  and  release  timelines  directly  with
+engineering,  business,  and  external  partners  such  as  banks,  Visa,  Mastercard,  and  Cybersource,  turning
+ambiguous requirements into a real product.
+• People Leadership & Team Building: Built engineering teams from the ground up three times: 123Pay, Alipay
+Vietnam (to  13  engineers),  and  Tamara  (1  to  13).  Owns  the  full  management  cycle:  hiring,  1:1  coaching,
+performance reviews, promotions, and managing underperformance through to termination.
+PROFESSIONAL EXPERIENCE
+Engineering Manager Oct 2022 – Sep 2026
+Tamara (Fintech, Series C, first Saudi Arabia Unicorn) · Berlin, Germany
+• Built two card products from scratch: Developed the Tamara BNPL Card and Tamara Credit Card entirely
+from zero, with no initial team or requirements. The system was designed for 60M DAU with ~500ms response
+time.
+• Managed whole card lifecycle: Customer onboarding, KYC, underwriting (credit bureau check, affordability, risk
+scoring, credit limit), regulatory check, contract, card issuance, authorization, billing, settlement.
+• Hands-on engineering: Designed and implemented  distributed  microservices  and event-driven  systems on
+AWS/GCP using Java, Spring Boot, MySQL, RabbitMQ, and Redis. Applied idempotency, outbox pattern, Redis
+distributed locks, retry, circuit breaker, and rate limiting.
+• End-to-end architecture: Led the architecture design across card processing, authorization, billing, repayment,
+fraud, accounting, and loan management. Owned it from high-level design to detailed service design and end-to-
+end transaction flows, with no existing architecture to build on. Evaluated trade-offs across scalability, latency,
+reliability, resiliency, and future extensibility.
+• Team & people: Grew the  BNPL Card  team from 1  to  a  peak  of  13  engineers  alongside  1  to  4  Product
+Managers. Hiring, onboarding, 1:1 coaching, performance reviews, promotions, and termination.
+• Domain boundaries & Buy vs Build: Defined domain boundaries and service responsibilities with senior EMs
+and  Tech  Leads,  and  drove  RFCs  on  APIs,  data  ownership,  and  integration  patterns.  Wrote  Buy  vs  Build
+analyses covering time-to-market,  scalability,  operational  complexity,  vendor  dependency,  customization,  and
+maintainability.
+• Production operations: Staged rollouts, monitoring, and on-call. Worked with SRE on production incidents and
+defined SLOs and SLIs.
+• Goal-setting: Drove the OKR process for the BNPL Card team, setting quarterly objectives and individual target
+agreements aligned with delivery priorities.
+• Stakeholder alignment: Partnered with Product and business to define business flows, prioritise requirements,
+and renegotiate scope and timelines when requirements were ambiguous.
+• AI-first engineering: Used Cursor daily for coding and code review, and introduced AI-assisted development
+practices to the team.
+Engineering Manager/Tech Lead Sep 2017 – Sep 2022
+Alipay (Alibaba Group) · Ho Chi Minh City, Vietnam
+• Payment gateway architecture: Owned the channel integration layer connecting 100+ banks across Lazada,
+Daraz, Tmall, and AliExpress.
+• Hands-on architecture: Personally designed key integration architecture for a distributed system built with Java,
+Spring Boot, and RabbitMQ. Reviewed all major technical decisions and provided hands-on production support.
+• Team & people: Built  the  Vietnam engineering  team from the  ground up to  13  engineers  at  peak.  Hiring,
+onboarding,  1:1  coaching,  performance  reviews,  promotions,  and  managing  underperformance  through  to
+termination.
+• Payment success: Improved overall  payment success rate by 4% across platforms processing hundreds of
+millions of transactions.
+• Production operations: Worked with  SRE on monitoring,  production incidents,  and payment  success rate.
+Defined SLOs, SLIs, and the incident process. Led production incident war rooms and coordinated stakeholders.
+• Process improvement: Delivered channel efficiency improvements that reduced bank integration effort by ~30%
+and increased delivery quality.
+• Domain  expertise: Deep  experience  with  Cybersource  and  Mastercard:  Card  on  File,  tokenization,  fraud
+decisioning, settlement, and monitoring.
+• External  stakeholder  resolution: Primary  technical  contact  for  banks,  Visa,  Mastercard,  and Cybersource.
+Resolved integration issues directly  with counterpart  engineers and TAMs where standard support  channels
+stalled.
+Senior Software Engineer June 2017 – Aug 2017
+Pebg · Fintech · Dubai, UAE
+• Short-term role; returned to Alipay after determining the opportunity was not the right fit.
+Senior Software Engineer Aug 2015 – May 2017
+Alipay (Alibaba Group) · Ho Chi Minh City, Vietnam
+• Led and implemented payment gateway integration for  Lazada, one of  Southeast  Asia's largest  ecommerce
+platforms, delivering end-to-end channel connectivity from requirements through to production.
+• Led and implemented fraud detection migration from ThreatMatrix to Cybersource (Visa). Worked directly with
+the Head of  Fraud and Visa's Technical  Account Manager to clarify  requirements and drive implementation.
+Migration completed successfully and recognized with a company celebration.
+Senior Software Engineer Sep 2014 – Jul 2015
+Atlassian · Ho Chi Minh City, Vietnam
+• Worked on core platform projects providing common plugins used across products including Jira, Confluence,
+HipChat, and Bamboo.
+Technical Lead Feb 2011 – Aug 2014
+VNG Corporation, 123Pay (now ZaloPay) · Ho Chi Minh City, Vietnam
+• Payment gateway from 0: Founded and shipped the 123Pay (now ZaloPay) payment gateway entirely from
+scratch: requirements, system design, switch/routing, implementation, deployment, and reconciliation.
+• Team building: Grew the engineering team from 1 developer to a full product team; held end-to-end technical
+and operational accountability.
+• Bank & network integrations: Integrated 15+ banks and networks directly: VCB, BIDV, Smartlink, Banknet,
+Visa, Mastercard, JCB, Cybersource, and telco providers.
+• Fraud / Cybersource: Built a Decision Management (risk/fraud) system from scratch; worked directly with the
+Cybersource TAM on all technical issues.
+• Received a special project bonus from the VP after rolling out a key product demonstration under tight timeline to
+the CEO and executive board.
+Software Engineer / Senior Software Engineer Nov 2005 – Jan 2011
+Earlier roles: KMS Technology, IBM, First Consultant Group, Fusione Technology · Ho Chi Minh City, Vietnam
+• Enterprise and web software engineering.
+TECHNICAL SKILLS
+Languages & Frameworks: Java · Spring Boot · Distributed Systems · Microservices · Event-Driven Systems ·
+REST APIs
+Payments & Domain: Payment Gateway · Card Issuing & Processing · Fraud Detection & Risk Engines ·
+Customer Onboarding (KYC, Underwriting) · BNPL & Credit Card · PCI-DSS · Cybersource · Visa/Mastercard ·
+Multi-bank Integration · Settlement & Reconciliation
+Infrastructure & Cloud: AWS · GCP · Docker · Kubernetes · MySQL · RabbitMQ · Redis · SRE Practices (SLO/
+SLI, Incident Management)
+Resilience Patterns: Idempotency · Outbox · Distributed Locks (Redis) · Retry · Circuit Breaker · Rate Limiting
+Leadership: People Management (Hiring · Onboarding · Performance · Career Development · Coaching ·
+Offboarding) · Extreme Ownership · 0→1 Product Delivery · Team Building (1→13) · Stakeholder Scope & Timeline
+Negotiation · Architecture Review & RFCs · Buy vs Build Analysis · Agile/Scrum
+EDUCATION
+Bachelor of Engineering, Computer Science · University of Natural Science, Ho Chi Minh City, Vietnam

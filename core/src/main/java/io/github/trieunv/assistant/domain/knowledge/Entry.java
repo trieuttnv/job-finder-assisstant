@@ -1,7 +1,10 @@
 package io.github.trieunv.assistant.domain.knowledge;
 
+import io.github.trieunv.assistant.domain.Hashing;
 import io.github.trieunv.assistant.domain.exception.AssistantDomainException;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * One typed, self-contained statement from a Source, with the verbatim Quote it came from. The
@@ -26,5 +29,13 @@ public record Entry(
     if (Objects.isNull(quote) || quote.isBlank()) {
       throw new AssistantDomainException("Entry " + id + " has no Quote");
     }
+  }
+
+  /** SHA-256 over every field, so the id report can tell a changed Entry from an unchanged one. */
+  public String fingerprint() {
+    return Hashing.sha256(
+        Stream.of(type.code(), source, parent, employer, title, start, end, quote)
+            .map(field -> Objects.toString(field, ""))
+            .collect(Collectors.joining("\u0000")));
   }
 }

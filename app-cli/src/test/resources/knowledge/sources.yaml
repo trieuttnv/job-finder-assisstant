@@ -1,0 +1,7 @@
+# Synthetic test fixture: the Source record for the Ask use-case tests.
+- id: fixture
+  kind: text
+  snapshot: sources/fixture/fixture.txt
+  collected: 2026-10-04
+  copied: Synthetic, hand-written for tests
+  redactions: []

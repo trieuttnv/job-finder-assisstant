@@ -3,3 +3,5 @@
 target/
 # One JSON line per question, kept local: questions and model output never enter git.
 traces/
+# Local run state (the previous run's Entry ids), never committed.
+.state/

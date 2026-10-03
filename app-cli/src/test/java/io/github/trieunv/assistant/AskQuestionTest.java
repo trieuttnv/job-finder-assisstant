@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
+import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
@@ -14,6 +15,7 @@ import io.github.trieunv.assistant.application.dto.ModelReply;
 import io.github.trieunv.assistant.application.dto.SourceReference;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
+import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
 import io.github.trieunv.assistant.domain.answer.AnswerMode;
 import io.github.trieunv.assistant.domain.answer.Claim;
 import io.github.trieunv.assistant.domain.answer.ModelAnswer;
@@ -50,6 +52,7 @@ class AskQuestionTest {
           .build();
 
   @TempDir Path traceDir;
+  @TempDir Path stateDir;
 
   @Test
   void shouldShowClaimWithNumberedSource_whenItCitesARetrievedEntry() {
@@ -177,7 +180,12 @@ class AskQuestionTest {
                 .inputTokens(120)
                 .outputTokens(30)
                 .build();
-    var entries = new YamlKnowledgeBasePersistenceAdapter(FIXTURE_KNOWLEDGE).loadEntries();
+    var entries =
+        new LoadKnowledgeService(
+                new YamlKnowledgeBasePersistenceAdapter(FIXTURE_KNOWLEDGE),
+                new JsonKnowledgeStateAdapter(stateDir))
+            .load()
+            .getEntries();
     var service =
         new AskQuestionService(
             new LuceneRetrieverAdapter(entries, CONFIG.getRetrievalTopK()),

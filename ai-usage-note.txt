@@ -1,0 +1,4 @@
+1.I installed the skill from https://github.com/mattpocock/skills
+2.I created a specific skill named "grilling-exercise" for this project. It extended the grilling-to-docs skill
+3.I used Claude Code, model Opus 5.5
+4.During the grill I needed to answer many questions.

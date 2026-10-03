@@ -83,7 +83,7 @@ The knowledge layer turns the source into Entry(chunk). Refer to ADR 0001-typed-
 
 | Source | What it holds | Built: how it gets in | Production: connector |
 |---|---|---|---|
-| `cv` | The base CV (3 pages, Sep 2026): summary, 7 roles from 2005, strengths, skills, education | PDF committed by hand, text extracted once | `pdf` |
+| `cv` | The base CV (3 pages, Sep 2026): summary, 7 roles from 2005, strengths, skills, education | Text extracted once from the PDF and committed by hand; the PDF stays out of git because it holds the email | `pdf` |
 | `gh-learn` | Two Go learning prototypes (`learn-kafka`, `learn-outbox`): READMEs, implementation plans, measured reports | Files copied from the learning repository at a recorded commit | `git`, at a pinned commit |
 | *a LinkedIn export, a database, a personal website* | Examples of future Sources | — | `csv`, `jdbc`, `web` *(designed)* |
 
@@ -599,6 +599,7 @@ Every setting comes from the environment; `.env.example` names each one.
 | `GUARD_MAX_DROP_RATIO` | `0.5` | Lower withholds more partial answers |
 | `PROMPT_VERSION` | `answer-v1` | Which file in `prompts/` is used |
 | `KNOWLEDGE_DIR`, `TRACE_DIR` | `knowledge`, `traces` | Where Entries are read and traces written |
+| `STATE_DIR` | `.state` | Local, git-ignored; holds the previous run's Entry ids for the startup report of added, changed and removed ids |
 
 *Production only (designed):* `RETRY_MAX_ATTEMPTS` (1), `CB_FAILURE_RATE_PCT` (50), `CB_WINDOW_CALLS` (20), `CB_OPEN_SECONDS` (30), `STATSIG_SERVER_SECRET`, `OPIK_URL_OVERRIDE`, `OPIK_PROJECT_NAME`. Rate-limit and authentication settings live in the API Gateway's configuration, not the service.
 

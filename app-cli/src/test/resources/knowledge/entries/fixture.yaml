@@ -21,7 +21,10 @@
   type: role
   source: fixture
   employer: Alipay
-  quote: "Alipay · Senior Engineer"
+  title: Senior Engineer
+  start: 2017-09
+  end: 2022-09
+  quote: "Alipay · Senior Engineer Sep 2017 – Sep 2022"
 - id: fixture.role.alipay.b1
   type: bullet
   parent: fixture.role.alipay

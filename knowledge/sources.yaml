@@ -1,0 +1,11 @@
+# One provenance record per Source (README Task 1, Step 1). A Snapshot is committed by hand and is
+# all the assistant ever reads; startup refuses an Entry whose Quote is not word for word in it.
+- id: cv
+  kind: pdf
+  snapshot: sources/cv/cv.txt
+  collected: 2026-10-04
+  commit: ""
+  original: "Trieu_Nguyen_CV.pdf, the base CV (3 pages, last edited 2026-09-28), SHA-256 b1bfbf478011efcf99403507ffab704a22af1fca165985be381df5d2e81d8b96. The PDF itself is not committed because it holds the email address."
+  copied: "All text of all 3 pages, extracted once with Apache PDFBox 3.0.8 (PDFTextStripper, sorted by position) and committed unedited apart from the redaction: line breaks and justified spacing are as extracted."
+  redactions:
+    - "The email address in the contact line is replaced by [redacted-email]. Nothing else is redacted."
