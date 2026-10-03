@@ -20,5 +20,8 @@ public class AskConfig {
 
   /** The Input Guardrail floor: below it the model is not called. */
   private final double retrievalMinScore;
+
+  /** Above this share of dropped claims the answer is withheld as unverified. */
+  private final double guardMaxDropRatio;
   private final String promptVersion;
 }

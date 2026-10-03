@@ -3,6 +3,7 @@ package io.github.trieunv.assistant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import io.github.trieunv.assistant.adapter.in.cli.AnswerRenderer;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
 import io.github.trieunv.assistant.application.dto.AnsweredClaim;
 import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
@@ -27,6 +28,8 @@ import tools.jackson.databind.json.JsonMapper;
 class AskQuestionTest {
 
   private static final SystemPrompt PROMPT = AskFixture.PROMPT;
+
+  private final AnswerRenderer renderer = new AnswerRenderer();
 
   @TempDir Path traceDir;
   @TempDir Path stateDir;
@@ -102,6 +105,60 @@ class AskQuestionTest {
         .extracting(AnsweredClaim::getText)
         .containsExactly("I built two card products from scratch.");
     assertThat(answer.getRemovedClaims()).isEqualTo(1);
+  }
+
+  @Test
+  void shouldDropAClaimNamingAnEmployerNoCitedEntryContains_whenAnswering() {
+    var answer =
+        ask(
+            "Which card products did you build at Tamara?",
+            claim("I built two card products from scratch.", "fixture.role.tamara.b1"),
+            claim("I built them for Goldman.", "fixture.role.tamara.b1"));
+
+    assertThat(answer.getMode()).isEqualTo(AnswerMode.ANSWERED);
+    assertThat(answer.getClaims())
+        .extracting(AnsweredClaim::getText)
+        .containsExactly("I built two card products from scratch.");
+    assertThat(renderer.render(answer))
+        .contains("1 statement removed: not supported by my sources.");
+  }
+
+  @Test
+  void shouldShowNoRemovedLine_whenNoClaimWasDropped() {
+    var answer =
+        ask(
+            "Which card products did you build at Tamara?",
+            claim("I built two card products from scratch.", "fixture.role.tamara.b1"));
+
+    assertThat(answer.getRemovedClaims()).isZero();
+    assertThat(renderer.render(answer)).doesNotContain("removed");
+  }
+
+  @Test
+  void shouldWithholdTheAnswer_whenNoClaimSurvives() {
+    var answer =
+        ask(
+            "Which card products did you build at Tamara?",
+            claim("I built three card products.", "fixture.role.tamara.b1"));
+
+    assertThat(answer.getMode()).isEqualTo(AnswerMode.UNVERIFIED);
+    assertThat(renderer.render(answer))
+        .isEqualTo("I couldn't put together a verified answer.\n");
+  }
+
+  @Test
+  void shouldWithholdTheAnswer_whenMoreThanHalfOfTheClaimsAreDropped() {
+    var answer =
+        ask(
+            "Which card products did you build at Tamara?",
+            claim("I built two card products from scratch.", "fixture.role.tamara.b1"),
+            claim("I built them for Goldman.", "fixture.role.tamara.b1"),
+            claim("I grew the team to 50 engineers.", "fixture.role.tamara.b2"));
+
+    assertThat(answer.getMode()).isEqualTo(AnswerMode.UNVERIFIED);
+    assertThat(answer.getClaims()).isEmpty();
+    assertThat(answer.getSources()).isEmpty();
+    assertThat(renderer.render(answer)).doesNotContain("removed").doesNotContain("Sources");
   }
 
   @Test

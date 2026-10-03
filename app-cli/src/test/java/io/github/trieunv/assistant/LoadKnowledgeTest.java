@@ -353,6 +353,7 @@ class LoadKnowledgeTest {
 
   private LoadKnowledgeService service(String entries, String snapshot, String sources) {
     write("sources.yaml", sources);
+    write("names.yaml", "technologies: [AWS]\naliases: {}\n");
     write("sources/cv/cv.txt", snapshot);
     write("entries/cv.yaml", entries);
     return new LoadKnowledgeService(

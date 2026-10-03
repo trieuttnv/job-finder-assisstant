@@ -1,0 +1,4 @@
+# Synthetic test fixture: the name list for the Ask use-case tests.
+technologies: [Java, Spring Boot, Go, Kafka]
+aliases:
+  Go: [Golang]

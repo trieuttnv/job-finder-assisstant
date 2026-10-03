@@ -173,6 +173,7 @@ class AskFallbacksTest {
         .modelId(base.getModelId())
         .retrievalTopK(base.getRetrievalTopK())
         .retrievalMinScore(minScore)
+        .guardMaxDropRatio(base.getGuardMaxDropRatio())
         .promptVersion(base.getPromptVersion())
         .build();
   }

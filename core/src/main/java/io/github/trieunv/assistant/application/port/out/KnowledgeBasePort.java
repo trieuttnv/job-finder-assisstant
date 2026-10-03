@@ -1,6 +1,7 @@
 package io.github.trieunv.assistant.application.port.out;
 
 import io.github.trieunv.assistant.domain.knowledge.EntryDraft;
+import io.github.trieunv.assistant.domain.knowledge.NameList;
 import io.github.trieunv.assistant.domain.knowledge.Snapshot;
 import java.util.List;
 
@@ -10,4 +11,7 @@ public interface KnowledgeBasePort {
   List<Snapshot> loadSnapshots();
 
   List<EntryDraft> loadEntryDrafts();
+
+  /** The committed technology names and aliases ({@code names.yaml}). */
+  NameList loadNameList();
 }

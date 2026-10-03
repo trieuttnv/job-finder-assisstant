@@ -50,7 +50,7 @@ public class AskQuestionService implements AskQuestionUseCase {
   private final SystemPrompt systemPrompt;
   private final AskConfig config;
   private final Clock clock;
-  private final OutputGuardrail outputGuardrail = new OutputGuardrail();
+  private final OutputGuardrail outputGuardrail;
 
   @Override
   public AnswerResult ask(AskQuestionCommand command) {
@@ -119,7 +119,17 @@ public class AskQuestionService implements AskQuestionUseCase {
       return fallback(AnswerMode.NOT_IN_SOURCES, traceId);
     }
 
-    var verdict = outputGuardrail.check(reply.getAnswer().claims(), retrievedById.keySet());
+    var verdict = outputGuardrail.check(reply.getAnswer().claims(), retrievedById);
+    trace
+        .keptClaims(verdict.kept().stream().map(claim -> claimTrace(claim, null)).toList())
+        .droppedClaims(
+            verdict.dropped().stream()
+                .map(dropped -> claimTrace(dropped.claim(), dropped.reason().name()))
+                .toList());
+    if (verdict.withheld()) {
+      return fallback(AnswerMode.UNVERIFIED, traceId);
+    }
+
     var numbering = new CitationNumbering();
     var claims =
         verdict.kept().stream()
@@ -130,13 +140,6 @@ public class AskQuestionService implements AskQuestionUseCase {
                         .citations(numbering.numberAll(claim.entryIds()))
                         .build())
             .toList();
-    trace
-        .keptClaims(verdict.kept().stream().map(claim -> claimTrace(claim, null)).toList())
-        .droppedClaims(
-            verdict.dropped().stream()
-                .map(dropped -> claimTrace(dropped.claim(), dropped.reason().name()))
-                .toList());
-
     return AnswerResult.builder()
         .mode(AnswerMode.ANSWERED)
         .claims(claims)

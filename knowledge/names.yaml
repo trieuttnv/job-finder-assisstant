@@ -1,0 +1,61 @@
+# Names the Output Guardrail checks claims for, beyond the employers the Entries state (ADR 0004).
+# A claim naming one of these is dropped unless its cited Entries contain it. Names match only as
+# written, so "go", "visa" and "react" as plain words are not Go, Visa and React.
+technologies:
+  # Languages and frameworks
+  - Java
+  - Kotlin
+  - Scala
+  - Go
+  - Rust
+  - Python
+  - JavaScript
+  - TypeScript
+  - Node.js
+  - Ruby
+  - PHP
+  - C++
+  - C#
+  - .NET
+  - Spring Boot
+  - Spring
+  - Quarkus
+  - React
+  - Angular
+  # Data and messaging
+  - MySQL
+  - PostgreSQL
+  - MongoDB
+  - Cassandra
+  - DynamoDB
+  - Redis
+  - Elasticsearch
+  - RabbitMQ
+  - Kafka
+  - Lucene
+  # Cloud and operations
+  - AWS
+  - GCP
+  - Azure
+  - Docker
+  - Kubernetes
+  - Terraform
+  - gRPC
+  - GraphQL
+  # Payment networks and products
+  - Visa
+  - Mastercard
+  - Cybersource
+  - JCB
+  - ThreatMatrix
+  - Jira
+  - Confluence
+  - HipChat
+  - Bamboo
+  - Cursor
+aliases:
+  Go: [Golang]
+  Kubernetes: [K8s]
+  PostgreSQL: [Postgres]
+  AWS: [Amazon Web Services]
+  GCP: [Google Cloud Platform, Google Cloud]

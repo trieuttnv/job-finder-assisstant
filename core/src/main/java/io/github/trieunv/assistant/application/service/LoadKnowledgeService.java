@@ -7,6 +7,7 @@ import io.github.trieunv.assistant.application.port.out.KnowledgeStatePort;
 import io.github.trieunv.assistant.domain.knowledge.Entry;
 import io.github.trieunv.assistant.domain.knowledge.IdChanges;
 import io.github.trieunv.assistant.domain.knowledge.KnowledgeCheck;
+import io.github.trieunv.assistant.domain.knowledge.KnownNames;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
     return LoadedKnowledge.builder()
         .entries(entries)
         .changes(changes)
+        .knownNames(KnownNames.from(entries, knowledgeBase.loadNameList()))
         .fingerprints(fingerprints)
         .build();
   }

@@ -1,6 +1,8 @@
 package io.github.trieunv.assistant.config;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -22,6 +24,7 @@ public class AssistantProperties {
   @Valid private Model model = new Model();
   @Valid private Retrieval retrieval = new Retrieval();
   @Valid private Prompt prompt = new Prompt();
+  @Valid private Guard guard = new Guard();
   @NotNull private Path knowledgeDir;
   @NotNull private Path traceDir;
 
@@ -51,6 +54,16 @@ public class AssistantProperties {
 
     /** The Input Guardrail floor on the best BM25 score; set on the dev split. */
     @PositiveOrZero private double minScore;
+  }
+
+  @Getter
+  @Setter
+  public static class Guard {
+
+    /** Above this share of dropped claims the answer is withheld as unverified. */
+    @DecimalMin("0.0")
+    @DecimalMax("1.0")
+    private double maxDropRatio;
   }
 
   @Getter

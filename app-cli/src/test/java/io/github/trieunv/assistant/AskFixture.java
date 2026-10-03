@@ -8,6 +8,7 @@ import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
+import io.github.trieunv.assistant.domain.answer.OutputGuardrail;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import java.nio.file.Path;
 import java.time.Clock;
@@ -29,6 +30,7 @@ final class AskFixture {
           .maxOutputTokens(800)
           .retrievalTopK(6)
           .retrievalMinScore(0.1)
+          .guardMaxDropRatio(0.5)
           .promptVersion("answer-test")
           .build();
 
@@ -36,18 +38,19 @@ final class AskFixture {
 
   static AskQuestionService service(
       ModelPort model, AskConfig config, Path traceDir, Path stateDir) {
-    var entries =
+    var knowledge =
         new LoadKnowledgeService(
                 new YamlKnowledgeBasePersistenceAdapter(FIXTURE_KNOWLEDGE),
                 new JsonKnowledgeStateAdapter(stateDir))
-            .load()
-            .getEntries();
+            .load();
     return new AskQuestionService(
-        new LuceneRetrieverAdapter(entries, config.getRetrievalTopK()),
+        new LuceneRetrieverAdapter(knowledge.getEntries(), config.getRetrievalTopK()),
         model,
         new JsonlTraceSinkAdapter(traceDir),
         PROMPT,
         config,
-        Clock.systemUTC());
+        Clock.systemUTC(),
+        new OutputGuardrail(
+            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()));
   }
 }

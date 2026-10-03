@@ -6,6 +6,7 @@ import io.github.trieunv.assistant.application.port.out.KnowledgeBasePort;
 import io.github.trieunv.assistant.domain.knowledge.EntryDraft;
 import io.github.trieunv.assistant.domain.knowledge.InvalidKnowledgeException;
 import io.github.trieunv.assistant.domain.knowledge.KnowledgeProblem;
+import io.github.trieunv.assistant.domain.knowledge.NameList;
 import io.github.trieunv.assistant.domain.knowledge.Snapshot;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,9 +23,9 @@ import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.dataformat.yaml.YAMLMapper;
 
 /**
- * Reads {@code sources.yaml}, each Source's Snapshot text, and every {@code entries/*.yaml} file in
- * file-name order. Entries are read as plain maps so an unknown or misspelt field reaches the
- * schema check with the Entry's id.
+ * Reads {@code sources.yaml}, each Source's Snapshot text, every {@code entries/*.yaml} file in
+ * file-name order, and the {@code names.yaml} name list. Entries are read as plain maps so an
+ * unknown or misspelt field reaches the schema check with the Entry's id.
  */
 public class YamlKnowledgeBasePersistenceAdapter implements KnowledgeBasePort {
 
@@ -65,6 +66,17 @@ public class YamlKnowledgeBasePersistenceAdapter implements KnowledgeBasePort {
           .toList();
     } catch (IOException e) {
       throw invalid("Cannot list Entry files in " + entriesDir, e);
+    }
+  }
+
+  @Override
+  public NameList loadNameList() {
+    var namesFile = knowledgeDir.resolve("names.yaml");
+    try {
+      var yaml = yamlMapper.readValue(namesFile.toFile(), NameListYaml.class);
+      return new NameList(yaml.getTechnologies(), yaml.getAliases());
+    } catch (JacksonException e) {
+      throw invalid("Cannot read the name list in " + namesFile, e);
     }
   }
 

@@ -12,6 +12,7 @@ import io.github.trieunv.assistant.application.port.in.LoadKnowledgeUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
+import io.github.trieunv.assistant.domain.answer.OutputGuardrail;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -39,13 +40,16 @@ public class AssistantConfiguration {
   @Bean
   AskQuestionUseCase askQuestionUseCase(
       AssistantProperties properties, ModelPort model, LoadedKnowledge knowledge) {
+    var config = askConfig(properties);
     return new AskQuestionService(
         new LuceneRetrieverAdapter(knowledge.getEntries(), properties.getRetrieval().getTopK()),
         model,
         new JsonlTraceSinkAdapter(properties.getTraceDir()),
         systemPrompt(properties.getPrompt()),
-        askConfig(properties),
-        Clock.systemUTC());
+        config,
+        Clock.systemUTC(),
+        new OutputGuardrail(
+            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()));
   }
 
   @Bean
@@ -71,6 +75,7 @@ public class AssistantConfiguration {
         .maxOutputTokens(model.getMaxOutputTokens())
         .retrievalTopK(properties.getRetrieval().getTopK())
         .retrievalMinScore(properties.getRetrieval().getMinScore())
+        .guardMaxDropRatio(properties.getGuard().getMaxDropRatio())
         .promptVersion(properties.getPrompt().getVersion())
         .build();
   }

@@ -27,6 +27,8 @@ assistant:
     top-k: ${RETRIEVAL_TOP_K:6}
     # Provisional until the dev split exists (ticket 09): just above unrelated questions' scores.
     min-score: ${RETRIEVAL_MIN_SCORE:0.5}
+  guard:
+    max-drop-ratio: ${GUARD_MAX_DROP_RATIO:0.5}
   prompt:
     version: ${PROMPT_VERSION:answer-v1}
     dir: prompts

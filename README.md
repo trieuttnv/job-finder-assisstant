@@ -235,9 +235,9 @@ No error response carries a stack trace, a provider error text or any part of th
 
 1. cites no Entry, or an Entry not retrieved for this question;
 2. contains a number or date that none of its cited Entries contain;
-3. names an employer, product or technology that none of its cited Entries contain (names from all Entries plus a committed technology list).
+3. names an employer, product or technology that none of its cited Entries contain (names from all Entries plus a committed technology list, `knowledge/names.yaml`, and any capitalised word that doesn't start a sentence, so an employer no Entry mentions is caught too).
 
-Before comparing, number words become digits and units and punctuation are stripped, and names match known aliases taken from the Entries.
+Before comparing, number words become digits and units and punctuation are stripped, and names match their known aliases from `knowledge/names.yaml` (Golang is Go).
 
 The answer shows "N statements removed: not supported by my sources." If none survive, or more than `GUARD_MAX_DROP_RATIO` (0.5) are dropped, the answer becomes "I couldn't put together a verified answer." If the model sets `notInSources`, code replies "That isn't in my sources."; negative claims are never generated.
 
