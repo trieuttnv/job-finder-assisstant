@@ -5,3 +5,4 @@ One entry per ticket, written when it lands: what a model generated, what the Su
 | Date | Work | Model-generated | Changed after review | Minutes |
 |---|---|---|---|---|
 | 2026-10-03 | Design (README RFC, ADRs 0001–0008, CONTEXT.md, exercise map) | Drafted by Claude Code (Opus 5.5) through a structured interview | Every decision chosen by the Subject at a gate; restructured from per-task answers into a system design; map moved out of the README | *(fill in)* |
+| 2026-10-04 | Ticket 01: walking skeleton (Maven multi-module, `Ask` use case, Lucene BM25, Anthropic adapter, citation rule, CLI rendering, JSONL traces, ArchUnit rule) | Code, tests, prompt `answer-v1`, fixture Entries and `./ask` written by Claude Code (Opus 5.5) test-first at the `Ask` use-case seam; checked end to end against a local mock of the Anthropic API (no key on the machine) | *(Subject to fill in after review)* | *(fill in)* |

@@ -1,0 +1,29 @@
+# Synthetic test fixture: hand-written Entries for the Ask use-case tests.
+- id: fixture.role.tamara
+  type: role
+  source: fixture
+  employer: Tamara
+  title: Engineering Manager
+  start: 2022-10
+  end: 2026-09
+  quote: "Tamara · Engineering Manager Oct 2022 – Sep 2026"
+- id: fixture.role.tamara.b1
+  type: bullet
+  parent: fixture.role.tamara
+  source: fixture
+  quote: "Built two card products from scratch"
+- id: fixture.role.tamara.b2
+  type: bullet
+  parent: fixture.role.tamara
+  source: fixture
+  quote: "Grew the engineering team from 1 to 13 engineers"
+- id: fixture.role.alipay
+  type: role
+  source: fixture
+  employer: Alipay
+  quote: "Alipay · Senior Engineer"
+- id: fixture.role.alipay.b1
+  type: bullet
+  parent: fixture.role.alipay
+  source: fixture
+  quote: "Integrated 100+ banks into the payment network"

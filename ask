@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# ./ask "<question>" answers one question from the knowledge base, with its Sources.
+set -euo pipefail
+cd "$(dirname "$0")"
+
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
+jar=app-cli/target/assistant-cli.jar
+if [[ ! -f "$jar" ]] || [[ -n "$(find pom.xml core adapters-out app-cli -newer "$jar" -type f \
+    \( -name '*.java' -o -name '*.xml' -o -name '*.yml' \) -not -path '*/target/*' -print -quit)" ]]; then
+  echo "Building..." >&2
+  ./mvnw -q -DskipTests -pl app-cli -am package >&2
+fi
+
+exec java -jar "$jar" "$@"

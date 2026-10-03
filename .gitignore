@@ -1,2 +1,5 @@
 .claude/
 .env
+target/
+# One JSON line per question, kept local: questions and model output never enter git.
+traces/

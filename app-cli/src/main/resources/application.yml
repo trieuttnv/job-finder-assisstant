@@ -1,0 +1,27 @@
+# Environment variable names match .env.example; defaults match the README's Configuration table.
+spring:
+  main:
+    banner-mode: off
+    log-startup-info: false
+    web-application-type: none
+
+logging:
+  level:
+    root: WARN
+    # Lucene suggests the incubating Vector API; BM25 over a few dozen Entries doesn't need it.
+    org.apache.lucene.internal.vectorization: ERROR
+
+assistant:
+  model:
+    provider: ${MODEL_PROVIDER:anthropic}
+    id: ${MODEL_ID:claude-sonnet-5-5}
+    api-key: ${ANTHROPIC_API_KEY:}
+    timeout: ${MODEL_TIMEOUT_MS:20000}ms
+    max-output-tokens: ${MODEL_MAX_OUTPUT_TOKENS:800}
+  retrieval:
+    top-k: ${RETRIEVAL_TOP_K:6}
+  prompt:
+    version: ${PROMPT_VERSION:answer-v1}
+    dir: prompts
+  knowledge-dir: ${KNOWLEDGE_DIR:knowledge}
+  trace-dir: ${TRACE_DIR:traces}

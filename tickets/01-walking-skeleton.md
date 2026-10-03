@@ -6,10 +6,10 @@
 
 **Status:** ready-for-agent
 
-- [ ] `./ask "<question>"` prints claims with numbered citations and a Sources block (Entry id, Source, Quote) from fixture Entries
-- [ ] The model returns `{claims: [{text, entryIds}], notInSources}`; a claim citing nothing, or an Entry not retrieved for this question, is not shown
-- [ ] One JSON trace line per question (question, retrieved ids and scores, prompt version and hash, model id, raw output, kept and dropped claims, tokens, latency) in a git-ignored folder
-- [ ] An architecture test fails if the core module imports Spring, Spring AI, Lucene or Jackson
-- [ ] `.env.example` names `ANTHROPIC_API_KEY`, `MODEL_PROVIDER`, `MODEL_ID`, `MODEL_TIMEOUT_MS`, `MODEL_MAX_OUTPUT_TOKENS`, `RETRIEVAL_TOP_K`; no real key committed
-- [ ] A test through the `Ask` use case with a stub `ModelPort` covers the kept and dropped claim
-- [ ] AI-usage log entry appended
+- [x] `./ask "<question>"` prints claims with numbered citations and a Sources block (Entry id, Source, Quote) from fixture Entries
+- [x] The model returns `{claims: [{text, entryIds}], notInSources}`; a claim citing nothing, or an Entry not retrieved for this question, is not shown
+- [x] One JSON trace line per question (question, retrieved ids and scores, prompt version and hash, model id, raw output, kept and dropped claims, tokens, latency) in a git-ignored folder
+- [x] An architecture test fails if the core module imports Spring, Spring AI, Lucene or Jackson
+- [x] `.env.example` names `ANTHROPIC_API_KEY`, `MODEL_PROVIDER`, `MODEL_ID`, `MODEL_TIMEOUT_MS`, `MODEL_MAX_OUTPUT_TOKENS`, `RETRIEVAL_TOP_K`; no real key committed
+- [x] A test through the `Ask` use case with a stub `ModelPort` covers the kept and dropped claim
+- [x] AI-usage log entry appended

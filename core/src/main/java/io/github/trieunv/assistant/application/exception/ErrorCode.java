@@ -1,0 +1,9 @@
+package io.github.trieunv.assistant.application.exception;
+
+public enum ErrorCode {
+  MODEL_UNAVAILABLE,
+  MODEL_OUTPUT_UNUSABLE,
+  TRACE_WRITE_FAILED,
+  RETRIEVAL_FAILED,
+  KNOWLEDGE_BASE_INVALID
+}
