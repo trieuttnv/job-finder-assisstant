@@ -1,6 +1,6 @@
 # Exercise map
 
-The brief ([docs/exercise.md](exercise.md)) broken into tasks, deliverables and constraints. Every bullet and bolded requirement in the brief is placed here. The design ([README.md](../README.md)) answers each row; Appendix A traces each deliverable to its section.
+The brief ([docs/exercise.md](problem.txt)) broken into tasks, deliverables and constraints. Every bullet and bolded requirement in the brief is placed here. The design ([README.md](../README.md)) answers each row; Appendix A traces each deliverable to its section.
 
 ## Tasks
 

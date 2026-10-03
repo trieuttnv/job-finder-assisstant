@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1250" width="1100" height="1250" font-family="Helvetica, Arial, sans-serif">
+<title>Answering a question</title>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
+</defs>
+<rect x="1.5" y="1.5" width="1097" height="1247" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Answering a question</text>
+<g id="zones">
+<rect x="34" y="804" width="914" height="342" fill="#F7F7F2" fill-opacity="0.55" stroke="#666" stroke-width="1"/>
+<rect x="18" y="508" width="946" height="648" fill="#F7F7F2" fill-opacity="0.55" stroke="#666" stroke-width="1"/>
+</g>
+<g id="edges">
+<path d="M82.0,242 L82.0,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M215.5,242 L215.5,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M349.0,242 L349.0,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M482.5,242 L482.5,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M616.0,242 L616.0,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M749.5,242 L749.5,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M883.0,242 L883.0,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M1016.5,242 L1016.5,1222" stroke="#999" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M93.0,272 L215.5,272" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M226.5,312 L349.0,312" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M360.0,404 L482.5,404" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M471.5,444 L349.0,444" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M360.0,484 L616.0,484" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M18,530 L58,530 L66,522 L66,508" fill="#EEEEEE" stroke="#666" stroke-width="1"/>
+<text x="40.0" y="524.0" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">alt</text>
+<text x="74.0" y="524.0" font-size="13" fill="#333" text-anchor="start" font-weight="bold">[no Entry above floor]</text>
+<path d="M605.0,562 L82.0,562" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M18,580 L964,580" stroke="#666" stroke-width="1" stroke-dasharray="6 4"/>
+<text x="28.0" y="596.0" font-size="13" fill="#333" text-anchor="start" font-weight="bold">[else]</text>
+<path d="M360.0,632 L749.5,632" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M760.5,740 L883.0,740" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M872.0,780 L749.5,780" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M34,826 L74,826 L82,818 L82,804" fill="#EEEEEE" stroke="#666" stroke-width="1"/>
+<text x="56.0" y="820.0" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">alt</text>
+<text x="90.0" y="820.0" font-size="13" fill="#333" text-anchor="start" font-weight="bold">[timeout / error / bad JSON]</text>
+<path d="M738.5,858 L82.0,858" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M34,876 L948,876" stroke="#666" stroke-width="1" stroke-dasharray="6 4"/>
+<text x="44.0" y="892.0" font-size="13" fill="#333" text-anchor="start" font-weight="bold">[else]</text>
+<path d="M738.5,928 L349.0,928" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M360.0,968 L616.0,968" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M605.0,1008 L349.0,1008" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M360.0,1048 L616.0,1048" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M338.0,1088 L215.5,1088" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M204.5,1128 L82.0,1128" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M360.0,1190 L1016.5,1190" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+</g>
+<g id="nodes">
+<rect x="23.0" y="196" width="118" height="46" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="82.0" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Interviewer</text>
+<rect x="156.5" y="196" width="118" height="46" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="215.5" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">CLI / API</text>
+<rect x="290.0" y="196" width="118" height="46" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="349.0" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ask use case</text>
+<rect x="423.5" y="196" width="118" height="46" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="482.5" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Retriever</text>
+<rect x="557.0" y="196" width="118" height="46" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="616.0" y="215.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Guardrails</text>
+<text x="616.0" y="232.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">(code)</text>
+<rect x="690.5" y="196" width="118" height="46" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="749.5" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">ModelPort</text>
+<rect x="824.0" y="196" width="118" height="46" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="883.0" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Provider</text>
+<rect x="957.5" y="196" width="118" height="46" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="1016.5" y="223.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">TraceSink</text>
+<g stroke="#333" stroke-width="1.8" fill="none"><circle cx="82.0" cy="152" r="8" fill="#DCEDC8"/><path d="M82.0,160 L82.0,178 M71.0,167 L93.0,167 M82.0,178 L73.0,191 M82.0,178 L91.0,191"/></g>
+<rect x="150.5" y="338" width="263.5" height="28" rx="3" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="282.2" y="358.0" font-size="13" fill="#555" text-anchor="middle">production only: rate limit (429 if over)</text>
+<rect x="684.5" y="658" width="263.5" height="44" rx="3" fill="#FFF2CC" stroke="#B59A3A" stroke-width="1"/>
+<text x="816.2" y="678.0" font-size="13" fill="#333" text-anchor="middle">timeout · production: retry once on</text>
+<text x="816.2" y="694.0" font-size="13" fill="#333" text-anchor="middle">429/5xx, circuit breaker</text>
+</g>
+<g id="labels">
+<rect x="790" y="66" width="278" height="122" rx="10" fill="#FFFFFF" stroke="#999"/>
+<path d="M804,88 L842,88" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="854" y="92.5" font-size="13" fill="#222">call</text>
+<path d="M804,114 L842,114" stroke="#111" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<text x="854" y="118.5" font-size="13" fill="#222">reply</text>
+<rect x="804" y="132" width="38" height="16" rx="2" fill="#FFF2CC" stroke="#B59A3A"/>
+<text x="854" y="144.5" font-size="13" fill="#222">note</text>
+<rect x="804" y="158" width="38" height="16" rx="4" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="854" y="170.5" font-size="13" fill="#222">dashed white = designed, not built</text>
+<rect x="118.7" y="248.0" width="60.2" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="148.8" y="261.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">question</text>
+<circle cx="82.0" cy="272" r="10" fill="#111"/>
+<text x="82.0" y="276.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">1</text>
+<rect x="237.0" y="288.0" width="90.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="282.2" y="301.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">ask(question)</text>
+<circle cx="215.5" cy="312" r="10" fill="#111"/>
+<text x="215.5" y="316.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">2</text>
+<rect x="357.9" y="380.0" width="115.8" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="415.8" y="393.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">retrieve(question)</text>
+<circle cx="349.0" cy="404" r="10" fill="#111"/>
+<text x="349.0" y="408.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">3</text>
+<rect x="294.6" y="420.0" width="242.3" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="415.8" y="433.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Entries + role headers + Conflict sides</text>
+<circle cx="482.5" cy="444" r="10" fill="#111"/>
+<text x="482.5" y="448.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">4</text>
+<rect x="407.6" y="460.0" width="149.8" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="482.5" y="473.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Input Guardrail(scores)</text>
+<circle cx="349.0" cy="484" r="10" fill="#111"/>
+<text x="349.0" y="488.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">5</text>
+<rect x="263.9" y="538.0" width="170.2" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="349.0" y="551.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">&quot;That isn&#x27;t in my sources.&quot;</text>
+<circle cx="616.0" cy="562" r="10" fill="#111"/>
+<text x="616.0" y="566.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">6</text>
+<rect x="466.8" y="608.0" width="164.9" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="549.2" y="621.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">generate(prompt, Entries)</text>
+<circle cx="349.0" cy="632" r="10" fill="#111"/>
+<text x="349.0" y="636.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">7</text>
+<rect x="742.4" y="716.0" width="147.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="816.2" y="729.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">one call, temperature 0</text>
+<circle cx="749.5" cy="740" r="10" fill="#111"/>
+<text x="749.5" y="744.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">8</text>
+<rect x="738.5" y="756.0" width="155.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="816.2" y="769.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">{claims[], notInSources}</text>
+<circle cx="883.0" cy="780" r="10" fill="#111"/>
+<text x="883.0" y="784.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">9</text>
+<rect x="291.3" y="834.0" width="249.0" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="415.8" y="847.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">&quot;The assistant can&#x27;t answer right now.&quot;</text>
+<circle cx="749.5" cy="858" r="10" fill="#111"/>
+<text x="749.5" y="862.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">10</text>
+<rect x="526.0" y="904.0" width="46.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="549.2" y="917.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">claims</text>
+<circle cx="749.5" cy="928" r="10" fill="#111"/>
+<text x="749.5" y="932.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">11</text>
+<rect x="377.3" y="944.0" width="210.4" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="482.5" y="957.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Output Guardrail(claims, Entries)</text>
+<circle cx="349.0" cy="968" r="10" fill="#111"/>
+<text x="349.0" y="972.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">12</text>
+<rect x="436.5" y="984.0" width="92.0" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="482.5" y="997.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">kept, dropped</text>
+<circle cx="616.0" cy="1008" r="10" fill="#111"/>
+<text x="616.0" y="1012.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">13</text>
+<rect x="392.8" y="1024.0" width="179.4" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="482.5" y="1037.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">render Conflicts (if relevant)</text>
+<circle cx="349.0" cy="1048" r="10" fill="#111"/>
+<text x="349.0" y="1052.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">14</text>
+<rect x="178.1" y="1064.0" width="208.3" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="282.2" y="1077.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">answer, sources, removed count</text>
+<circle cx="349.0" cy="1088" r="10" fill="#111"/>
+<text x="349.0" y="1092.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">15</text>
+<rect x="80.0" y="1104.0" width="137.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="148.8" y="1117.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">answer with citations</text>
+<circle cx="215.5" cy="1128" r="10" fill="#111"/>
+<text x="215.5" y="1132.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">16</text>
+<rect x="642.2" y="1166.0" width="81.1" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="682.8" y="1179.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">trace record</text>
+<circle cx="349.0" cy="1190" r="10" fill="#111"/>
+<text x="349.0" y="1194.2" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">17</text>
+</g>
+</svg>

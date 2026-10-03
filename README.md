@@ -2,11 +2,10 @@
 
 | | |
 |---|---|
-| **Status** | Proposed |
-| **Author** | Trieu Nguyen (drafted with Claude Code) |
+| **Status** | Approved 2026-10-03 |
+| **Author** | Trieu Nguyen|
 | **Date** | 2026-10-03 |
-| **Brief** | [docs/exercise.md](docs/exercise.md) · [exercise map](docs/exercise-map.md) |
-| **Terms** | [CONTEXT.md](CONTEXT.md) |
+| **Brief** | docs/problem.txt, docs/requirement-summary.md |
 | **Decision records** | [docs/adr/](docs/adr/) |
 | **Revision** | 10 — production design complete (step 4) |
 
@@ -18,7 +17,7 @@ An assistant that answers interviewers' questions about Trieu Nguyen's professio
 
 Interviews open with the same questions: who are you, what have you solved, how do you work, what have you built. The brief asks for an assistant that answers them on the Subject's behalf from the Subject's own material. It has to hold one line above all: **never invent qualifications, employers, projects or achievements**, and every stated fact must trace back to a source.
 
-Five graded tasks: knowledge layer (25%), AI and back-end architecture (25%), evaluation (30%), user experience (10%), and decisions and AI use (10%). Each task's deliverables, constraints and grading signals are in the [exercise map](docs/exercise-map.md).
+Five graded tasks: knowledge layer (25%), AI and back-end architecture (25%), evaluation (30%), user experience (10%), and decisions and AI use (10%). Each task's deliverables, constraints and grading signals are in the [exercise map](docs/requirement-summary.md).
 
 The constraints that bind every task:
 
@@ -530,15 +529,13 @@ Prompts and completions are kept in traces for 30 days and never in metrics or l
 **Experiments behind flags.** Hybrid retrieval (BM25 + embeddings) if recall@k shows paraphrase misses; a second model call for multi-part questions if multi-source correctness stays low; Haiku 4.5 as a cheaper control if its eval rows match Sonnet's.
 
 ## Open Questions
-
-1. **Repository name.** The brief asks for `test-rieu-nguyen`; this repository is `bjak-lead-engineer-trieu-nguyen`, kept on the Subject's decision (2026-10-03).
-2. **Traceability sentence.** The brief says "nobody can trace the model's output back to a source", which reads as the failure to prevent. This design treats it as "every stated fact must be traceable to a source".
+1. **Traceability sentence.** The brief says "nobody can trace the model's output back to a source", which reads as the failure to prevent. This design treats it as "every stated fact must be traceable to a source".
 
 ## Appendices
 
 ### A. Brief traceability
 
-Every deliverable in the [exercise map](docs/exercise-map.md) and where it is answered.
+Every deliverable in the [exercise map](docs/requirement-summary.md) and where it is answered.
 
 | Task | Deliverable | Section |
 |---|---|---|

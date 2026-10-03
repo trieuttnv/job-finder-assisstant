@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 880" width="1100" height="880" font-family="Helvetica, Arial, sans-serif">
+<title>Production deployment: canary + Statsig</title>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
+</defs>
+<rect x="1.5" y="1.5" width="1097" height="877" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Production deployment: canary + Statsig</text>
+<text x="550.0" y="82" font-size="15" font-style="italic" fill="#555" text-anchor="middle">Production deployment (designed, not built)</text>
+<g id="zones">
+<rect x="260" y="180" width="810" height="450" rx="16" fill="#F5F5F5" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="665.0" y="204.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Kubernetes cluster</text>
+<rect x="440" y="225" width="270" height="235" rx="16" fill="#FFF2CC" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="575.0" y="249.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Argo Rollout: ask-service</text>
+</g>
+<g id="edges">
+<path d="M130,238 L130,275" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M130,337 L130,470" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M205,510 L300,510 L300,445 L440,445" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M400,303 L490,303" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M400,405 L490,405" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M470,520 L470,460" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M650,520 L650,430" fill="none" stroke="#D7592F" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<path d="M690,303 L790,303 M690,405 L790,405 M790,264 L790,828" fill="none" stroke="#111" stroke-width="1.6"/>
+<circle cx="790" cy="303" r="3.5" fill="#111"/>
+<circle cx="790" cy="405" r="3.5" fill="#111"/>
+<text x="740.0" y="296.0" font-size="11" fill="#555" text-anchor="middle" font-weight="bold">CA</text>
+<text x="740.0" y="398.0" font-size="11" fill="#555" text-anchor="middle" font-weight="bold">ST</text>
+<path d="M790,264 L900,264" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M790,367 L900,367" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M790,828 L900,828" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M790,763 L900,763" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M790,693 L900,693" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+</g>
+<g id="nodes">
+<rect x="40" y="190" width="180" height="48" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="130.0" y="218.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Git push</text>
+<rect x="25" y="275" width="210" height="62" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="130.0" y="302.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">CI: build image ·</text>
+<text x="130.0" y="318.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">unit tests · eval Hard Lines</text>
+<path d="M55,480 a75.0,10 0 0 1 150,0 v60 a75.0,10 0 0 1 -150,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M55,480 a75.0,10 0 0 0 150,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="130.0" y="518.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Registry</text>
+<rect x="290" y="262" width="110" height="148" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="345.0" y="340.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ingress</text>
+<rect x="490" y="272" width="200" height="62" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="590.0" y="299.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">canary vN+1</text>
+<text x="590.0" y="316.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">5% → 25% → 100%</text>
+<rect x="490" y="380" width="200" height="50" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="590.0" y="409.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">stable vN</text>
+<rect x="460" y="520" width="280" height="76" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="600.0" y="546.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">AnalysisRun</text>
+<text x="600.0" y="562.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">eval Job + Prometheus:</text>
+<text x="600.0" y="578.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">5xx · p95 · guardrail drop rate</text>
+<path d="M900,232 a80.0,10 0 0 1 160,0 v64 a80.0,10 0 0 1 -160,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M900,232 a80.0,10 0 0 0 160,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="980.0" y="264.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Redis</text>
+<text x="980.0" y="281.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">rate limits</text>
+<rect x="900" y="342" width="160" height="50" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="980.0" y="371.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">OTel collector</text>
+<rect x="900" y="665" width="160" height="56" rx="8" fill="#CB94D7" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="980.0" y="689.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Statsig</text>
+<text x="980.0" y="706.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">model_provider</text>
+<rect x="900" y="740" width="160" height="46" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="980.0" y="767.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Anthropic</text>
+<rect x="900" y="805" width="160" height="46" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="980.0" y="832.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">DeepSeek</text>
+</g>
+<g id="labels">
+<rect x="820" y="66" width="168" height="70" rx="10" fill="#FFFFFF" stroke="#999"/>
+<path d="M834,88 L872,88" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="884" y="92.5" font-size="13" fill="#222">main flow</text>
+<path d="M834,114 L872,114" stroke="#D7592F" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+<text x="884" y="118.5" font-size="13" fill="#222">loop / feedback</text>
+<rect x="137.0" y="397.0" width="43.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="140.0" y="410.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">image</text>
+<rect x="354.3" y="484.0" width="110.7" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="462.0" y="497.0" font-size="13" fill="#222" text-anchor="end" font-weight="bold">promote or abort</text>
+<rect x="532.8" y="467.0" width="112.2" height="33.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="642.0" y="480.0" font-size="13" fill="#D7592F" text-anchor="end" font-weight="bold">abort → rollback,</text>
+<text x="642.0" y="496.0" font-size="13" fill="#D7592F" text-anchor="end" font-weight="bold">max 1 try</text>
+<rect x="796.9" y="672.0" width="96.3" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="845.0" y="685.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">getExperiment</text>
+</g>
+</svg>

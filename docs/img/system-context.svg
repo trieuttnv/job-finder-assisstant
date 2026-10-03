@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600" font-family="Helvetica, Arial, sans-serif">
+<title>Interview Assistant: system context</title>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
+</defs>
+<rect x="1.5" y="1.5" width="1097" height="597" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Interview Assistant: system context</text>
+<g id="zones">
+</g>
+<g id="edges">
+<path d="M210,233 L410,233" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M410,258 L210,258" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M210,508 L410,508" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M520,460 L520,281" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M630,222 L840,222" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M630,240 L690,240 L690,313 L840,313" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<path d="M630,256 L675,256 L675,391 L840,391" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<path d="M630,272 L660,272 L660,469 L840,469" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+</g>
+<g id="nodes">
+<rect x="40" y="215" width="170" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="125.0" y="247.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">👤 Interviewer</text>
+<rect x="410" y="205" width="220" height="76" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="520.0" y="239.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Interview Assistant</text>
+<text x="520.0" y="256.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">(Ask service)</text>
+<rect x="40" y="480" width="170" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="125.0" y="512.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">👤 Subject</text>
+<path d="M410,470 a110.0,10 0 0 1 220,0 v76 a110.0,10 0 0 1 -220,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M410,470 a110.0,10 0 0 0 220,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="520.0" y="508.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Knowledge base</text>
+<text x="520.0" y="525.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Snapshots + Entries</text>
+<rect x="840" y="195" width="220" height="58" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="950.0" y="220.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">🤖 Anthropic</text>
+<text x="950.0" y="237.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Claude Sonnet 5.5</text>
+<rect x="840" y="288" width="220" height="50" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="950.0" y="317.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">🤖 DeepSeek</text>
+<rect x="840" y="366" width="220" height="50" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="950.0" y="387.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Statsig</text>
+<text x="950.0" y="404.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">(designed)</text>
+<rect x="840" y="444" width="220" height="50" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="950.0" y="473.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">🔍 Traces</text>
+</g>
+<g id="labels">
+<rect x="800" y="70" width="278" height="96" rx="10" fill="#FFFFFF" stroke="#999"/>
+<path d="M814,92 L852,92" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="864" y="96.5" font-size="13" fill="#222">main flow</text>
+<path d="M814,118 L852,118" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<text x="864" y="122.5" font-size="13" fill="#222">cross-cutting</text>
+<rect x="814" y="136" width="38" height="16" rx="4" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="864" y="148.5" font-size="13" fill="#222">dashed white = designed, not built</text>
+<rect x="279.9" y="212.0" width="60.2" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="310.0" y="225.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">question</text>
+<rect x="252.3" y="267.0" width="115.5" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="310.0" y="280.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">answer + sources</text>
+<rect x="245.2" y="463.0" width="129.6" height="33.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="310.0" y="476.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">reviews Entries,</text>
+<text x="310.0" y="492.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">verifies Gold Labels</text>
+<rect x="527.0" y="362.0" width="44.3" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="530.0" y="375.0" font-size="13" fill="#222" text-anchor="start" font-weight="bold">ingest</text>
+<rect x="705.5" y="201.0" width="119.1" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="765.0" y="214.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Entries + question</text>
+<rect x="705.5" y="292.0" width="119.1" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="765.0" y="305.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Entries + question</text>
+<rect x="725.9" y="370.0" width="78.2" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="765.0" y="383.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">assignment</text>
+<rect x="742.9" y="448.0" width="44.3" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="765.0" y="461.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">traces</text>
+</g>
+</svg>

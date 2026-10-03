@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 830" width="1100" height="830" font-family="Helvetica, Arial, sans-serif">
+<title>Ask service: containers</title>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="2" dy="2" stdDeviation="1.5" flood-opacity=".25"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D7592F"/></marker>
+</defs>
+<rect x="1.5" y="1.5" width="1097" height="827" fill="#FFFEF9" stroke="#D4A017" stroke-width="3"/>
+<text x="550.0" y="52" font-size="30" font-weight="bold" fill="#111" text-anchor="middle">Ask service: containers</text>
+<g id="zones">
+<rect x="290" y="200" width="500" height="590" rx="16" fill="#FFF2CC" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="540.0" y="772.0" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">Ask service (Spring Boot, Ports and Adapters)</text>
+</g>
+<g id="edges">
+<path d="M380,156 L380,240" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M540,156 L540,240" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M690,156 L690,243" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M610,268 L570,268" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M460,296 L460,326" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M460,382 L460,412" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M460,468 L460,498" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M460,560 L460,590" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M460,646 L460,676" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M222,355 L350,355" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M595,505 L850,505" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M595,552 L850,552" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M350,250 L255,250 L255,196 L220,196" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<path d="M350,276 L220,276" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<path d="M770,268 L860,268" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+</g>
+<g id="nodes">
+<rect x="285" y="100" width="140" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="355.0" y="132.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">CLI ./ask</text>
+<rect x="445" y="100" width="140" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="515.0" y="124.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Eval runner</text>
+<text x="515.0" y="141.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">./eval.sh</text>
+<rect x="605" y="100" width="180" height="56" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="695.0" y="124.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">HTTP API</text>
+<text x="695.0" y="141.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">POST /api/v1/asks</text>
+<rect x="350" y="240" width="220" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="272.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ask use case</text>
+<rect x="610" y="243" width="160" height="50" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="690.0" y="272.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Rate limiter</text>
+<rect x="350" y="326" width="220" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="350.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Retriever</text>
+<text x="460.0" y="367.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Lucene BM25</text>
+<rect x="350" y="412" width="220" height="56" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="444.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Input Guardrail</text>
+<rect x="325" y="498" width="270" height="62" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="525.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">ModelPort</text>
+<text x="460.0" y="542.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">timeout · retry · circuit breaker</text>
+<rect x="350" y="590" width="220" height="56" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="622.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Output Guardrail</text>
+<rect x="350" y="676" width="220" height="56" rx="8" fill="#EE9A9A" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="460.0" y="708.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Conflict renderer</text>
+<rect x="40" y="170" width="180" height="52" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="130.0" y="192.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Statsig</text>
+<text x="130.0" y="209.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">model_provider</text>
+<rect x="40" y="250" width="180" height="52" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="130.0" y="272.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Traces</text>
+<text x="130.0" y="289.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">JSONL · OTel</text>
+<path d="M14,320 a104.0,10 0 0 1 208,0 v70 a104.0,10 0 0 1 -208,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
+<path d="M14,320 a104.0,10 0 0 0 208,0" fill="none" stroke="#666" stroke-width="1"/>
+<text x="118.0" y="355.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">knowledge/</text>
+<text x="118.0" y="371.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">Snapshots · Entries · Conflicts</text>
+<rect x="850" y="470" width="180" height="50" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="940.0" y="499.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Anthropic</text>
+<rect x="850" y="535" width="180" height="50" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="940.0" y="564.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">DeepSeek</text>
+<path d="M860,240 a80.0,10 0 0 1 160,0 v56 a80.0,10 0 0 1 -160,0 z" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M860,240 a80.0,10 0 0 0 160,0" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="5 5"/>
+<text x="940.0" y="276.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Redis</text>
+</g>
+<g id="labels">
+<rect x="805" y="70" width="278" height="96" rx="10" fill="#FFFFFF" stroke="#999"/>
+<path d="M819,92 L857,92" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="869" y="96.5" font-size="13" fill="#222">main flow</text>
+<path d="M819,118 L857,118" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
+<text x="869" y="122.5" font-size="13" fill="#222">cross-cutting</text>
+<rect x="819" y="136" width="38" height="16" rx="4" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="869" y="148.5" font-size="13" fill="#222">dashed white = designed, not built</text>
+<rect x="243.0" y="317.0" width="84.0" height="33.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="285.0" y="330.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">ingest +</text>
+<text x="285.0" y="346.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">Quote check</text>
+<rect x="695.7" y="484.0" width="48.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="720.0" y="497.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">HTTPS</text>
+<rect x="695.7" y="531.0" width="48.6" height="17.0" rx="3" fill="#FFFEF9" fill-opacity="0.92"/>
+<text x="720.0" y="544.0" font-size="13" fill="#222" text-anchor="middle" font-weight="bold">HTTPS</text>
+</g>
+</svg>
