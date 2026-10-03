@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The ingest checks run at every startup (README Task 1, Step 5): no email left in a Snapshot, a
@@ -32,7 +33,9 @@ public final class KnowledgeCheck {
     for (var snapshot : snapshots) {
       if (Objects.nonNull(snapshotsBySource.putIfAbsent(snapshot.sourceId(), snapshot))) {
         throw InvalidKnowledgeException.ofSource(
-            snapshot.sourceId(), KnowledgeProblem.DUPLICATE_ID, "the id is declared more than once");
+            snapshot.sourceId(),
+            KnowledgeProblem.DUPLICATE_ID,
+            "the id is declared more than once");
       }
     }
 
@@ -59,8 +62,32 @@ public final class KnowledgeCheck {
     return List.copyOf(entries.values());
   }
 
+  /** Every Conflict has two or more sides, each citing Entries that exist. */
+  public static void checkConflicts(List<Conflict> conflicts, List<Entry> entries) {
+    var ids = entries.stream().map(Entry::id).collect(Collectors.toSet());
+    for (var conflict : conflicts) {
+      if (conflict.sides().size() < 2
+          || conflict.sides().stream().anyMatch(side -> side.entryIds().isEmpty())) {
+        throw InvalidKnowledgeException.ofConflict(
+            conflict.id(),
+            KnowledgeProblem.INVALID_SCHEMA,
+            "a Conflict needs two or more sides, each citing an Entry");
+      }
+      conflict.entryIds().stream()
+          .filter(id -> !ids.contains(id))
+          .findFirst()
+          .ifPresent(
+              missing -> {
+                throw InvalidKnowledgeException.ofConflict(
+                    conflict.id(),
+                    KnowledgeProblem.UNRESOLVED_CONFLICT_SIDE,
+                    "a side cites '" + missing + "', which is not an Entry");
+              });
+    }
+  }
+
   private static void requireRedacted(Snapshot snapshot) {
-    if (EMAIL.matcher(snapshot.text()).find()) {
+    if (snapshot.texts().stream().anyMatch(text -> EMAIL.matcher(text).find())) {
       throw InvalidKnowledgeException.ofSource(
           snapshot.sourceId(),
           KnowledgeProblem.UNREDACTED_EMAIL,
@@ -137,8 +164,9 @@ public final class KnowledgeCheck {
   }
 
   private static void requireQuoteInSnapshot(Entry entry, Snapshot snapshot) {
-    var snapshotKey = QuoteText.key(snapshot.text());
-    if (!QuoteText.containsWords(snapshotKey, QuoteText.key(entry.quote()))) {
+    var quoteKey = QuoteText.key(entry.quote());
+    if (snapshot.texts().stream()
+        .noneMatch(text -> QuoteText.containsWords(QuoteText.key(text), quoteKey))) {
       throw problem(
           entry,
           KnowledgeProblem.QUOTE_NOT_IN_SNAPSHOT,

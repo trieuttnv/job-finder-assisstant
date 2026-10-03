@@ -29,6 +29,9 @@ public class AskTrace {
   private final boolean notInSources;
   private final List<ClaimTrace> keptClaims;
   private final List<ClaimTrace> droppedClaims;
+
+  /** Ids of the Conflicts whose notice was shown. */
+  private final List<String> conflictIds;
   private final int inputTokens;
   private final int outputTokens;
   private final long retrievalLatencyMs;

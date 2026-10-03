@@ -38,11 +38,14 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
                     LinkedHashMap::new));
     var changes = IdChanges.between(state.previousFingerprints(), fingerprints);
     var nameList = knowledgeBase.loadNameList();
+    var conflicts = knowledgeBase.loadConflicts();
+    KnowledgeCheck.checkConflicts(conflicts, entries);
     return LoadedKnowledge.builder()
         .entries(entries)
         .changes(changes)
         .knownNames(KnownNames.from(entries, nameList))
         .vocabulary(RetrievalVocabulary.from(entries, nameList))
+        .conflicts(conflicts)
         .fingerprints(fingerprints)
         .build();
   }

@@ -7,6 +7,7 @@ import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.dto.AskTrace;
 import io.github.trieunv.assistant.application.dto.AskTrace.ClaimTrace;
 import io.github.trieunv.assistant.application.dto.AskTrace.RetrievedTrace;
+import io.github.trieunv.assistant.application.dto.ConflictNotice;
 import io.github.trieunv.assistant.application.dto.ModelReply;
 import io.github.trieunv.assistant.application.dto.SourceReference;
 import io.github.trieunv.assistant.application.exception.AssistantApplicationException;
@@ -19,9 +20,11 @@ import io.github.trieunv.assistant.domain.answer.AnswerMode;
 import io.github.trieunv.assistant.domain.answer.AnswerPrompt;
 import io.github.trieunv.assistant.domain.answer.CitationNumbering;
 import io.github.trieunv.assistant.domain.answer.Claim;
+import io.github.trieunv.assistant.domain.answer.ConflictNotices;
 import io.github.trieunv.assistant.domain.answer.OutputGuardrail;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import io.github.trieunv.assistant.domain.answer.TraceId;
+import io.github.trieunv.assistant.domain.knowledge.Conflict;
 import io.github.trieunv.assistant.domain.knowledge.Entry;
 import io.github.trieunv.assistant.domain.knowledge.EntryId;
 import io.github.trieunv.assistant.domain.knowledge.RetrievedEntry;
@@ -29,6 +32,7 @@ import java.time.Clock;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -51,6 +55,7 @@ public class AskQuestionService implements AskQuestionUseCase {
   private final AskConfig config;
   private final Clock clock;
   private final OutputGuardrail outputGuardrail;
+  private final ConflictNotices conflictNotices;
 
   @Override
   public AnswerResult ask(AskQuestionCommand command) {
@@ -132,9 +137,13 @@ public class AskQuestionService implements AskQuestionUseCase {
       return fallback(AnswerMode.UNVERIFIED, traceId);
     }
 
+    // Conflicts are appended by code, both sides cited, whatever the claims say (README Task 2,
+    // Step 4). Claims are numbered first, then each side, into one Sources block.
+    var kept = verdict.kept();
+    var conflicts = conflictNotices.relevantTo(question, kept);
     var numbering = new CitationNumbering();
     var claims =
-        verdict.kept().stream()
+        kept.stream()
             .map(
                 claim ->
                     AnsweredClaim.builder()
@@ -142,9 +151,13 @@ public class AskQuestionService implements AskQuestionUseCase {
                         .citations(numbering.numberAll(claim.entryIds()))
                         .build())
             .toList();
+    var notices =
+        conflicts.stream().map(conflict -> ConflictNotice.of(conflict, numbering)).toList();
+    trace.conflictIds(conflicts.stream().map(Conflict::id).toList());
     return AnswerResult.builder()
         .mode(AnswerMode.ANSWERED)
         .claims(claims)
+        .conflicts(notices)
         .sources(sourceReferences(numbering.citedInOrder(), retrievedById))
         .removedClaims(verdict.dropped().size())
         .traceId(traceId)
@@ -155,6 +168,7 @@ public class AskQuestionService implements AskQuestionUseCase {
     return AnswerResult.builder()
         .mode(mode)
         .claims(List.of())
+        .conflicts(List.of())
         .sources(List.of())
         .removedClaims(0)
         .traceId(traceId)
@@ -182,13 +196,20 @@ public class AskQuestionService implements AskQuestionUseCase {
     return kind + ": " + e.getMessage();
   }
 
-  /** Sources block lines, numbered as {@code cited} orders them. */
-  private static List<SourceReference> sourceReferences(
+  /**
+   * Sources block lines, numbered as {@code cited} orders them. A Conflict side that wasn't
+   * retrieved is still cited, from the knowledge base.
+   */
+  private List<SourceReference> sourceReferences(
       List<EntryId> cited, Map<EntryId, Entry> retrievedById) {
     return IntStream.range(0, cited.size())
         .mapToObj(
             index -> {
-              var entry = retrievedById.get(cited.get(index));
+              var id = cited.get(index);
+              var entry =
+                  Optional.ofNullable(retrievedById.get(id))
+                      .or(() -> conflictNotices.entry(id))
+                      .orElseThrow();
               return SourceReference.builder()
                   .number(index + 1)
                   .entryId(entry.id().value())

@@ -3,7 +3,9 @@ package io.github.trieunv.assistant.adapter.out.yaml;
 import io.github.trieunv.assistant.application.exception.AssistantApplicationException;
 import io.github.trieunv.assistant.application.exception.ErrorCode;
 import io.github.trieunv.assistant.application.port.out.KnowledgeBasePort;
+import io.github.trieunv.assistant.domain.knowledge.Conflict;
 import io.github.trieunv.assistant.domain.knowledge.EntryDraft;
+import io.github.trieunv.assistant.domain.knowledge.EntryId;
 import io.github.trieunv.assistant.domain.knowledge.InvalidKnowledgeException;
 import io.github.trieunv.assistant.domain.knowledge.KnowledgeProblem;
 import io.github.trieunv.assistant.domain.knowledge.NameList;
@@ -11,6 +13,7 @@ import io.github.trieunv.assistant.domain.knowledge.Snapshot;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,7 @@ public class YamlKnowledgeBasePersistenceAdapter implements KnowledgeBasePort {
   private static final TypeReference<List<SourceYaml>> SOURCE_LIST = new TypeReference<>() {};
   private static final TypeReference<List<Map<String, Object>>> ENTRY_LIST =
       new TypeReference<>() {};
+  private static final TypeReference<List<ConflictYaml>> CONFLICT_LIST = new TypeReference<>() {};
   private static final Set<String> ENTRY_FIELDS =
       Set.of("id", "type", "source", "parent", "employer", "title", "start", "end", "quote");
 
@@ -80,6 +84,48 @@ public class YamlKnowledgeBasePersistenceAdapter implements KnowledgeBasePort {
     }
   }
 
+  @Override
+  public List<Conflict> loadConflicts() {
+    var conflictsFile = knowledgeDir.resolve("conflicts.yaml");
+    if (!Files.exists(conflictsFile)) {
+      return List.of();
+    }
+    try {
+      return yamlMapper.readValue(conflictsFile.toFile(), CONFLICT_LIST).stream()
+          .map(YamlKnowledgeBasePersistenceAdapter::toConflict)
+          .toList();
+    } catch (JacksonException e) {
+      throw invalid("Cannot read the Conflicts in " + conflictsFile, e);
+    }
+  }
+
+  private static Conflict toConflict(ConflictYaml yaml) {
+    var incomplete =
+        isBlank(yaml.getId())
+            || isBlank(yaml.getTopic())
+            || yaml.getTerms().isEmpty()
+            || isBlank(yaml.getRule())
+            || yaml.getSides().stream().anyMatch(side -> isBlank(side.getText()));
+    if (incomplete) {
+      throw InvalidKnowledgeException.ofConflict(
+          Objects.requireNonNullElse(yaml.getId(), "(no id)"),
+          KnowledgeProblem.INVALID_SCHEMA,
+          "a Conflict needs id, topic, terms, rule and sides with text");
+    }
+    return new Conflict(
+        yaml.getId(),
+        yaml.getTopic(),
+        yaml.getTerms(),
+        yaml.getSides().stream()
+            .map(
+                side ->
+                    new Conflict.ConflictSide(
+                        side.getText(), side.getEntryIds().stream().map(EntryId::of).toList()))
+            .toList(),
+        yaml.getNote(),
+        yaml.getRule());
+  }
+
   private Snapshot toSnapshot(SourceYaml source) {
     var id = Objects.requireNonNullElse(source.getId(), "(no id)");
     if (isBlank(source.getId())
@@ -93,11 +139,25 @@ public class YamlKnowledgeBasePersistenceAdapter implements KnowledgeBasePort {
           KnowledgeProblem.INVALID_SCHEMA,
           "a Source record needs id, kind, snapshot, collected, copied and redactions");
     }
-    var file = knowledgeDir.resolve(source.getSnapshot());
+    var path = knowledgeDir.resolve(source.getSnapshot());
     try {
-      return new Snapshot(id, knowledgeDir.relativize(file).toString(), Files.readString(file));
+      return new Snapshot(id, knowledgeDir.relativize(path).toString(), snapshotTexts(path));
     } catch (IOException e) {
-      throw invalid("Cannot read the Snapshot of Source " + id + " at " + file, e);
+      throw invalid("Cannot read the Snapshot of Source " + id + " at " + path, e);
+    }
+  }
+
+  /** A file's text, or for a folder (a repository Snapshot) each file's text in path order. */
+  private static List<String> snapshotTexts(Path path) throws IOException {
+    if (!Files.isDirectory(path)) {
+      return List.of(Files.readString(path));
+    }
+    try (var files = Files.walk(path)) {
+      var texts = new ArrayList<String>();
+      for (var file : files.filter(Files::isRegularFile).sorted().toList()) {
+        texts.add(Files.readString(file));
+      }
+      return texts;
     }
   }
 

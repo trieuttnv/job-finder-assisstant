@@ -3,6 +3,7 @@ package io.github.trieunv.assistant.adapter.out.lucene;
 import io.github.trieunv.assistant.application.exception.AssistantApplicationException;
 import io.github.trieunv.assistant.application.exception.ErrorCode;
 import io.github.trieunv.assistant.application.port.out.RetrieverPort;
+import io.github.trieunv.assistant.domain.knowledge.Conflict;
 import io.github.trieunv.assistant.domain.knowledge.Entry;
 import io.github.trieunv.assistant.domain.knowledge.EntryId;
 import io.github.trieunv.assistant.domain.knowledge.QuestionScope;
@@ -59,11 +60,13 @@ public class LuceneRetrieverAdapter implements RetrieverPort {
   private final List<Entry> entries;
   private final Map<EntryId, Entry> entriesById;
   private final RetrievalVocabulary vocabulary;
+  private final List<Conflict> conflicts;
   private final int topK;
   private final Analyzer analyzer = new EnglishAnalyzer();
   private final IndexSearcher searcher;
 
-  public LuceneRetrieverAdapter(List<Entry> entries, RetrievalVocabulary vocabulary, int topK) {
+  public LuceneRetrieverAdapter(
+      List<Entry> entries, RetrievalVocabulary vocabulary, List<Conflict> conflicts, int topK) {
     this.entries = List.copyOf(entries);
     this.entriesById =
         this.entries.stream()
@@ -71,6 +74,7 @@ public class LuceneRetrieverAdapter implements RetrieverPort {
                 Collectors.toMap(
                     Entry::id, Function.identity(), (first, second) -> first, LinkedHashMap::new));
     this.vocabulary = vocabulary;
+    this.conflicts = List.copyOf(conflicts);
     this.topK = topK;
     this.searcher = new IndexSearcher(index(this.entries));
   }
@@ -87,7 +91,7 @@ public class LuceneRetrieverAdapter implements RetrieverPort {
         var ordinal = storedFields.document(hit.doc).getField(ORDINAL).numericValue().intValue();
         matched.add(RetrievedEntry.matched(entries.get(ordinal), hit.score));
       }
-      return withRoles(matched);
+      return withCompanions(matched);
     } catch (ParseException e) {
       // An escaped question only fails to parse when nothing searchable is left (all stop words).
       return List.of();
@@ -139,17 +143,29 @@ public class LuceneRetrieverAdapter implements RetrieverPort {
     return Optional.of(anyEmployer.build());
   }
 
-  /** Matches in rank order, each bullet followed by its role unless the role is already there. */
-  private List<RetrievedEntry> withRoles(List<RetrievedEntry> matched) {
-    var matchedIds = matched.stream().map(hit -> hit.entry().id()).collect(Collectors.toSet());
-    var expandedIds = new HashSet<EntryId>();
+  /**
+   * Matches in rank order, each followed by what it must travel with and wasn't matched itself: a
+   * bullet's role, and the other side of any Conflict it belongs to (never one side alone).
+   */
+  private List<RetrievedEntry> withCompanions(List<RetrievedEntry> matched) {
+    var included =
+        matched.stream()
+            .map(hit -> hit.entry().id())
+            .collect(Collectors.toCollection(HashSet::new));
     var result = new ArrayList<RetrievedEntry>();
     for (var hit : matched) {
       result.add(hit);
-      Optional.ofNullable(hit.entry().parent())
+      var companions =
+          Stream.concat(
+              Optional.ofNullable(hit.entry().parent()).stream(),
+              conflicts.stream()
+                  .filter(conflict -> conflict.involves(hit.entry().id()))
+                  .flatMap(conflict -> conflict.entryIds().stream()));
+      companions
           .map(entriesById::get)
-          .filter(role -> !matchedIds.contains(role.id()) && expandedIds.add(role.id()))
-          .ifPresent(role -> result.add(RetrievedEntry.expandedFrom(role, hit)));
+          .filter(Objects::nonNull)
+          .filter(companion -> included.add(companion.id()))
+          .forEach(companion -> result.add(RetrievedEntry.expandedFrom(companion, hit)));
     }
     return result;
   }

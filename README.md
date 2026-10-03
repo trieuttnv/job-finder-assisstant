@@ -200,7 +200,7 @@ Options:
 {
   "mode": "answered",                // answered | not_in_sources | unverified | unavailable
   "claims": [{ "text": "My CV lists Java and Spring Boot …", "citations": [1] }],
-  "conflicts": [{ "id": "languages", "text": "My sources differ: …", "citations": [1, 2] }],
+  "conflicts": [{ "id": "languages", "sides": [{ "text": "the CV lists Java and Spring Boot", "citations": [1] }, { "text": "my 2026 learning prototypes are written in Go", "citations": [2, 3, 4] }], "note": "The CV does not mention Go." }],
   "sources": [{ "n": 1, "entryId": "cv.skills.languages", "source": "cv", "quote": "Languages & Frameworks: …" }],
   "removedClaims": 0,
   "traceId": "…"
@@ -318,7 +318,7 @@ Each question carries a **Gold Label**: the Entry ids it should cite, term group
   question: "What languages do you write code in?"
   expect: answer                # answer | fallback
   gold:
-    entryIds: [cv.skills.languages, gh.learn-outbox.readme]
+    entryIds: [cv.skills.languages, gh-learn.outbox.go-module]
     mustContain: [["Java"], ["Go", "Golang"]]
     mustNotClaim: ["(?i)(expert|years of|professional).{0,30}\\bGo\\b"]
   rewordOf: null
@@ -404,12 +404,13 @@ The build is a **CLI**: `./ask "question"` answers once; `./ask` alone opens an 
 $ ./ask "What languages do you write code in?"
 
 My CV lists Java and Spring Boot as my languages and frameworks [1].
-⚠ My sources differ: the CV lists Java and Spring Boot [1]; my 2026 learning
-  prototypes are written in Go [2]. The CV does not mention Go.
+⚠ My sources differ: the CV lists Java and Spring Boot [1]; my 2026 learning prototypes are written in Go [2][3][4]. The CV does not mention Go.
 
 Sources
- [1] cv.skills.languages      CV · Technical Skills   "Languages & Frameworks: Java · Spring Boot · …"
- [2] gh.learn-outbox.readme   learning repo · README  "… Go 1.23 only if building or testing outside Docker"
+ [1] cv.skills.languages            cv        "Languages & Frameworks: Java · Spring Boot · Distributed Systems · …"
+ [2] gh-learn.kafka.go-module       gh-learn  "module learn-kafka go 1.23"
+ [3] gh-learn.outbox.go-module      gh-learn  "module learn-outbox go 1.23"
+ [4] gh-learn.kafka.report-status   gh-learn  "**Generated At:** `2026-09-02T06:56:03Z` …"
 ```
 
 Each claim ends with a numbered citation. Each source shows its Entry id, its Source and the exact Quote, so the Interviewer can check a claim without opening a file. When the Output Guardrail removed claims, one line says so:

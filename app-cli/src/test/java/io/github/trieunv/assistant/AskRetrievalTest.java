@@ -66,7 +66,8 @@ class AskRetrievalTest {
   void shouldRetrieveEntriesOfANamedType_whenNoneOfTheQuestionsOtherWordsMatch() {
     var ids = entriesSentToTheModel(AskFixture.CONFIG, "Tell me about your skills");
 
-    assertThat(ids).containsExactly("fixture.skills.languages");
+    // The Go prototype comes too: it is the other side of the languages Conflict.
+    assertThat(ids).containsExactly("fixture.skills.languages", "proto.outbox.go");
   }
 
   @Test

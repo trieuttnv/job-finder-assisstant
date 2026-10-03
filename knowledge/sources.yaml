@@ -9,3 +9,11 @@
   copied: "All text of all 3 pages, extracted once with Apache PDFBox 3.0.8 (PDFTextStripper, sorted by position) and committed unedited apart from the redaction: line breaks and justified spacing are as extracted."
   redactions:
     - "The email address in the contact line is replaced by [redacted-email]. Nothing else is redacted."
+- id: gh-learn
+  kind: git
+  snapshot: sources/gh-learn
+  collected: 2026-10-04
+  commit: 05dbf07fdae244834c8dce67e66d8fb1edaf4bb4
+  original: "The Subject's learning repository: two Go prototypes, learn-kafka and learn-outbox, at the commit above (2026-09-18)."
+  copied: "For each prototype, the README, IMPLEMENTATION_PLAN.md, the measured report (reconciliation_report.md, outbox_report_200ms.md) and go.mod, copied unedited from the commit with git show. Code, agent instructions and other files are not copied."
+  redactions: []

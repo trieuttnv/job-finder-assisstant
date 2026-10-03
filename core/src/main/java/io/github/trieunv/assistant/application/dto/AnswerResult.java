@@ -18,6 +18,9 @@ public class AnswerResult {
 
   private final AnswerMode mode;
   private final List<AnsweredClaim> claims;
+
+  /** Conflict notices, numbered after the claims' citations; empty for a fallback. */
+  private final List<ConflictNotice> conflicts;
   private final List<SourceReference> sources;
   private final int removedClaims;
   private final TraceId traceId;

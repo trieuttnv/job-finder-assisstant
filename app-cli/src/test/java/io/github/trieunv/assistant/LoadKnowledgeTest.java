@@ -84,6 +84,17 @@ class LoadKnowledgeTest {
         quote: "Infrastructure & Cloud: AWS · SRE Practices (SLO/SLI, Incident Management) · from high-level design"
       """;
 
+  private static final String REPO_SOURCE =
+      """
+      - id: repo
+        kind: git
+        snapshot: sources/repo
+        collected: 2026-10-04
+        commit: abc1234
+        copied: Synthetic test repository
+        redactions: []
+      """;
+
   @TempDir Path knowledgeDir;
   @TempDir Path stateDir;
 
@@ -298,6 +309,63 @@ class LoadKnowledgeTest {
     assertThat(problem.target()).isEqualTo("cv");
     assertThat(problem.problem()).isEqualTo(KnowledgeProblem.UNREDACTED_EMAIL);
     assertThat(problem.getMessage()).startsWith("Source cv: ").doesNotContain("someone@");
+  }
+
+  @Test
+  void shouldMatchAQuoteInAnyFile_whenTheSnapshotIsAFolder() {
+    write("sources/repo/a/README.md", "# A\n\nWritten in Go 1.23.\n");
+    write("sources/repo/b/go.mod", "module b\n\ngo 1.23\n");
+    var withRepo = SOURCES + REPO_SOURCE;
+
+    var goModule =
+        "- id: repo.b.go\n  type: project\n  source: repo\n  quote: \"module b go 1.23\"\n";
+
+    var loaded = loadWithoutRecording(ENTRIES + goModule, withRepo);
+
+    assertThat(loaded.getEntries()).extracting(entry -> entry.id().value()).contains("repo.b.go");
+  }
+
+  @Test
+  void shouldFailNamingTheEntry_whenItsQuoteRunsAcrossTwoFilesOfAFolderSnapshot() {
+    write("sources/repo/a/README.md", "# A\n\nWritten in Go 1.23.\n");
+    write("sources/repo/b/go.mod", "module b\n\ngo 1.23\n");
+    var acrossFiles =
+        "- id: repo.a.across\n  type: project\n  source: repo\n"
+            + "  quote: \"Written in Go 1.23. module b\"\n";
+
+    var problem =
+        catchThrowableOfType(
+            InvalidKnowledgeException.class,
+            () -> loadWithoutRecording(ENTRIES + acrossFiles, SOURCES + REPO_SOURCE));
+
+    assertThat(problem.target()).isEqualTo("repo.a.across");
+    assertThat(problem.problem()).isEqualTo(KnowledgeProblem.QUOTE_NOT_IN_SNAPSHOT);
+  }
+
+  @Test
+  void shouldFailNamingTheConflict_whenASideCitesAnEntryThatDoesNotExist() {
+    write(
+        "conflicts.yaml",
+        """
+        - id: languages
+          topic: Programming languages
+          terms: [Go, Java]
+          sides:
+            - text: the CV lists Java
+              entryIds: [cv.skills.infrastructure]
+            - text: the prototypes are in Go
+              entryIds: [cv.skills.golang]
+          rule: Show both sides.
+        """);
+
+    var problem =
+        catchThrowableOfType(
+            InvalidKnowledgeException.class, () -> loadWithoutRecording(ENTRIES, SOURCES));
+
+    assertThat(problem.getMessage())
+        .startsWith("Conflict languages: ")
+        .contains("cv.skills.golang");
+    assertThat(problem.problem()).isEqualTo(KnowledgeProblem.UNRESOLVED_CONFLICT_SIDE);
   }
 
   @Test

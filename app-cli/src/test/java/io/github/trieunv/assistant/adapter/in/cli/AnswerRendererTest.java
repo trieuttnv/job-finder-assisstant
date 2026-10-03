@@ -55,6 +55,6 @@ class AnswerRendererTest {
   private static AnswerResult answer(
       int removedClaims, List<AnsweredClaim> claims, List<SourceReference> sources) {
     return new AnswerResult(
-        AnswerMode.ANSWERED, claims, sources, removedClaims, new TraceId("trace-1"));
+        AnswerMode.ANSWERED, claims, List.of(), sources, removedClaims, new TraceId("trace-1"));
   }
 }

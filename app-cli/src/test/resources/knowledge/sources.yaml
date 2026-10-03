@@ -5,3 +5,10 @@
   collected: 2026-10-04
   copied: Synthetic, hand-written for tests
   redactions: []
+- id: proto
+  kind: git
+  snapshot: sources/proto
+  collected: 2026-10-04
+  commit: 0000000
+  copied: Synthetic, hand-written for tests
+  redactions: []

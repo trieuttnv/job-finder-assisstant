@@ -8,6 +8,7 @@ import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
+import io.github.trieunv.assistant.domain.answer.ConflictNotices;
 import io.github.trieunv.assistant.domain.answer.OutputGuardrail;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import java.nio.file.Path;
@@ -45,13 +46,17 @@ final class AskFixture {
             .load();
     return new AskQuestionService(
         new LuceneRetrieverAdapter(
-            knowledge.getEntries(), knowledge.getVocabulary(), config.getRetrievalTopK()),
+            knowledge.getEntries(),
+            knowledge.getVocabulary(),
+            knowledge.getConflicts(),
+            config.getRetrievalTopK()),
         model,
         new JsonlTraceSinkAdapter(traceDir),
         PROMPT,
         config,
         Clock.systemUTC(),
         new OutputGuardrail(
-            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()));
+            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()),
+        new ConflictNotices(knowledge.getConflicts(), knowledge.getEntries()));
   }
 }

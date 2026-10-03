@@ -1,0 +1,5 @@
+# Synthetic test fixture: a learning-prototype Source for the Conflict tests.
+- id: proto.outbox.go
+  type: project
+  source: proto
+  quote: "module learn-outbox go 1.23"

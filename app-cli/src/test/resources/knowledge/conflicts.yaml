@@ -1,0 +1,11 @@
+# Synthetic test fixture: the Conflict between the CV's languages and the Go prototype.
+- id: languages
+  topic: Programming languages
+  terms: [language, languages, Go, Golang, Java]
+  sides:
+    - text: the CV lists Java and Spring Boot
+      entryIds: [fixture.skills.languages]
+    - text: my 2026 learning prototypes are written in Go
+      entryIds: [proto.outbox.go]
+  note: The CV does not mention Go.
+  rule: Show both sides, each cited; never merge them.

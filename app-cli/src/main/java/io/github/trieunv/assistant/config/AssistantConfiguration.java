@@ -12,6 +12,7 @@ import io.github.trieunv.assistant.application.port.in.LoadKnowledgeUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
+import io.github.trieunv.assistant.domain.answer.ConflictNotices;
 import io.github.trieunv.assistant.domain.answer.OutputGuardrail;
 import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class AssistantConfiguration {
         new LuceneRetrieverAdapter(
             knowledge.getEntries(),
             knowledge.getVocabulary(),
+            knowledge.getConflicts(),
             properties.getRetrieval().getTopK()),
         model,
         new JsonlTraceSinkAdapter(properties.getTraceDir()),
@@ -52,7 +54,8 @@ public class AssistantConfiguration {
         config,
         Clock.systemUTC(),
         new OutputGuardrail(
-            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()));
+            knowledge.getEntries(), knowledge.getKnownNames(), config.getGuardMaxDropRatio()),
+        new ConflictNotices(knowledge.getConflicts(), knowledge.getEntries()));
   }
 
   @Bean

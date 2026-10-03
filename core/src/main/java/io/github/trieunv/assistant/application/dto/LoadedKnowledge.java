@@ -1,5 +1,6 @@
 package io.github.trieunv.assistant.application.dto;
 
+import io.github.trieunv.assistant.domain.knowledge.Conflict;
 import io.github.trieunv.assistant.domain.knowledge.Entry;
 import io.github.trieunv.assistant.domain.knowledge.IdChanges;
 import io.github.trieunv.assistant.domain.knowledge.KnownNames;
@@ -24,6 +25,8 @@ public class LoadedKnowledge {
 
   /** Employer, technology and type names a question can be narrowed by. */
   private final RetrievalVocabulary vocabulary;
+
+  private final List<Conflict> conflicts;
 
   /** Entry id to {@link Entry#fingerprint()}, recorded once startup succeeds. */
   private final Map<String, String> fingerprints;

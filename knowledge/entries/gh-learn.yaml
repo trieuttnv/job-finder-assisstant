@@ -1,0 +1,114 @@
+# Entries of Source `gh-learn` (knowledge/sources/gh-learn/). Drafted by Claude Code (Opus 5.5) from
+# the Snapshot on 2026-10-04; every Entry is reviewed by the Subject.
+# Both prototypes are learning projects from 2026, written in Go: one Entry per stated design
+# point, measured result or language fact. Quotes are word for word from the copied files.
+
+# learn-kafka: Kafka order-event fanout
+
+- id: gh-learn.kafka.title
+  type: project
+  source: gh-learn
+  quote: "Kafka Order Event Fanout Prototype"
+- id: gh-learn.kafka.summary
+  type: project
+  source: gh-learn
+  quote: "A runnable local demonstration of Kafka fanout: one `OrderStatusChanged` topic feeds four independent consumer groups with deliberately different latency, batching, ordering, and failure characteristics."
+- id: gh-learn.kafka.go-module
+  type: project
+  source: gh-learn
+  quote: "module learn-kafka go 1.23"
+- id: gh-learn.kafka.go-build
+  type: project
+  source: gh-learn
+  quote: "No local Kafka, Postgres, or Go installation is required to run the containers. Go is only needed to build the binary outside Docker."
+- id: gh-learn.kafka.isolation
+  type: project
+  source: gh-learn
+  quote: "All four consumers read the same 20-partition `order-status-changed.v1` topic but use separate consumer groups. A slow or stopped group builds only its own lag; it does not move the committed offsets of another group."
+- id: gh-learn.kafka.ordering
+  type: project
+  source: gh-learn
+  quote: "Kafka preserves record order inside a partition, not across the whole topic. The producer keys every event by `customer_id`, so all of a customer's events map to one partition."
+- id: gh-learn.kafka.partitions
+  type: project
+  source: gh-learn
+  quote: "Twenty partitions are deliberate: fraud can process roughly 5 events/sec per partition because of its 200 ms call, giving about 100 events/sec total."
+- id: gh-learn.kafka.idempotency
+  type: project
+  source: gh-learn
+  quote: "replayed records are harmless because Postgres enforces `UNIQUE (order_id, status)` and the insert uses `ON CONFLICT DO NOTHING`."
+- id: gh-learn.kafka.unsafe-demo
+  type: project
+  source: gh-learn
+  quote: "`make unsafe-demo` is intentionally unsafe: it commits the offset before writing to Postgres and then crashes."
+- id: gh-learn.kafka.report-status
+  type: project
+  source: gh-learn
+  quote: "**Generated At:** `2026-09-02T06:56:03Z` **Reconciliation Duration:** `301ms` **Overall Reconciliation Status:** ✅ **ALL BUSINESS INVARIANTS SATISFIED**"
+- id: gh-learn.kafka.report-volume
+  type: project
+  source: gh-learn
+  quote: "**Total Events Produced:** `61086` - **Unique Orders:** `12218` - **Unique Customers:** `200`"
+- id: gh-learn.kafka.report-throughput
+  type: project
+  source: gh-learn
+  quote: "**Average Production Throughput:** `407.4 events/sec`"
+- id: gh-learn.kafka.report-latency
+  type: project
+  source: gh-learn
+  quote: "**Dispatch Latency:** Min: `10ms` | Mean: `20.4ms` | p50: `17.0ms` | p95: `42.0ms` | Max: `125ms`"
+- id: gh-learn.kafka.report-ledger
+  type: project
+  source: gh-learn
+  quote: "**Ledger Integrity:** Missing: `0` | Duplicates: `0` → **✅ PASS**"
+
+# learn-outbox: transactional outbox
+
+- id: gh-learn.outbox.title
+  type: project
+  source: gh-learn
+  quote: "Transactional Outbox Prototype (`learn-outbox`)"
+- id: gh-learn.outbox.summary
+  type: project
+  source: gh-learn
+  quote: "A service must atomically commit an order to Postgres **and** guarantee an `OrderCreated` event reaches Kafka, with no distributed transaction between the two systems. This is a rig that makes the three irreducible tensions measurable:"
+- id: gh-learn.outbox.go-module
+  type: project
+  source: gh-learn
+  quote: "module learn-outbox go 1.23"
+- id: gh-learn.outbox.go-build
+  type: project
+  source: gh-learn
+  quote: "Go 1.23 only if building or testing outside Docker"
+- id: gh-learn.outbox.claim-modes
+  type: project
+  source: gh-learn
+  quote: "`skip-locked` is the recommended default; `lease` when broker latency is high."
+- id: gh-learn.outbox.idempotency
+  type: project
+  source: gh-learn
+  quote: "Outbox makes the database write atomic; it does not make delivery exactly-once."
+- id: gh-learn.outbox.cdc
+  type: project
+  source: gh-learn
+  quote: "**CDC comparison** — reading the WAL removes the poll query but not the duplicates, and trades query tuning for replication-slot management."
+- id: gh-learn.outbox.partial-index
+  type: project
+  source: gh-learn
+  quote: "**Partial index `(id) WHERE published_at IS NULL`** is the crux: its size is O(backlog), not O(table)."
+- id: gh-learn.outbox.cursor-hazard
+  type: project
+  source: gh-learn
+  quote: "A relay must therefore never track a high-water-mark cursor (`WHERE id > last_seen`) — that silently skips events."
+- id: gh-learn.outbox.report-lost
+  type: project
+  source: gh-learn
+  quote: "**Generated At:** `2026-09-12T09:36:16Z` **Lost events:** `0` → ✅ PASS"
+- id: gh-learn.outbox.report-slo
+  type: project
+  source: gh-learn
+  quote: "SLO: p99 commit-to-publish latency `< 2s`."
+- id: gh-learn.outbox.report-latency
+  type: project
+  source: gh-learn
+  quote: "| Overall | `0.189s` | `0.281s` | `0.294s` | `0.302s` | ✅ PASS |"

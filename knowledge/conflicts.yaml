@@ -1,0 +1,15 @@
+# Recorded Conflicts between Sources (README Task 1, Step 6). Code appends each notice to an answer,
+# from these fields with both sides cited, whenever the question names a term or a surviving claim
+# cites a side. It never replaces a fallback.
+- id: languages
+  topic: Programming languages
+  terms: [language, languages, Go, Golang, Java]
+  sides:
+    - text: the CV lists Java and Spring Boot
+      entryIds: [cv.skills.languages]
+    - text: my 2026 learning prototypes are written in Go
+      entryIds: [gh-learn.kafka.go-module, gh-learn.outbox.go-module, gh-learn.kafka.report-status]
+  note: The CV does not mention Go.
+  rule: >-
+    Show both sides, each cited (career languages from the CV; Go learning prototypes, dated 2026
+    by their reports). Never merge them into "experienced in Go", and never drop either side.

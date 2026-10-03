@@ -1,5 +1,6 @@
 package io.github.trieunv.assistant.application.port.out;
 
+import io.github.trieunv.assistant.domain.knowledge.Conflict;
 import io.github.trieunv.assistant.domain.knowledge.EntryDraft;
 import io.github.trieunv.assistant.domain.knowledge.NameList;
 import io.github.trieunv.assistant.domain.knowledge.Snapshot;
@@ -14,4 +15,7 @@ public interface KnowledgeBasePort {
 
   /** The committed technology names and aliases ({@code names.yaml}). */
   NameList loadNameList();
+
+  /** The recorded Conflicts ({@code conflicts.yaml}); empty when the file doesn't exist. */
+  List<Conflict> loadConflicts();
 }
