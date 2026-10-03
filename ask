@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # ./ask "<question>" answers one question from the knowledge base, with its Sources.
+# ./ask alone opens an interactive session that suggests five questions.
 set -euo pipefail
 cd "$(dirname "$0")"
 

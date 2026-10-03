@@ -1,40 +1,36 @@
 package io.github.trieunv.assistant.adapter.in.cli;
 
-import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
-import io.github.trieunv.assistant.domain.answer.AnswerMode;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
-import lombok.RequiredArgsConstructor;
+import java.nio.charset.StandardCharsets;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-/** {@code ./ask "<question>"}: answers one question and prints it with its Sources. */
+/**
+ * {@code ./ask "<question>"} answers one question and prints it with its Sources; {@code ./ask}
+ * alone opens an {@link InteractiveSession}.
+ */
 @Component
-@RequiredArgsConstructor
 public class AskCommandAdapter implements CommandLineRunner {
 
-  private final AskQuestionUseCase askQuestion;
-  private final AnswerRenderer renderer = new AnswerRenderer();
+  private final CliAnswers answers;
   private final PrintStream out = System.out;
+
+  public AskCommandAdapter(AskQuestionUseCase askQuestion) {
+    this.answers = new CliAnswers(askQuestion, new AnswerRenderer());
+  }
 
   @Override
   public void run(String... args) {
     var question = String.join(" ", args).strip();
     if (question.isEmpty()) {
-      out.println("Usage: ./ask \"<question>\"");
+      var in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+      new InteractiveSession(answers).run(in, out);
       return;
     }
-    String rendered;
-    try {
-      rendered =
-          renderer.render(
-              askQuestion.ask(AskQuestionCommand.builder().question(question).build()));
-    } catch (RuntimeException e) {
-      // The use case already turns failures into fallbacks; this is the last line before a stack
-      // trace would reach the Interviewer.
-      rendered = AnswerMode.ERROR.fallbackMessage().orElseThrow() + "\n";
-    }
     out.println();
-    out.print(rendered);
+    out.print(answers.answer(question));
   }
 }
