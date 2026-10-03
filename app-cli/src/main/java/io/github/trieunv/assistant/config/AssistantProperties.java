@@ -31,6 +31,10 @@ public class AssistantProperties {
     @NotBlank private String provider;
     @NotBlank private String id;
     private String apiKey;
+
+    /** Blank means Anthropic's default endpoint. */
+    private String baseUrl;
+
     @NotNull private Duration timeout;
     @Positive private int maxOutputTokens;
   }

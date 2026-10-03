@@ -38,7 +38,11 @@ public class AssistantConfiguration {
           "MODEL_PROVIDER=" + model.getProvider() + " is not supported; use anthropic");
     }
     return new AnthropicModelAdapter(
-        model.getApiKey(), model.getId(), model.getTimeout(), model.getMaxOutputTokens());
+        model.getApiKey(),
+        model.getBaseUrl(),
+        model.getId(),
+        model.getTimeout(),
+        model.getMaxOutputTokens());
   }
 
   private static SystemPrompt systemPrompt(AssistantProperties.Prompt prompt) {

@@ -33,22 +33,26 @@ public class AnthropicModelAdapter implements ModelPort {
   private final BeanOutputConverter<ModelAnswerJson> converter =
       new BeanOutputConverter<>(ModelAnswerJson.class);
 
+  /**
+   * @param baseUrl the Messages API endpoint; blank means Anthropic's default. Set only to point at
+   *     a local mock in tests.
+   */
   public AnthropicModelAdapter(
-      String apiKey, String modelId, Duration timeout, int maxOutputTokens) {
+      String apiKey, String baseUrl, String modelId, Duration timeout, int maxOutputTokens) {
     this.modelId = modelId;
-    this.chatModel =
-        AnthropicChatModel.builder()
-            .options(
-                AnthropicChatOptions.builder()
-                    .apiKey(apiKey)
-                    .model(modelId)
-                    .temperature(0.0)
-                    .maxTokens(maxOutputTokens)
-                    .timeout(timeout)
-                    .maxRetries(0)
-                    .outputSchema(converter.getJsonSchema())
-                    .build())
-            .build();
+    var options =
+        AnthropicChatOptions.builder()
+            .apiKey(apiKey)
+            .model(modelId)
+            .temperature(0.0)
+            .maxTokens(maxOutputTokens)
+            .timeout(timeout)
+            .maxRetries(0)
+            .outputSchema(converter.getJsonSchema());
+    if (Objects.nonNull(baseUrl) && !baseUrl.isBlank()) {
+      options.baseUrl(baseUrl);
+    }
+    this.chatModel = AnthropicChatModel.builder().options(options.build()).build();
   }
 
   @Override
