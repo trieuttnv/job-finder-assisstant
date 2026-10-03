@@ -44,7 +44,8 @@ final class AskFixture {
                 new JsonKnowledgeStateAdapter(stateDir))
             .load();
     return new AskQuestionService(
-        new LuceneRetrieverAdapter(knowledge.getEntries(), config.getRetrievalTopK()),
+        new LuceneRetrieverAdapter(
+            knowledge.getEntries(), knowledge.getVocabulary(), config.getRetrievalTopK()),
         model,
         new JsonlTraceSinkAdapter(traceDir),
         PROMPT,

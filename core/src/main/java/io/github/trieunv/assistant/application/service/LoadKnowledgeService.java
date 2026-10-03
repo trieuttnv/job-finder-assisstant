@@ -8,6 +8,7 @@ import io.github.trieunv.assistant.domain.knowledge.Entry;
 import io.github.trieunv.assistant.domain.knowledge.IdChanges;
 import io.github.trieunv.assistant.domain.knowledge.KnowledgeCheck;
 import io.github.trieunv.assistant.domain.knowledge.KnownNames;
+import io.github.trieunv.assistant.domain.knowledge.RetrievalVocabulary;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,12 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
                     (first, second) -> first,
                     LinkedHashMap::new));
     var changes = IdChanges.between(state.previousFingerprints(), fingerprints);
+    var nameList = knowledgeBase.loadNameList();
     return LoadedKnowledge.builder()
         .entries(entries)
         .changes(changes)
-        .knownNames(KnownNames.from(entries, knowledgeBase.loadNameList()))
+        .knownNames(KnownNames.from(entries, nameList))
+        .vocabulary(RetrievalVocabulary.from(entries, nameList))
         .fingerprints(fingerprints)
         .build();
   }

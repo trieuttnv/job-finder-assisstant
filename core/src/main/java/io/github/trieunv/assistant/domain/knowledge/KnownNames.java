@@ -6,18 +6,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * The employer, product and technology names the Output Guardrail checks claims for, built at
  * startup from every Entry's employer field and the committed {@link NameList}, never hand-coded.
  */
 public final class KnownNames {
-
-  private static final Pattern EMPLOYER_SEPARATOR = Pattern.compile("\\s*,\\s*");
 
   /** Each known name with the pattern that finds it in a claim. */
   private final Map<String, Pattern> namePatterns;
@@ -32,22 +28,9 @@ public final class KnownNames {
 
   public static KnownNames from(Collection<Entry> entries, NameList nameList) {
     var names = new LinkedHashSet<String>(nameList.technologies());
-    entries.stream()
-        .map(Entry::employer)
-        .filter(Objects::nonNull)
-        .flatMap(employer -> Stream.of(EMPLOYER_SEPARATOR.split(employer.strip())))
-        .forEach(names::add);
-    nameList.aliases().keySet().forEach(names::add);
-    var aliases = new LinkedHashMap<Pattern, String>();
-    nameList
-        .aliases()
-        .forEach(
-            (canonical, spellings) ->
-                spellings.forEach(
-                    spelling ->
-                        aliases.put(
-                            WholeWords.pattern(spelling, Pattern.CASE_INSENSITIVE), canonical)));
-    return new KnownNames(names, aliases);
+    entries.stream().flatMap(Entry::employerNames).forEach(names::add);
+    names.addAll(nameList.aliases().keySet());
+    return new KnownNames(names, nameList.aliasPatterns());
   }
 
   /** {@code text} with every known alias replaced by its canonical name. */

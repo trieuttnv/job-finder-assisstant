@@ -30,3 +30,16 @@
   parent: fixture.role.alipay
   source: fixture
   quote: "Integrated 100+ banks into the payment network"
+- id: fixture.role.alipay.b2
+  type: bullet
+  parent: fixture.role.alipay
+  source: fixture
+  quote: "Built the payment gateway integration for Lazada"
+- id: fixture.skills.languages
+  type: skill-group
+  source: fixture
+  quote: "Languages & Frameworks: Java · Spring Boot"
+- id: fixture.summary.teams
+  type: summary
+  source: fixture
+  quote: "Built engineering teams at Tamara and Alipay"

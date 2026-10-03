@@ -42,7 +42,10 @@ public class AssistantConfiguration {
       AssistantProperties properties, ModelPort model, LoadedKnowledge knowledge) {
     var config = askConfig(properties);
     return new AskQuestionService(
-        new LuceneRetrieverAdapter(knowledge.getEntries(), properties.getRetrieval().getTopK()),
+        new LuceneRetrieverAdapter(
+            knowledge.getEntries(),
+            knowledge.getVocabulary(),
+            properties.getRetrieval().getTopK()),
         model,
         new JsonlTraceSinkAdapter(properties.getTraceDir()),
         systemPrompt(properties.getPrompt()),

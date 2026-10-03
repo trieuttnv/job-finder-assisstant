@@ -84,7 +84,9 @@ public class AskQuestionService implements AskQuestionUseCase {
         .retrievalLatencyMs(millisBetween(startedAt, retrievedAt));
 
     // Input Guardrail: nothing relevant enough, so nothing reaches the model or gets invented.
-    if (retrieved.stream().noneMatch(hit -> hit.score() > config.getRetrievalMinScore())) {
+    if (retrieved.stream()
+        .filter(hit -> !hit.expanded())
+        .noneMatch(hit -> hit.score() > config.getRetrievalMinScore())) {
       return fallback(AnswerMode.NOT_IN_SOURCES, traceId);
     }
 
@@ -198,7 +200,11 @@ public class AskQuestionService implements AskQuestionUseCase {
   }
 
   private static RetrievedTrace retrievedTrace(RetrievedEntry hit) {
-    return RetrievedTrace.builder().entryId(hit.entry().id().value()).score(hit.score()).build();
+    return RetrievedTrace.builder()
+        .entryId(hit.entry().id().value())
+        .score(hit.score())
+        .expanded(hit.expanded())
+        .build();
   }
 
   private static ClaimTrace claimTrace(Claim claim, String dropReason) {

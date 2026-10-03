@@ -43,6 +43,9 @@ public class AskTrace {
 
     private final String entryId;
     private final double score;
+
+    /** Came with a matched Entry (a bullet's role) rather than matching itself. */
+    private final boolean expanded;
   }
 
   @Builder

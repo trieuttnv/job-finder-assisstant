@@ -3,6 +3,8 @@ package io.github.trieunv.assistant.domain.knowledge;
 import io.github.trieunv.assistant.domain.Hashing;
 import io.github.trieunv.assistant.domain.exception.AssistantDomainException;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +24,9 @@ public record Entry(
     String end,
     String quote) {
 
+  private static final Pattern EMPLOYER_PARTS = Pattern.compile("\\s*,\\s*");
+  private static final Pattern ACRONYM = Pattern.compile("\\p{Lu}{2,}");
+
   public Entry {
     if (Objects.isNull(id) || Objects.isNull(type) || Objects.isNull(source)) {
       throw new AssistantDomainException("Entry " + id + " needs an id, a type and a Source");
@@ -29,6 +34,22 @@ public record Entry(
     if (Objects.isNull(quote) || quote.isBlank()) {
       throw new AssistantDomainException("Entry " + id + " has no Quote");
     }
+  }
+
+  /**
+   * The names this Entry's employer field gives: each comma-separated part, and an acronym that
+   * leads a part ("VNG" of "VNG Corporation"). Empty when no employer is set.
+   */
+  public Stream<String> employerNames() {
+    return Optional.ofNullable(employer).stream()
+        .flatMap(field -> EMPLOYER_PARTS.splitAsStream(field.strip()))
+        .flatMap(
+            part -> {
+              var first = part.split("\\s+")[0];
+              return ACRONYM.matcher(first).matches() && !first.equals(part)
+                  ? Stream.of(part, first)
+                  : Stream.of(part);
+            });
   }
 
   /** SHA-256 over every field, so the id report can tell a changed Entry from an unchanged one. */

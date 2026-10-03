@@ -1,6 +1,6 @@
 # BM25 and typed filters, not embeddings
 
-Retrieval is Lucene BM25 over Entries, with a filter when the question names a known employer or Entry type, plus expansion to each hit's role header and to the other side of any Conflict. We rejected embeddings and hybrid search because the corpus is small and the questions turn on exact names, dates and technologies (where dense retrieval is weakest). BM25 is deterministic and explainable, and needs no embedding model. Recall@k per question category is measured; if paraphrase misses show up there, hybrid search is the first upgrade.
+Retrieval is Lucene BM25 over Entries, with a filter when the question names a known employer and a boost when it names a known technology or Entry type (a type filter would hide the Entries that answer "What skills did you use at Alipay?"), plus expansion to each hit's role header and to the other side of any Conflict. We rejected embeddings and hybrid search because the corpus is small and the questions turn on exact names, dates and technologies (where dense retrieval is weakest). BM25 is deterministic and explainable, and needs no embedding model. Recall@k per question category is measured; if paraphrase misses show up there, hybrid search is the first upgrade.
 
 ## Considered Options
 

@@ -4,3 +4,6 @@ Tamara · Engineering Manager Oct 2022 – Sep 2026
 • Grew the engineering team from 1 to 13 engineers
 Alipay · Senior Engineer Sep 2017 – Sep 2022
 • Integrated 100+ banks into the payment network
+• Built the payment gateway integration for Lazada
+Languages & Frameworks: Java · Spring Boot
+Built engineering teams at Tamara and Alipay
