@@ -32,7 +32,9 @@ class AnthropicModelAdapterTest {
   private static final JsonMapper JSON = JsonMapper.builder().build();
   private static final AnswerPrompt PROMPT =
       new AnswerPrompt(
-          new SystemPrompt("answer-test", "Answer from Entries."), "<question>Q</question>");
+          new SystemPrompt("answer-test", "Answer from Entries."),
+          "<question>Q</question>",
+          List.of());
 
   private final AtomicReference<String> requestBody = new AtomicReference<>();
   private final AtomicInteger requests = new AtomicInteger();

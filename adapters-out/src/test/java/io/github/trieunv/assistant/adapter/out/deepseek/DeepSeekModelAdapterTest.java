@@ -34,7 +34,9 @@ class DeepSeekModelAdapterTest {
   private static final JsonMapper JSON = JsonMapper.builder().build();
   private static final AnswerPrompt PROMPT =
       new AnswerPrompt(
-          new SystemPrompt("answer-test", "Reply with JSON only."), "<question>Q</question>");
+          new SystemPrompt("answer-test", "Reply with JSON only."),
+          "<question>Q</question>",
+          List.of());
   private static final String CLAIMS =
       "{\"claims\":[{\"text\":\"I built two card products.\","
           + "\"entryIds\":[\"cv.role.tamara.b1\"]}],\"notInSources\":false}";

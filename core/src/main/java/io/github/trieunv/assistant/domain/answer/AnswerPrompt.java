@@ -9,8 +9,14 @@ import java.util.stream.Stream;
 /**
  * The one prompt sent to the model for a question: the versioned system prompt, and a user message
  * that carries the question and the retrieved Entries as delimited data, never as instructions.
+ * {@code entries} are the same Entries as values, for a ModelPort that needs no model (the no-LLM
+ * baseline).
  */
-public record AnswerPrompt(SystemPrompt systemPrompt, String userMessage) {
+public record AnswerPrompt(SystemPrompt systemPrompt, String userMessage, List<Entry> entries) {
+
+  public AnswerPrompt {
+    entries = List.copyOf(entries);
+  }
 
   public static AnswerPrompt of(SystemPrompt systemPrompt, String question, List<Entry> entries) {
     var entryLines = entries.stream().map(AnswerPrompt::describe).collect(Collectors.joining("\n"));
@@ -25,7 +31,7 @@ public record AnswerPrompt(SystemPrompt systemPrompt, String userMessage) {
         </entries>
         """
             .formatted(question, entryLines);
-    return new AnswerPrompt(systemPrompt, userMessage);
+    return new AnswerPrompt(systemPrompt, userMessage, entries);
   }
 
   /**

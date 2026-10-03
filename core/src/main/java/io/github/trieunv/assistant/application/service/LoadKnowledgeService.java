@@ -26,8 +26,8 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
 
   @Override
   public LoadedKnowledge load() {
-    var entries =
-        KnowledgeCheck.check(knowledgeBase.loadSnapshots(), knowledgeBase.loadEntryDrafts());
+    var snapshots = knowledgeBase.loadSnapshots();
+    var entries = KnowledgeCheck.check(snapshots, knowledgeBase.loadEntryDrafts());
     var fingerprints =
         entries.stream()
             .collect(
@@ -47,6 +47,7 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
         .vocabulary(RetrievalVocabulary.from(entries, nameList))
         .conflicts(conflicts)
         .fingerprints(fingerprints)
+        .quoteProvenance(KnowledgeCheck.quoteProvenance(snapshots, entries))
         .build();
   }
 

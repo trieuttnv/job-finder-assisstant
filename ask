@@ -15,7 +15,7 @@ if [[ -f .env ]]; then
 fi
 
 jar=app-cli/target/assistant-cli.jar
-if [[ ! -f "$jar" ]] || [[ -n "$(find pom.xml core adapters-out app-cli -newer "$jar" -type f \
+if [[ ! -f "$jar" ]] || [[ -n "$(find pom.xml core adapters-out wiring app-cli -newer "$jar" -type f \
     \( -name '*.java' -o -name '*.xml' -o -name '*.yml' \) -not -path '*/target/*' -print -quit)" ]]; then
   echo "Building..." >&2
   ./mvnw -q -DskipTests -pl app-cli -am package >&2

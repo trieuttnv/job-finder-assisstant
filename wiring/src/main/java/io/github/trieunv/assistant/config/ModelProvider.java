@@ -11,7 +11,9 @@ import java.util.Optional;
  */
 public enum ModelProvider {
   ANTHROPIC("claude-sonnet-5-5", "claude-"),
-  DEEPSEEK("deepseek-flash", "deepseek-");
+  DEEPSEEK("deepseek-flash", "deepseek-"),
+  /** No model: the retrieved Quotes are the answer (the no-LLM baseline, ADR 0003). */
+  BASELINE("none", "none");
 
   /** List prices this build knows; any other model records no cost unless MODEL_PRICE_* is set. */
   private static final Map<String, TokenPrice> LIST_PRICES =

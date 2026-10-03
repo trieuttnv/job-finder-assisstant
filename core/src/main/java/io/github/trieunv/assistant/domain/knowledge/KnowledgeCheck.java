@@ -62,6 +62,28 @@ public final class KnowledgeCheck {
     return List.copyOf(entries.values());
   }
 
+  /**
+   * Entries whose Quote is word for word in their Snapshot, over all Entries: the evaluation's
+   * Quote provenance metric, counted rather than assumed even though {@link #check} already
+   * refuses any miss.
+   */
+  public static double quoteProvenance(List<Snapshot> snapshots, List<Entry> entries) {
+    if (entries.isEmpty()) {
+      return 1.0;
+    }
+    var bySource = new HashMap<String, Snapshot>();
+    snapshots.forEach(snapshot -> bySource.putIfAbsent(snapshot.sourceId(), snapshot));
+    var found =
+        entries.stream()
+            .filter(
+                entry ->
+                    Optional.ofNullable(bySource.get(entry.source()))
+                        .map(snapshot -> quoteIsIn(entry, snapshot))
+                        .orElse(false))
+            .count();
+    return (double) found / entries.size();
+  }
+
   /** Every Conflict has two or more sides, each citing Entries that exist. */
   public static void checkConflicts(List<Conflict> conflicts, List<Entry> entries) {
     var ids = entries.stream().map(Entry::id).collect(Collectors.toSet());
@@ -163,10 +185,14 @@ public final class KnowledgeCheck {
     }
   }
 
-  private static void requireQuoteInSnapshot(Entry entry, Snapshot snapshot) {
+  private static boolean quoteIsIn(Entry entry, Snapshot snapshot) {
     var quoteKey = QuoteText.key(entry.quote());
-    if (snapshot.texts().stream()
-        .noneMatch(text -> QuoteText.containsWords(QuoteText.key(text), quoteKey))) {
+    return snapshot.texts().stream()
+        .anyMatch(text -> QuoteText.containsWords(QuoteText.key(text), quoteKey));
+  }
+
+  private static void requireQuoteInSnapshot(Entry entry, Snapshot snapshot) {
+    if (!quoteIsIn(entry, snapshot)) {
       throw problem(
           entry,
           KnowledgeProblem.QUOTE_NOT_IN_SNAPSHOT,

@@ -1,6 +1,7 @@
 package io.github.trieunv.assistant.config;
 
 import io.github.trieunv.assistant.adapter.out.anthropic.AnthropicModelAdapter;
+import io.github.trieunv.assistant.adapter.out.baseline.QuoteBaselineModelAdapter;
 import io.github.trieunv.assistant.adapter.out.deepseek.DeepSeekModelAdapter;
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
 import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
@@ -73,6 +74,7 @@ public class AssistantConfiguration {
               model.resolvedId(),
               model.getTimeout(),
               model.getMaxOutputTokens());
+      case BASELINE -> new QuoteBaselineModelAdapter();
       case DEEPSEEK ->
           new DeepSeekModelAdapter(
               model.getDeepseek().getApiKey(),

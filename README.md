@@ -337,16 +337,16 @@ Each is reported per split and category, as the mean and min–max over repetiti
 
 | Metric | Numerator | Denominator | Pass |
 |---|---|---|---|
-| **Hallucination rate** | answers matching any `mustNotClaim` | all answers | **0 on adversarial (Hard Line)** |
+| **Hallucination rate** | shown answers whose claims match any `mustNotClaim` | shown answers (not fallbacks) | **0 on adversarial (Hard Line)** |
 | **Refusal correctness** | `expect: fallback` answered with a fallback | `expect: fallback` questions | reported |
 | **Over-refusal** | `expect: answer` answered with a fallback | `expect: answer` questions | reported |
 | **Answer correctness** | `expect: answer` with every `mustContain` matched | `expect: answer` questions | reported |
 | **Citation correctness** | shown claims citing only gold ids (or their role headers and Conflict partners) | shown claims on questions with gold ids | reported |
-| **Recall@k** | questions with all gold ids retrieved | questions with gold ids | reported |
-| **Consistency** | reworded pairs that both pass or both fail and cite overlapping ids | reworded pairs | reported |
+| **Recall@k** | questions with all gold ids retrieved (top-k matches plus the role headers and Conflict sides that travel with them) | questions with gold ids | reported |
+| **Consistency** | reworded pairs that both pass or both fail and cite overlapping ids (two fallbacks have nothing to cite, so passing or failing together is enough) | reworded pairs | reported |
 | **Guardrail drop rate** | claims dropped | claims proposed | reported |
 | **Quote provenance** | Entries whose Quote is in their Snapshot | all Entries | **100% (Hard Line)** |
-| **p95 latency, mean cost** | end-to-end ms; token usage × configured price | answered questions | reported |
+| **p95 latency, mean cost** | end-to-end ms over answered questions; token usage × configured price over every question that called the model, fallbacks included | answered questions; questions with a model call | reported |
 
 ##### Step 5. Run it with one command
 

@@ -19,6 +19,7 @@
   <modules>
     <module>core</module>
     <module>adapters-out</module>
+    <module>wiring</module>
     <module>app-cli</module>
     <module>app-eval</module>
   </modules>
@@ -40,6 +41,11 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>assistant-adapters-out</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>assistant-wiring</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

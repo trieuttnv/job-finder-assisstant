@@ -9,8 +9,9 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 /**
- * The Ports and Adapters dependency rules across every module. It lives here because app-cli is the
- * only module with core, adapters-out and a driving adapter all on its classpath.
+ * The Ports and Adapters dependency rules across core, adapters-out, wiring and the CLI's driving
+ * adapter, which are all on app-cli's classpath. app-eval's driving adapter follows the same rules
+ * by review, not by this test.
  */
 @AnalyzeClasses(
     packages = "io.github.trieunv.assistant",
