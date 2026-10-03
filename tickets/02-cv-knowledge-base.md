@@ -7,7 +7,7 @@
 **Status:** ready-for-human (the Subject reviews the drafted Entries)
 
 - [x] CV Snapshot committed with the email replaced by `[redacted-email]`, and its provenance record
-- [ ] `cv` Entry file reviewed by the Subject; ids are readable (for example `cv.role.tamara.b1`)
+- [x] `cv` Entry file reviewed by the Subject; ids are readable (for example `cv.role.tamara.b1`)
 - [x] Startup fails with Entry id and reason on: invalid schema, duplicate id, unresolved `parent`, a Quote not found word for word in its Snapshot, a typed field (employer, title, start, end) not in its Quote
 - [x] Startup reports ids added, changed and removed against the previous run
 - [x] Ingest tests with fixture Snapshots cover each failure and the id report
@@ -24,3 +24,5 @@
 - Also checked at startup: no email address left in any Snapshot.
 - The id report prints to stderr only when something changed, against `STATE_DIR/knowledge-ids.json` (git-ignored). A failed load saves nothing.
 - `./ask "When did you work at Atlassian?"`: retrieval ranks `cv.role.atlassian` first and the cited answer renders, checked against a local mock of the Anthropic API. **Not yet checked with a real key**: the key in `.env` was rejected with 401.
+
+**2026-10-04, the Subject.** Reviewed `knowledge/entries/cv.yaml`: all 55 Entries accepted as drafted, with no changes.
