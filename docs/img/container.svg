@@ -15,8 +15,9 @@
 <g id="edges">
 <path d="M380,156 L380,240" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M540,156 L540,240" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
-<path d="M690,156 L690,243" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
-<path d="M610,268 L570,268" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M950,234 L950,262" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M950,318 L950,346" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M850,374 L700,374 L700,268 L570,268" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M460,296 L460,326" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M460,382 L460,412" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M460,468 L460,498" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
@@ -27,7 +28,6 @@
 <path d="M595,552 L850,552" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M350,250 L255,250 L255,196 L220,196" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
 <path d="M350,276 L220,276" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
-<path d="M770,268 L860,268" fill="none" stroke="#888" stroke-width="1.6" stroke-dasharray="2 4" marker-end="url(#ag)"/>
 </g>
 <g id="nodes">
 <rect x="285" y="100" width="140" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
@@ -35,13 +35,16 @@
 <rect x="445" y="100" width="140" height="56" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="515.0" y="124.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Eval runner</text>
 <text x="515.0" y="141.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">./eval.sh</text>
-<rect x="605" y="100" width="180" height="56" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
-<text x="695.0" y="124.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">HTTP API</text>
-<text x="695.0" y="141.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">POST /api/v1/asks</text>
+<rect x="875" y="190" width="150" height="44" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="950.0" y="216.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">HTTP clients</text>
+<rect x="840" y="262" width="220" height="56" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="950.0" y="286.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">API Gateway</text>
+<text x="950.0" y="303.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">authentication · rate limit</text>
+<rect x="850" y="346" width="200" height="56" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
+<text x="950.0" y="370.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">HTTP API</text>
+<text x="950.0" y="387.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">POST /api/v1/asks</text>
 <rect x="350" y="240" width="220" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="460.0" y="272.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ask use case</text>
-<rect x="610" y="243" width="160" height="50" rx="8" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
-<text x="690.0" y="272.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Rate limiter</text>
 <rect x="350" y="326" width="220" height="56" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="460.0" y="350.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Retriever</text>
 <text x="460.0" y="367.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Lucene BM25</text>
@@ -59,7 +62,7 @@
 <text x="130.0" y="209.4" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">model_provider</text>
 <rect x="40" y="250" width="180" height="52" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="130.0" y="272.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Traces</text>
-<text x="130.0" y="289.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">JSONL · OTel</text>
+<text x="130.0" y="289.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">JSONL · Opik</text>
 <path d="M14,320 a104.0,10 0 0 1 208,0 v70 a104.0,10 0 0 1 -208,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
 <path d="M14,320 a104.0,10 0 0 0 208,0" fill="none" stroke="#666" stroke-width="1"/>
 <text x="118.0" y="355.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">knowledge/</text>
@@ -68,9 +71,6 @@
 <text x="940.0" y="499.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Anthropic</text>
 <rect x="850" y="535" width="180" height="50" rx="8" fill="#7EA6E0" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="940.0" y="564.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">DeepSeek</text>
-<path d="M860,240 a80.0,10 0 0 1 160,0 v56 a80.0,10 0 0 1 -160,0 z" fill="#FFFFFF" stroke="#666" stroke-width="1.2" stroke-dasharray="5 5"/>
-<path d="M860,240 a80.0,10 0 0 0 160,0" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="5 5"/>
-<text x="940.0" y="276.9" font-size="14" fill="#555" text-anchor="middle" font-weight="bold">Redis</text>
 </g>
 <g id="labels">
 <rect x="805" y="70" width="278" height="96" rx="10" fill="#FFFFFF" stroke="#999"/>

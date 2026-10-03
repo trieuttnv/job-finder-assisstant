@@ -2,6 +2,7 @@
 sequenceDiagram
   autonumber
   actor I as Interviewer
+  participant W as API Gateway
   participant C as CLI / API
   participant U as Ask use case
   participant R as Retriever
@@ -9,9 +10,10 @@ sequenceDiagram
   participant M as ModelPort
   participant P as Provider
   participant T as TraceSink
-  I->>C: question
+  I->>W: question (production) · CLI calls the use case directly
+  Note over I,W: production only: 401 if unauthenticated, 429 if over the rate limit
+  W->>C: authenticated request
   C->>U: ask(question)
-  Note over C,U: production only: rate limit (429 if over)
   U->>R: retrieve(question)
   R-->>U: Entries + role headers + Conflict sides
   U->>G: Input Guardrail(scores)

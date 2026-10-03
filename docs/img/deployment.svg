@@ -19,17 +19,16 @@
 <path d="M130,238 L130,275" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M130,337 L130,470" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M205,510 L300,510 L300,445 L440,445" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
-<path d="M400,303 L490,303" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
-<path d="M400,405 L490,405" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M420,303 L490,303" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M420,405 L490,405" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M470,520 L470,460" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M650,520 L650,430" fill="none" stroke="#D7592F" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
-<path d="M690,303 L790,303 M690,405 L790,405 M790,264 L790,828" fill="none" stroke="#111" stroke-width="1.6"/>
+<path d="M690,303 L790,303 M690,405 L790,405 M790,303 L790,828" fill="none" stroke="#111" stroke-width="1.6"/>
 <circle cx="790" cy="303" r="3.5" fill="#111"/>
 <circle cx="790" cy="405" r="3.5" fill="#111"/>
 <text x="740.0" y="296.0" font-size="11" fill="#555" text-anchor="middle" font-weight="bold">CA</text>
 <text x="740.0" y="398.0" font-size="11" fill="#555" text-anchor="middle" font-weight="bold">ST</text>
-<path d="M790,264 L900,264" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
-<path d="M790,367 L900,367" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M790,358 L900,358" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M790,828 L900,828" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M790,763 L900,763" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
 <path d="M790,693 L900,693" fill="none" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
@@ -43,8 +42,10 @@
 <path d="M55,480 a75.0,10 0 0 1 150,0 v60 a75.0,10 0 0 1 -150,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
 <path d="M55,480 a75.0,10 0 0 0 150,0" fill="none" stroke="#666" stroke-width="1"/>
 <text x="130.0" y="518.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Registry</text>
-<rect x="290" y="262" width="110" height="148" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
-<text x="345.0" y="340.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Ingress</text>
+<rect x="280" y="262" width="140" height="148" rx="8" fill="#DCEDC8" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="350.0" y="324.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">API Gateway</text>
+<text x="350.0" y="340.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">authentication ·</text>
+<text x="350.0" y="356.6" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">rate limit</text>
 <rect x="490" y="272" width="200" height="62" rx="8" fill="#FFC233" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="590.0" y="299.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">canary vN+1</text>
 <text x="590.0" y="316.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">5% → 25% → 100%</text>
@@ -54,12 +55,9 @@
 <text x="600.0" y="546.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">AnalysisRun</text>
 <text x="600.0" y="562.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">eval Job + Prometheus:</text>
 <text x="600.0" y="578.5" font-size="13" fill="#111" text-anchor="middle" font-weight="bold">5xx · p95 · guardrail drop rate</text>
-<path d="M900,232 a80.0,10 0 0 1 160,0 v64 a80.0,10 0 0 1 -160,0 z" fill="#DEDEDE" stroke="#666" stroke-width="1" filter="url(#sh)"/>
-<path d="M900,232 a80.0,10 0 0 0 160,0" fill="none" stroke="#666" stroke-width="1"/>
-<text x="980.0" y="264.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Redis</text>
-<text x="980.0" y="281.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">rate limits</text>
-<rect x="900" y="342" width="160" height="50" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
-<text x="980.0" y="371.9" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">OTel collector</text>
+<rect x="900" y="330" width="160" height="56" rx="8" fill="#F19C99" stroke="#333" stroke-width="1" filter="url(#sh)"/>
+<text x="980.0" y="354.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Opik</text>
+<text x="980.0" y="371.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">traces</text>
 <rect x="900" y="665" width="160" height="56" rx="8" fill="#CB94D7" stroke="#333" stroke-width="1" filter="url(#sh)"/>
 <text x="980.0" y="689.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">Statsig</text>
 <text x="980.0" y="706.4" font-size="14" fill="#111" text-anchor="middle" font-weight="bold">model_provider</text>

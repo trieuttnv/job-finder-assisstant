@@ -13,22 +13,20 @@ flowchart LR
   CI -->|image| REG[("Registry")]:::store
   subgraph K8S["Kubernetes cluster"]
     direction TB
-    ING["Ingress"]:::ui
+    GW["API Gateway<br/>authentication · rate limit"]:::ui
     subgraph RO["Argo Rollout: ask-service"]
       direction LR
       ST["stable vN"]:::step
       CA["canary vN+1<br/>5% → 25% → 100%"]:::step
     end
     AN["AnalysisRun<br/>eval Job + Prometheus:<br/>5xx · p95 · guardrail drop rate"]:::check
-    RD[("Redis<br/>rate limits")]:::store
-    OT["OTel collector"]:::obs
+    OP["Opik<br/>traces"]:::obs
   end
   REG --> RO
-  ING --> ST
-  ING --> CA
+  GW --> ST
+  GW --> CA
   AN -->|promote or abort| RO
-  ST & CA --> RD
-  ST & CA --> OT
+  ST & CA --> OP
   ST & CA -->|getExperiment| SG["Statsig<br/>model_provider"]:::ext
   ST & CA --> ANT["Anthropic"]:::llm
   ST & CA --> DS["DeepSeek"]:::llm

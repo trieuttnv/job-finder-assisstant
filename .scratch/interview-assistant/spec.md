@@ -113,7 +113,7 @@ A command-line assistant that answers questions about the Subject only from a sm
 - **Model output contract.** JSON `{claims: [{text, entryIds[]}], notInSources}` via Spring AI structured output. Anything that doesn't parse, or is empty, is unusable.
 - **Output Guardrail** (ADR 0004). A claim is dropped if it cites no Entry or an Entry not retrieved; if it contains a number or date absent from its cited Entries; or if it names an employer, product or technology absent from its cited Entries (names from all Entries plus a committed technology list). Number words become digits, units and punctuation are stripped and known aliases match before comparing. The answer is withheld as unverified when no claim survives or the drop ratio exceeds the configured maximum (default 0.5). The not-in-sources flag becomes the fixed message.
 - **Conflict rendering.** Code appends the Conflict notice with both sides cited when a surviving claim cites either side or the question contains one of the Conflict's topic terms.
-- **Model adapters** (ADR 0005). Anthropic (`claude-sonnet-5-5`, default) and DeepSeek (`deepseek-flash`, JSON mode, model id set explicitly), chosen by environment. A per-call timeout from config; no retry on timeout. Retry, circuit breaker, rate limit and Statsig assignment are designed only and not built (ADR 0007).
+- **Model adapters** (ADR 0005). Anthropic (`claude-sonnet-5-5`, default) and DeepSeek (`deepseek-flash`, JSON mode, model id set explicitly), chosen by environment. A per-call timeout from config; no retry on timeout. The API Gateway (authentication, rate limit), retry, circuit breaker, Statsig assignment and Opik tracing are designed only and not built (ADR 0007).
 - **Fallback messages**, fixed and written by code: "That isn't in my sources.", "I couldn't put together a verified answer.", "The assistant can't answer right now. Please try again." A fallback prints no Sources block.
 - **Traces.** One JSON line per question in a dated local file, git-ignored, with the fields in story 47. Cost is token usage times the configured price per million tokens.
 - **Configuration.** Environment variables only, named in an example file: provider, model id, both API keys, timeout, max output tokens, input and output price, top-k, score floor, drop ratio, prompt version, knowledge and trace directories.
@@ -133,7 +133,7 @@ A command-line assistant that answers questions about the Subject only from a sm
 
 ## Out of Scope
 
-- The HTTP API, inbound rate limiting, retry, circuit breaker, Statsig experiment, OpenTelemetry export, Kubernetes and the Argo Rollouts canary: designed in the README, not built (ADR 0007, ADR 0008).
+- The HTTP API and the API Gateway in front of it (authentication, rate limiting), retry, circuit breaker, Statsig experiment, Opik tracing, Kubernetes and the Argo Rollouts canary: designed in the README, not built (ADR 0007, ADR 0008).
 - Conversation history, streaming and any web interface.
 - Embeddings or hybrid retrieval.
 - An injection pattern list or a model-based scope classifier.

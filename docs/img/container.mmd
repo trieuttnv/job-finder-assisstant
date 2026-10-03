@@ -10,11 +10,12 @@ flowchart TB
   classDef designed fill:#FFFFFF,stroke:#666,stroke-dasharray:5 5,color:#555
   %% Container view. Dashed nodes = designed for production, not built.
   CLI["CLI ./ask"]:::ui
+  CL["HTTP clients"]:::designed
+  GW["API Gateway<br/>authentication · rate limit"]:::designed
   API["HTTP API<br/>POST /api/v1/asks"]:::designed
   EVAL["Eval runner<br/>./eval.sh"]:::ui
   subgraph SVC["Ask service (Spring Boot, Ports and Adapters)"]
     direction TB
-    RL["Rate limiter"]:::designed
     UC["Ask use case"]:::step
     RET["Retriever<br/>Lucene BM25"]:::step
     IG["Input Guardrail"]:::check
@@ -24,12 +25,11 @@ flowchart TB
   end
   CLI --> UC
   EVAL --> UC
-  API --> RL --> UC
+  CL --> GW --> API --> UC
   UC --> RET --> IG --> MP --> OG --> CR
   KB[("knowledge/<br/>Snapshots · Entries · Conflicts")]:::store -->|ingest + Quote check| RET
   MP -->|HTTPS| ANT["Anthropic"]:::llm
   MP -->|HTTPS| DS["DeepSeek"]:::llm
   UC -.-> SG["Statsig<br/>model_provider"]:::designed
-  UC -.-> TR["Traces<br/>JSONL · OTel"]:::obs
-  RL -.-> RD[("Redis")]:::designed
+  UC -.-> TR["Traces<br/>JSONL · Opik"]:::obs
   style SVC fill:#FFF2CC,stroke:#333,stroke-dasharray:5 5

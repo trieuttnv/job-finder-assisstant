@@ -7,7 +7,7 @@
 | **Date** | 2026-10-03 |
 | **Brief** | docs/problem.txt, docs/requirement-summary.md |
 | **Decision records** | [docs/adr/](docs/adr/) |
-| **Revision** | 10 — production design complete (step 4) |
+| **Revision** | 12 — API Gateway for auth and rate limit; Opik for production traces |
 
 ## Summary
 
@@ -17,7 +17,7 @@ An assistant that answers interviewers' questions about Trieu Nguyen's professio
 
 Interviews open with the same questions: who are you, what have you solved, how do you work, what have you built. The brief asks for an assistant that answers them on the Subject's behalf from the Subject's own material. It has to hold one line above all: **never invent qualifications, employers, projects or achievements**, and every stated fact must trace back to a source.
 
-Five graded tasks: knowledge layer (25%), AI and back-end architecture (25%), evaluation (30%), user experience (10%), and decisions and AI use (10%). Each task's deliverables, constraints and grading signals are in the [exercise map](docs/requirement-summary.md).
+Five graded tasks: knowledge layer (25%), AI and back-end architecture (25%), evaluation (30%), user experience (10%), and decisions and AI use (10%). Each task's deliverables, constraints and grading signals are in the [requirement summary](docs/requirement-summary.md).
 
 The constraints that bind every task:
 
@@ -32,22 +32,29 @@ The constraints that bind every task:
 
 ### Goals
 
-Metrics are defined in [Testing and Validation](#testing-and-validation).
+Each goal is an outcome the system commits to, with the metric that proves it ([Evaluation](#evaluation)) and the brief task it serves. What the brief asks to be *written* (decision record, AI use, self-review) is in Appendix E.
 
-1. **No fabrication.** No shown claim about employers, roles, qualifications, projects or achievements lacks a source. *Hallucination rate, adversarial pass rate.*
-2. **Every shown claim is cited.** Citations resolve to a source and support the claim. *Citation correctness.*
-3. **Says so when it can't answer.** Unanswerable questions get a clear fallback. *Refusal correctness.*
-4. **A knowledge layer a reader can follow.** CV plus at least one more source, one real conflict handled by a stated rule, new sources added without redesign. *Conflict-question pass, documented add-a-source path.*
-5. **Predictable behaviour.** Every failure path is documented and tested. *Measured cost per question and p95 latency.*
-6. **An evaluation that is run.** ≥ 20 labelled questions in five categories, one command, results committed with ≥ 2 failures and an error analysis.
-7. **Sources and fallback visible in the UI.**
-8. **Runnable in under ten minutes.** Pinned dependencies, `.env.example`, one command path, named provider and cost per eval run.
-9. **Accountable decisions and AI use.** ADRs, a cut list, an AI-usage note and a self-review.
+**Functional**
+
+1. **No fabrication.** No shown claim names an employer, role, qualification, project or achievement its sources lack. *Hallucination rate; 0 on adversarial.* (T1–T3)
+2. **Every shown claim is cited.** Each citation resolves to an Entry that supports the claim. *Citation correctness.* (T2, T4)
+3. **Says so when it can't answer.** Unanswerable and out-of-scope questions get a clear fallback, and answerable ones don't. *Refusal correctness, over-refusal.* (T3, T4)
+4. **Conflicts are shown, never merged.** When sources disagree, both sides are shown and cited. *Conflict questions.* (T1)
+5. **Sources and fallback are visible** in every response. (T4)
+
+**Non-functional**
+
+6. **Verifiable.** The knowledge base is provably a copy of its Sources, and every quality claim comes from an evaluation anyone can rerun. *Quote provenance 100%; one eval command.* (T1, T3)
+7. **Predictable under failure.** Every failure path ends in a fixed message and has a test. (T2)
+8. **Measured cost and latency.** Cost per question and p95 are measured per provider, with one model call per question. (T2)
+9. **Extensible knowledge.** A new Source is added with data and review, not a redesign. (T1)
+10. **Secure and private.** No secret committed; only the question and retrieved Entries leave the machine; provider retention stated. (T2)
+11. **Runnable by a stranger** in under ten minutes from this README. (Submission)
 
 ### Non-Goals
 
 - **An integration for every source.** Not expected by the brief; extra sources are collected once and committed.
-- **Running the production design for this exercise.** The service, rate limiting, retry, circuit breaker, Statsig and the canary are designed here; the build runs the same core locally from a CLI.
+- **Running the production design for this exercise.** The service, API Gateway, retry, circuit breaker, Statsig and the canary are designed here; the build runs the same core locally from a CLI.
 - **A polished UI.** A basic interface that shows sources and the fallback is enough.
 - **Anything beyond the Subject's professional background.** It is refused or answered as "not in my sources".
 - **Production data or internal systems.** The exercise is self-contained.
@@ -66,9 +73,10 @@ This README is the production design. The exercise builds a subset of it, the sa
 | Retrieval, Input and Output Guardrails, Conflict rendering | ✅ | Same |
 | Model adapters: Anthropic, DeepSeek | ✅ chosen by env | Chosen per request by a Statsig experiment |
 | Model call timeout | ✅ | Same |
-| Retry, circuit breaker, rate limit | — | ✅ Resilience4j |
+| Authentication, rate limit | — | ✅ API Gateway |
+| Retry, circuit breaker | — | ✅ Resilience4j |
 | Interface | CLI (`./ask`) | HTTP API `POST /api/v1/asks`, with the CLI as a client |
-| Traces | JSONL file | OpenTelemetry to a collector |
+| Traces | JSONL file | Opik, self-hosted in the cluster |
 | Evaluation | ✅ `./eval.sh` | Same suite as the canary promotion check |
 | Deployment | Local | Kubernetes with an Argo Rollouts canary |
 
@@ -88,7 +96,7 @@ This README is the production design. The exercise builds a subset of it, the sa
 | Unanswerable question answered | Input Guardrail floor; `notInSources` | Refusal correctness | Eval |
 | Injected instruction obeyed | Question and Entries passed as data; Output Guardrail | Hallucination rate on adversarial (Hard Line) | Eval |
 | Provider slow or down | Timeout; retry and circuit breaker *(designed)* | `unavailable` rate | Stub-provider tests |
-| Cost runaway | One call, capped output; rate limit *(designed)* | Mean cost per question | Eval |
+| Cost runaway | One call, capped output; gateway rate limit *(designed)* | Mean cost per question | Eval |
 
 ### Detailed Design
 
@@ -98,7 +106,7 @@ This README is the production design. The exercise builds a subset of it, the sa
 
 *Source: [container.mmd](docs/img/container.mmd).*
 
-The Ask service is one Spring Boot application in Ports and Adapters style. The domain (knowledge, retrieval rules, guardrails, Conflicts, evaluation metrics) imports no framework. Adapters connect it to the model providers, the knowledge files, the trace sink and, in production, Statsig and the rate-limit store.
+The Ask service is one Spring Boot application in Ports and Adapters style. The domain (knowledge, retrieval rules, guardrails, Conflicts, evaluation metrics) imports no framework. Adapters connect it to the model providers, the knowledge files, the trace sink and, in production, Statsig. In production an **API Gateway** in front of the service authenticates every client and enforces the rate limit, so the service itself only ever sees authenticated, admitted requests.
 
 | Port | Adapter | Built |
 |---|---|---|
@@ -107,7 +115,7 @@ The Ask service is one Spring Boot application in Ports and Adapters style. The 
 | `Retriever` (out) | Lucene in memory | ✅ |
 | `ModelPort` (out) | Anthropic, DeepSeek (Spring AI), wrapped by timeout; retry and circuit breaker in production | ✅ (timeout only) |
 | `ProviderAssignment` (out) | Env var; Statsig experiment in production | env only |
-| `TraceSink` (out) | JSONL file; OpenTelemetry in production | JSONL |
+| `TraceSink` (out) | JSONL file; Opik in production | JSONL |
 
 The CLI, the HTTP API and the eval runner all call the same `Ask` use case, so the measured numbers come from the user's code path.
 
@@ -119,7 +127,7 @@ The CLI, the HTTP API and the eval runner all call the same `Ask` use case, so t
 
 | # | Step | Model? | What happens |
 |---|---|---|---|
-| 0 | Rate limit *(designed)* | no | Per client key: 10 requests/min, burst 5. Over the limit → `429` with `Retry-After` |
+| 0 | API Gateway *(designed)* | no | Authenticates the client (API key, or an OIDC JWT for internal callers): missing or invalid → `401`. Rate limit per client: 10 requests/min, burst 5; over → `429` with `Retry-After`. Passes the client id to the service |
 | 1 | Retrieve | no | BM25, filters, role and Conflict expansion (see Knowledge model) |
 | 2 | Input Guardrail | no | If no Entry scores above `RETRIEVAL_MIN_SCORE`: "That isn't in my sources." Stop |
 | 3 | Assign provider | no | Env var; in production the Statsig `model_provider` experiment |
@@ -146,7 +154,7 @@ The CLI, the HTTP API and the eval runner all call the same `Ask` use case, so t
 }
 ```
 
-Errors: `400` empty or over-long question, `429` rate limited, `503` with `mode: unavailable` when the provider is down or the circuit is open. A fallback is always a `200` with its `mode` set and no sources, because "I can't answer that" is a valid answer.
+Errors: `401` unauthenticated and `429` rate limited (both from the gateway), `400` empty or over-long question, `503` with `mode: unavailable` when the provider is down or the circuit is open. A fallback is always a `200` with its `mode` set and no sources, because "I can't answer that" is a valid answer.
 
 #### Knowledge model
 
@@ -223,7 +231,7 @@ The answer shows "N statements removed: not supported by my sources." If none su
 | Timeout | Around each model call | `MODEL_TIMEOUT_MS`, default 20 000; no retry after a timeout | ✅ |
 | Retry | Inside the circuit breaker, on `429` and `5xx` only | 1 retry, exponential backoff with jitter, honours `Retry-After` | designed |
 | Circuit breaker | Per provider, around `ModelPort` | Opens at 50% failures or slow calls over 20 calls; half-opens after 30 s; while open, answers fail fast as `unavailable` | designed |
-| Rate limit | Inbound, per client key | 10/min, burst 5, Redis-backed; `429` with `Retry-After` | designed |
+| Rate limit | API Gateway, per authenticated client | 10/min, burst 5, counters in the gateway's store; `429` with `Retry-After` | designed |
 
 Every failure ends in a fixed message from code, never a stack trace or an invented answer:
 
@@ -329,7 +337,9 @@ Versions checked against Maven Central and vendor docs on 2026-10-03.
 | ArchUnit | 1.5.1 | Domain has no framework imports |
 | Anthropic API | `claude-sonnet-5-5` | Default model, $2 / $10 per million input / output tokens |
 | DeepSeek API | `deepseek-flash` | Challenger model, $0.30 / $1.20 per million (cache miss, peak); set explicitly because Spring AI's default id is retired |
-| *Production only:* Resilience4j | 2.4.0 (`resilience4j-spring-boot4`) | Retry, circuit breaker, rate limiter |
+| *Production only:* Resilience4j | 2.4.0 (`resilience4j-spring-boot4`) | Retry, circuit breaker |
+| *Production only:* Opik | self-hosted, current release at build time | Traces per question, span per step |
+| *Production only:* API Gateway (e.g. Kong) | current release at build time | Authentication, per-client rate limit |
 | *Production only:* Statsig | `com.statsig:javacore` 0.23.1 | `model_provider` experiment, evaluated locally |
 | *Production only:* Argo Rollouts | 1.10.0 | Canary with Job and Prometheus analysis |
 
@@ -345,7 +355,8 @@ Versions checked against Maven Central and vendor docs on 2026-10-03.
 - **Prompt-only citations.** Rejected because nothing enforces them.
 - **An injection pattern list or a model-based scope classifier in the Input Guardrail.** Not built: injected output must still pass the Output Guardrail, and a model deciding a guardrail is the thing we avoid. The adversarial eval measures the gap.
 - **A deterministic extractive fallback (top Quotes verbatim).** Rejected for a fixed message: simpler, and it never presents unanswered material as an answer.
-- **Hosted tracing (Langfuse, Opik) for the build.** Rejected because the reviewer would need another account and the data would go to another third party. Production uses OpenTelemetry.
+- **Opik for the build.** Rejected for the build because the reviewer would need an Opik instance or account. Production uses Opik, self-hosted so traces stay in the cluster.
+- **Rate limiting inside the service.** Rejected for the API Gateway: authentication and rate limiting belong at the edge, in one place for every client, and keep the service free of a rate-limit store.
 - **A local model.** Rejected because of setup time and schema-following ([ADR 0005](docs/adr/0005-switchable-model-adapters-anthropic-and-deepseek.md)).
 - **An LLM judge.** Rejected for a code-only judge ([ADR 0006](docs/adr/0006-code-is-the-only-judge.md)).
 - **20 questions with no split.** Rejected because tuning on the reported set inflates it.
@@ -391,6 +402,10 @@ A new repository with no existing system to change. Two compatibility rules stil
 
 **Secrets.** API keys live only in `.env`, which is git-ignored; `.env.example` names each variable with no value. Keys never appear in traces, logs or results. If one is ever committed, it is rotated and the README says so.
 
+**Access** *(designed)*. Every production request is authenticated at the API Gateway (an API key per client, or an OIDC JWT for internal callers) before it reaches the service; the service trusts only the client id the gateway passes on.
+
+**Traces** *(designed)*. Production traces go to a self-hosted Opik inside the cluster, so questions and model output never reach a tracing vendor.
+
 **What leaves the machine.** For each answered question: the system prompt, the question and the retrieved Entries (CV and repository text, email already redacted). Nothing else: no files, no traces. Questions stopped by the Input Guardrail send nothing.
 
 **What a provider may keep.**
@@ -423,7 +438,7 @@ Every setting comes from the environment; `.env.example` names each one.
 | `PROMPT_VERSION` | `answer-v1` | Which file in `prompts/` is used |
 | `KNOWLEDGE_DIR`, `TRACE_DIR` | `knowledge`, `traces` | Where Entries are read and traces written |
 
-*Production only (designed):* `RATE_LIMIT_PER_MIN` (10), `RATE_LIMIT_BURST` (5), `RETRY_MAX_ATTEMPTS` (1), `CB_FAILURE_RATE_PCT` (50), `CB_WINDOW_CALLS` (20), `CB_OPEN_SECONDS` (30), `STATSIG_SERVER_SECRET`, `REDIS_URL`, `OTEL_EXPORTER_OTLP_ENDPOINT`.
+*Production only (designed):* `RETRY_MAX_ATTEMPTS` (1), `CB_FAILURE_RATE_PCT` (50), `CB_WINDOW_CALLS` (20), `CB_OPEN_SECONDS` (30), `STATSIG_SERVER_SECRET`, `OPIK_URL_OVERRIDE`, `OPIK_PROJECT_NAME`. Rate-limit and authentication settings live in the API Gateway's configuration, not the service.
 
 ## Rollout Strategy
 
@@ -492,7 +507,7 @@ The SDK evaluates assignments locally after it starts, so no request waits on St
 
 **Built.** Every question writes one trace line with everything needed to reproduce the answer (see Integration and Communication). The eval reads the same lines.
 
-**Production (designed).** OpenTelemetry spans per pipeline step and metrics to Prometheus:
+**Production (designed).** Traces go to **Opik**, self-hosted in the cluster: one trace per question with a span per pipeline step, the prompt version, model, tokens, cost and the guardrail decisions attached, so any answer can be opened and explained. Metrics go to Prometheus:
 
 | Signal | Alert when |
 |---|---|
@@ -521,7 +536,7 @@ Prompts and completions are kept in traces for 30 days and never in metrics or l
 
 **Before production.**
 
-1. Build the designed parts: the HTTP API, rate limit, retry, circuit breaker, Statsig assignment, OpenTelemetry.
+1. Build the designed parts: the HTTP API behind the API Gateway (authentication, rate limit), retry, circuit breaker, Statsig assignment, Opik tracing.
 2. Add a claim-level check for recombination (each claim's employer and dates must match its cited bullet's role), which closes the Output Guardrail's known gap.
 3. Move Gold Label review to two people and rotate the held-out set.
 4. Rebuild the index per knowledge version with blue-green switching when the corpus outgrows startup indexing.
@@ -535,7 +550,7 @@ Prompts and completions are kept in traces for 30 days and never in metrics or l
 
 ### A. Brief traceability
 
-Every deliverable in the [exercise map](docs/requirement-summary.md) and where it is answered.
+Every deliverable in the [requirement summary](docs/requirement-summary.md) and where it is answered.
 
 | Task | Deliverable | Section |
 |---|---|---|
