@@ -3,15 +3,14 @@ package io.github.trieunv.assistant.domain.knowledge;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * The ingest checks run at every startup (README Task 1, Step 5): no email left in a Snapshot, a
@@ -29,8 +28,13 @@ public final class KnowledgeCheck {
 
   public static List<Entry> check(List<Snapshot> snapshots, List<EntryDraft> drafts) {
     snapshots.forEach(KnowledgeCheck::requireRedacted);
-    var snapshotsBySource =
-        snapshots.stream().collect(Collectors.toMap(Snapshot::sourceId, Function.identity()));
+    var snapshotsBySource = new HashMap<String, Snapshot>();
+    for (var snapshot : snapshots) {
+      if (Objects.nonNull(snapshotsBySource.putIfAbsent(snapshot.sourceId(), snapshot))) {
+        throw InvalidKnowledgeException.ofSource(
+            snapshot.sourceId(), KnowledgeProblem.DUPLICATE_ID, "the id is declared more than once");
+      }
+    }
 
     var entries = new LinkedHashMap<EntryId, Entry>();
     for (var draft : drafts) {

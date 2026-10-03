@@ -13,7 +13,8 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Checks the Snapshots and Entries, then reports the id changes against the previous successful
- * run. A failed load saves nothing, so the next report still compares with the last good run.
+ * run. Only {@link #recordAsPreviousRun} saves, so a failed startup leaves the last good run as the
+ * comparison point.
  */
 @RequiredArgsConstructor
 public class LoadKnowledgeService implements LoadKnowledgeUseCase {
@@ -34,7 +35,15 @@ public class LoadKnowledgeService implements LoadKnowledgeUseCase {
                     (first, second) -> first,
                     LinkedHashMap::new));
     var changes = IdChanges.between(state.previousFingerprints(), fingerprints);
-    state.save(fingerprints);
-    return LoadedKnowledge.builder().entries(entries).changes(changes).build();
+    return LoadedKnowledge.builder()
+        .entries(entries)
+        .changes(changes)
+        .fingerprints(fingerprints)
+        .build();
+  }
+
+  @Override
+  public void recordAsPreviousRun(LoadedKnowledge loaded) {
+    state.save(loaded.getFingerprints());
   }
 }

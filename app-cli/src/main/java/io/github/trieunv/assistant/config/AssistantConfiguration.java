@@ -1,13 +1,14 @@
 package io.github.trieunv.assistant.config;
 
-import io.github.trieunv.assistant.adapter.in.cli.IdChangesRenderer;
 import io.github.trieunv.assistant.adapter.out.anthropic.AnthropicModelAdapter;
 import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
 import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
 import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
 import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AskConfig;
+import io.github.trieunv.assistant.application.dto.LoadedKnowledge;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
+import io.github.trieunv.assistant.application.port.in.LoadKnowledgeUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.service.AskQuestionService;
 import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
@@ -23,15 +24,21 @@ import org.springframework.context.annotation.Configuration;
 public class AssistantConfiguration {
 
   @Bean
-  AskQuestionUseCase askQuestionUseCase(AssistantProperties properties, ModelPort model) {
-    var knowledge =
-        new LoadKnowledgeService(
-                new YamlKnowledgeBasePersistenceAdapter(properties.getKnowledgeDir()),
-                new JsonKnowledgeStateAdapter(properties.getStateDir()))
-            .load();
-    if (!knowledge.getChanges().isEmpty()) {
-      System.err.print(new IdChangesRenderer().render(knowledge));
-    }
+  LoadKnowledgeUseCase loadKnowledgeUseCase(AssistantProperties properties) {
+    return new LoadKnowledgeService(
+        new YamlKnowledgeBasePersistenceAdapter(properties.getKnowledgeDir()),
+        new JsonKnowledgeStateAdapter(properties.getStateDir()));
+  }
+
+  /** Startup stops here, via {@link KnowledgeFailureAnalyzer}, if any ingest check fails. */
+  @Bean
+  LoadedKnowledge loadedKnowledge(LoadKnowledgeUseCase loadKnowledge) {
+    return loadKnowledge.load();
+  }
+
+  @Bean
+  AskQuestionUseCase askQuestionUseCase(
+      AssistantProperties properties, ModelPort model, LoadedKnowledge knowledge) {
     return new AskQuestionService(
         new LuceneRetrieverAdapter(knowledge.getEntries(), properties.getRetrieval().getTopK()),
         model,

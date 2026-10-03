@@ -310,18 +310,54 @@ class LoadKnowledgeTest {
     assertThat(changes.isEmpty()).isTrue();
   }
 
+  @Test
+  void shouldReportTheSameChangesAgain_whenStartupFailedAfterTheLoad() {
+    load(ENTRIES);
+    var edited = ENTRIES.replace("id: cv.role.tamara.b2", "id: cv.role.tamara.team");
+    loadWithoutRecording(edited, SOURCES);
+
+    var changes = load(edited).getChanges();
+
+    assertThat(changes.added()).containsExactly("cv.role.tamara.team");
+    assertThat(changes.removed()).containsExactly("cv.role.tamara.b2");
+  }
+
+  @Test
+  void shouldFailNamingTheSource_whenItsIdIsDeclaredTwice() {
+    var problem =
+        catchThrowableOfType(
+            InvalidKnowledgeException.class,
+            () -> loadWithoutRecording(ENTRIES, SOURCES + SOURCES));
+
+    assertThat(problem.target()).isEqualTo("cv");
+    assertThat(problem.problem()).isEqualTo(KnowledgeProblem.DUPLICATE_ID);
+    assertThat(problem.getMessage()).startsWith("Source cv: ");
+  }
+
+  /** A successful startup: load, then record this run as the previous one. */
   private LoadedKnowledge load(String entries) {
     return load(entries, SNAPSHOT);
   }
 
   private LoadedKnowledge load(String entries, String snapshot) {
-    write("sources.yaml", SOURCES);
+    var service = service(entries, snapshot, SOURCES);
+    var loaded = service.load();
+    service.recordAsPreviousRun(loaded);
+    return loaded;
+  }
+
+  /** Startup failed after the load (a missing prompt file, say), so nothing is recorded. */
+  private LoadedKnowledge loadWithoutRecording(String entries, String sources) {
+    return service(entries, SNAPSHOT, sources).load();
+  }
+
+  private LoadKnowledgeService service(String entries, String snapshot, String sources) {
+    write("sources.yaml", sources);
     write("sources/cv/cv.txt", snapshot);
     write("entries/cv.yaml", entries);
     return new LoadKnowledgeService(
-            new YamlKnowledgeBasePersistenceAdapter(knowledgeDir),
-            new JsonKnowledgeStateAdapter(stateDir))
-        .load();
+        new YamlKnowledgeBasePersistenceAdapter(knowledgeDir),
+        new JsonKnowledgeStateAdapter(stateDir));
   }
 
   private InvalidKnowledgeException loadFailure(String entries) {

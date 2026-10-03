@@ -19,7 +19,7 @@ Knowledge enters the system only through one offline pipeline of ten stages: **D
 | 9 | Review/Quarantine | A review queue (pending, approved, rejected) and a quarantine list with reasons | Publish is blocked while anything is pending |
 | 10 | Publish | `entries/*.yaml`, a release manifest (version, Snapshot ids, file hashes, previous version) and a git tag `knowledge-<version>`, written all at once or not at all | Fail with no partial write |
 
-**Rules that keep the "word for word" guarantee.** Raw Snapshot bytes and `text.txt` are never edited after they are written. Matching uses a throwaway key (NFKC plus whitespace collapsing) on both sides, and only the exact original substring is ever stored as a Quote. Structured Sources render each row as one fixed-format line, so their Quotes hold by construction.
+**Rules that keep the "word for word" guarantee.** Raw Snapshot bytes and `text.txt` are never edited after they are written. Matching uses a throwaway key (NFKC plus whitespace collapsing, with a line break after `-` or `/` joined so PDF-wrapped words such as `high-level` and `SLO/SLI` match) on both sides, and the match must start and end on word boundaries. Only the exact original substring is ever stored as a Quote. Structured Sources render each row as one fixed-format line, so their Quotes hold by construction.
 
 **Review.** The Subject reviews every model-drafted Entry on a Source's first ingest. After that, only added or changed Entries from the Diff are reviewed, plus any changed Entry a Gold Label cites. Mapper-produced Entries are approved by the mapper's tests.
 
