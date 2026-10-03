@@ -2,6 +2,8 @@ package io.github.trieunv.assistant.application.exception;
 
 public enum ErrorCode {
   MODEL_UNAVAILABLE,
+  MODEL_TIMEOUT,
+  MODEL_NOT_CONFIGURED,
   MODEL_OUTPUT_UNUSABLE,
   TRACE_WRITE_FAILED,
   RETRIEVAL_FAILED,

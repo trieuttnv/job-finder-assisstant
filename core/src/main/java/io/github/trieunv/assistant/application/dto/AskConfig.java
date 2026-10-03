@@ -17,5 +17,8 @@ public class AskConfig {
   private final long timeoutMs;
   private final int maxOutputTokens;
   private final int retrievalTopK;
+
+  /** The Input Guardrail floor: below it the model is not called. */
+  private final double retrievalMinScore;
   private final String promptVersion;
 }

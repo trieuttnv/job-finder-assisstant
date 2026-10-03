@@ -17,13 +17,16 @@ assistant:
   model:
     provider: ${MODEL_PROVIDER:anthropic}
     id: ${MODEL_ID:claude-sonnet-5-5}
-    # No default for the secret: it must come from the environment (.env).
-    api-key: ${ANTHROPIC_API_KEY}
+    # The secret only ever comes from the environment (.env). Unset, startup warns and every
+    # question gets the fixed unavailable message instead of failing to start.
+    api-key: ${ANTHROPIC_API_KEY:}
     base-url: ${ANTHROPIC_BASE_URL:}
     timeout: ${MODEL_TIMEOUT_MS:20000}ms
     max-output-tokens: ${MODEL_MAX_OUTPUT_TOKENS:800}
   retrieval:
     top-k: ${RETRIEVAL_TOP_K:6}
+    # Provisional until the dev split exists (ticket 09): just above unrelated questions' scores.
+    min-score: ${RETRIEVAL_MIN_SCORE:0.5}
   prompt:
     version: ${PROMPT_VERSION:answer-v1}
     dir: prompts

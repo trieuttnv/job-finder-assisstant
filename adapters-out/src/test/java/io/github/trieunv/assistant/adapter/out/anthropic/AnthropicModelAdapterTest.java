@@ -15,6 +15,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,11 @@ class AnthropicModelAdapterTest {
           new SystemPrompt("answer-test", "Answer from Entries."), "<question>Q</question>");
 
   private final AtomicReference<String> requestBody = new AtomicReference<>();
+  private final AtomicInteger requests = new AtomicInteger();
   private HttpServer server;
   private int status;
   private String responseBody;
+  private Duration delay = Duration.ZERO;
 
   @BeforeEach
   void startMockApi() throws IOException {
@@ -44,6 +47,8 @@ class AnthropicModelAdapterTest {
     server.createContext(
         "/v1/messages",
         exchange -> {
+          requests.incrementAndGet();
+          sleep(delay);
           requestBody.set(
               new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8));
           var body = responseBody.getBytes(StandardCharsets.UTF_8);
@@ -120,13 +125,60 @@ class AnthropicModelAdapterTest {
         .isEqualTo(ErrorCode.MODEL_UNAVAILABLE);
   }
 
+  @Test
+  void shouldFailAsTimeoutAfterOneRequest_whenTheProviderIsSlowerThanTheTimeout() {
+    replyWithText("{\"claims\":[],\"notInSources\":true}");
+    delay = Duration.ofSeconds(2);
+
+    assertThatThrownBy(() -> adapter("test-key", Duration.ofMillis(300)).generate(PROMPT))
+        .isInstanceOf(AssistantApplicationException.class)
+        .extracting(e -> ((AssistantApplicationException) e).getErrorCode())
+        .isEqualTo(ErrorCode.MODEL_TIMEOUT);
+    assertThat(requests).hasValue(1);
+  }
+
+  @Test
+  void shouldFailAsUnusableOutput_whenTheReplyHasNoContent() {
+    replyWithText("");
+
+    assertThatThrownBy(() -> adapter().generate(PROMPT))
+        .isInstanceOf(AssistantApplicationException.class)
+        .extracting(e -> ((AssistantApplicationException) e).getErrorCode())
+        .isEqualTo(ErrorCode.MODEL_OUTPUT_UNUSABLE);
+  }
+
+  @Test
+  void shouldFailAsNotConfiguredWithoutCallingTheProvider_whenTheApiKeyIsBlank() {
+    replyWithText("{\"claims\":[],\"notInSources\":true}");
+    var adapter = adapter(" ", Duration.ofSeconds(5));
+
+    assertThat(adapter.isConfigured()).isFalse();
+    assertThatThrownBy(() -> adapter.generate(PROMPT))
+        .isInstanceOf(AssistantApplicationException.class)
+        .extracting(e -> ((AssistantApplicationException) e).getErrorCode())
+        .isEqualTo(ErrorCode.MODEL_NOT_CONFIGURED);
+    assertThat(requests).hasValue(0);
+  }
+
   private AnthropicModelAdapter adapter() {
+    return adapter("test-key", Duration.ofSeconds(5));
+  }
+
+  private AnthropicModelAdapter adapter(String apiKey, Duration timeout) {
     return new AnthropicModelAdapter(
-        "test-key",
+        apiKey,
         "http://127.0.0.1:" + server.getAddress().getPort(),
         "claude-sonnet-5-5",
-        Duration.ofSeconds(5),
+        timeout,
         800);
+  }
+
+  private static void sleep(Duration duration) {
+    try {
+      Thread.sleep(duration);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   private void replyWithText(String text) {

@@ -6,11 +6,21 @@
 
 **Status:** ready-for-agent
 
-- [ ] No Entry above `RETRIEVAL_MIN_SCORE` → "That isn't in my sources.", and the stub `ModelPort` is never called
-- [ ] `notInSources: true` → "That isn't in my sources." written by code; the model's text is not shown
-- [ ] Model call exceeding `MODEL_TIMEOUT_MS` → "can't answer right now", no retry
-- [ ] Provider error, unparseable or empty output, missing key (detected at startup) → "can't answer right now"
-- [ ] Unexpected exception → "Something went wrong. Please try again." with the trace id
-- [ ] No fallback output contains a stack trace, provider error text or model output
-- [ ] One test per path through the `Ask` use case with a stub `ModelPort`
-- [ ] AI-usage log entry appended
+- [x] No Entry above `RETRIEVAL_MIN_SCORE` → "That isn't in my sources.", and the stub `ModelPort` is never called
+- [x] `notInSources: true` → "That isn't in my sources." written by code; the model's text is not shown
+- [x] Model call exceeding `MODEL_TIMEOUT_MS` → "can't answer right now", no retry
+- [x] Provider error, unparseable or empty output, missing key (detected at startup) → "can't answer right now"
+- [x] Unexpected exception → "Something went wrong. Please try again." with the trace id
+- [x] No fallback output contains a stack trace, provider error text or model output
+- [x] One test per path through the `Ask` use case with a stub `ModelPort`
+- [x] AI-usage log entry appended
+
+## Comments
+
+**2026-10-04, Claude Code (implementation).**
+
+- Input Guardrail in `AskQuestionService`: no retrieved Entry at or above `RETRIEVAL_MIN_SCORE` gives `NOT_IN_SOURCES` with no model call. The floor is **provisional at 0.5**. On the real CV, five unrelated questions retrieve nothing (score 0); the weakest relevant one ("Tell me about your biggest project") scores 1.45. Ticket 09 sets it on the dev split.
+- Fixed messages live on `AnswerMode` (domain), so the CLI and the designed API show the same text. A new `ERROR` mode covers anything unexpected; the CLI appends the trace id.
+- `AnthropicModelAdapter` reports `MODEL_TIMEOUT` (an `InterruptedIOException` or `TimeoutException` anywhere in the cause chain) separately from `MODEL_UNAVAILABLE`, so the designed API can map it to 504. A blank `ANTHROPIC_API_KEY` is detected when the adapter is built: startup logs one warning, and every call fails as `MODEL_NOT_CONFIGURED` without a request. `application.yml` now defaults the key to empty instead of failing startup on an unresolved placeholder.
+- Every fallback still appends its trace line, with `mode` and `failure` (error code or exception type, and message). Failure text goes only to the local trace, never to the Interviewer.
+- Seen while measuring: "Where did you study?" retrieves `cv.role.alipay-2017.b8`, not `cv.education`, because "study" isn't in the Quote. Recall is ticket 05's job.

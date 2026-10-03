@@ -1,6 +1,6 @@
 # A fixed pipeline with one model call, not an agent and not a no-LLM search
 
-Every question runs the same steps: Input Guardrail → retrieve → one model call that returns cited claims → Output Guardrail → render. We chose this because the brief grades whether a reviewer can predict the system's behaviour, and a fixed path with one model call has a short, testable list of failure paths and a stable cost and latency per question.
+Every question runs the same steps: retrieve → Input Guardrail (no Entry above the score floor means no model call) → one model call that returns cited claims → Output Guardrail → render. We chose this because the brief grades whether a reviewer can predict the system's behaviour, and a fixed path with one model call has a short, testable list of failure paths and a stable cost and latency per question.
 
 ## Considered Options
 

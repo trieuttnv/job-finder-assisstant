@@ -3,15 +3,23 @@ package io.github.trieunv.assistant.adapter.in.cli;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
 import io.github.trieunv.assistant.application.dto.AnsweredClaim;
 import io.github.trieunv.assistant.application.dto.SourceReference;
+import io.github.trieunv.assistant.domain.answer.AnswerMode;
 import java.util.stream.Collectors;
 
 /**
  * Renders an answer as the Interviewer sees it: each claim ends with its citation numbers, and the
- * numbered Sources block under it shows each cited Entry id, Source and exact Quote.
+ * numbered Sources block under it shows each cited Entry id, Source and exact Quote. A fallback is
+ * its fixed message alone, so it can't be mistaken for an answer.
  */
 public class AnswerRenderer {
 
   public String render(AnswerResult answer) {
+    var fallback = answer.getMode().fallbackMessage();
+    if (fallback.isPresent()) {
+      var traceNote =
+          answer.getMode() == AnswerMode.ERROR ? " (trace id: " + answer.getTraceId() + ")" : "";
+      return fallback.get() + traceNote + "\n";
+    }
     var text = new StringBuilder();
     text.append(
         answer.getClaims().stream()

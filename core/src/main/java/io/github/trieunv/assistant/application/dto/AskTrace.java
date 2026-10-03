@@ -1,5 +1,6 @@
 package io.github.trieunv.assistant.application.dto;
 
+import io.github.trieunv.assistant.domain.answer.AnswerMode;
 import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,10 @@ public class AskTrace {
   private final String traceId;
   private final Instant timestamp;
   private final String question;
+  private final AnswerMode mode;
+
+  /** Why a fallback was given (error code or exception type, and message); null when answered. */
+  private final String failure;
   private final List<RetrievedTrace> retrieved;
   private final String promptVersion;
   private final String promptHash;

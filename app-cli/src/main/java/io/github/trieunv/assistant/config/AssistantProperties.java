@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.nio.file.Path;
 import java.time.Duration;
 import lombok.Getter;
@@ -47,6 +48,9 @@ public class AssistantProperties {
   public static class Retrieval {
 
     @Positive private int topK;
+
+    /** The Input Guardrail floor on the best BM25 score; set on the dev split. */
+    @PositiveOrZero private double minScore;
   }
 
   @Getter

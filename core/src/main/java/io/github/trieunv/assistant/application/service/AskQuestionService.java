@@ -7,7 +7,10 @@ import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.dto.AskTrace;
 import io.github.trieunv.assistant.application.dto.AskTrace.ClaimTrace;
 import io.github.trieunv.assistant.application.dto.AskTrace.RetrievedTrace;
+import io.github.trieunv.assistant.application.dto.ModelReply;
 import io.github.trieunv.assistant.application.dto.SourceReference;
+import io.github.trieunv.assistant.application.exception.AssistantApplicationException;
+import io.github.trieunv.assistant.application.exception.ModelOutputUnusableException;
 import io.github.trieunv.assistant.application.port.in.AskQuestionUseCase;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
 import io.github.trieunv.assistant.application.port.out.RetrieverPort;
@@ -32,11 +35,14 @@ import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The fixed answering pipeline (ADR 0003): retrieve, one model call, Output Guardrail, number the
- * citations, append one trace line. No model decides a step.
+ * The fixed answering pipeline (ADR 0003): retrieve, Input Guardrail, one model call, Output
+ * Guardrail, number the citations, append one trace line. No model decides a step, and every
+ * failure ends in a fallback mode whose message is written by code.
  */
 @RequiredArgsConstructor
 public class AskQuestionService implements AskQuestionUseCase {
+
+  private static final System.Logger LOG = System.getLogger(AskQuestionService.class.getName());
 
   private final RetrieverPort retriever;
   private final ModelPort model;
@@ -49,21 +55,69 @@ public class AskQuestionService implements AskQuestionUseCase {
   @Override
   public AnswerResult ask(AskQuestionCommand command) {
     var traceId = TraceId.random();
-    var question = command.getQuestion();
     var startedAt = System.nanoTime();
+    var trace =
+        AskTrace.builder()
+            .traceId(traceId.value())
+            .timestamp(clock.instant())
+            .question(command.getQuestion())
+            .promptVersion(systemPrompt.version())
+            .promptHash(systemPrompt.hash())
+            .config(config);
+    AnswerResult result;
+    try {
+      result = answer(command.getQuestion(), traceId, trace, startedAt);
+    } catch (RuntimeException e) {
+      trace.failure(describe(e));
+      result = fallback(AnswerMode.ERROR, traceId);
+    }
+    appendTrace(trace.mode(result.getMode()).totalLatencyMs(millisSince(startedAt)).build());
+    return result;
+  }
 
+  private AnswerResult answer(
+      String question, TraceId traceId, AskTrace.AskTraceBuilder trace, long startedAt) {
     var retrieved = retriever.retrieve(question);
     var retrievedAt = System.nanoTime();
+    trace
+        .retrieved(retrieved.stream().map(AskQuestionService::retrievedTrace).toList())
+        .retrievalLatencyMs(millisBetween(startedAt, retrievedAt));
+
+    // Input Guardrail: nothing relevant enough, so nothing reaches the model or gets invented.
+    if (retrieved.stream().noneMatch(hit -> hit.score() > config.getRetrievalMinScore())) {
+      return fallback(AnswerMode.NOT_IN_SOURCES, traceId);
+    }
+
     Map<EntryId, Entry> retrievedById =
         retrieved.stream()
             .map(RetrievedEntry::entry)
             .collect(
                 Collectors.toMap(
                     Entry::id, Function.identity(), (first, second) -> first, LinkedHashMap::new));
-
     var prompt = AnswerPrompt.of(systemPrompt, question, List.copyOf(retrievedById.values()));
-    var reply = model.generate(prompt);
-    var answeredAt = System.nanoTime();
+    ModelReply reply;
+    try {
+      reply = model.generate(prompt);
+    } catch (AssistantApplicationException e) {
+      if (e instanceof ModelOutputUnusableException unusable) {
+        trace.rawOutput(unusable.getRawOutput());
+      }
+      trace.failure(describe(e)).modelLatencyMs(millisSince(retrievedAt));
+      return fallback(AnswerMode.UNAVAILABLE, traceId);
+    }
+    trace
+        .provider(reply.getProvider())
+        .modelId(reply.getModelId())
+        .rawOutput(reply.getRawOutput())
+        .notInSources(reply.getAnswer().notInSources())
+        .inputTokens(reply.getInputTokens())
+        .outputTokens(reply.getOutputTokens())
+        .modelLatencyMs(millisSince(retrievedAt));
+
+    // A negative answer is never generated: the flag becomes the fixed message, claims unshown.
+    if (reply.getAnswer().notInSources()) {
+      return fallback(AnswerMode.NOT_IN_SOURCES, traceId);
+    }
 
     var verdict = outputGuardrail.check(reply.getAnswer().claims(), retrievedById.keySet());
     var numbering = new CitationNumbering();
@@ -76,40 +130,51 @@ public class AskQuestionService implements AskQuestionUseCase {
                         .citations(numbering.numberAll(claim.entryIds()))
                         .build())
             .toList();
-    var sources = sourceReferences(numbering.citedInOrder(), retrievedById);
-
-    traceSink.append(
-        AskTrace.builder()
-            .traceId(traceId.value())
-            .timestamp(clock.instant())
-            .question(question)
-            .retrieved(retrieved.stream().map(AskQuestionService::retrievedTrace).toList())
-            .promptVersion(systemPrompt.version())
-            .promptHash(systemPrompt.hash())
-            .provider(reply.getProvider())
-            .modelId(reply.getModelId())
-            .rawOutput(reply.getRawOutput())
-            .notInSources(reply.getAnswer().notInSources())
-            .keptClaims(verdict.kept().stream().map(claim -> claimTrace(claim, null)).toList())
-            .droppedClaims(
-                verdict.dropped().stream()
-                    .map(dropped -> claimTrace(dropped.claim(), dropped.reason().name()))
-                    .toList())
-            .inputTokens(reply.getInputTokens())
-            .outputTokens(reply.getOutputTokens())
-            .retrievalLatencyMs(millisBetween(startedAt, retrievedAt))
-            .modelLatencyMs(millisBetween(retrievedAt, answeredAt))
-            .totalLatencyMs(millisBetween(startedAt, System.nanoTime()))
-            .config(config)
-            .build());
+    trace
+        .keptClaims(verdict.kept().stream().map(claim -> claimTrace(claim, null)).toList())
+        .droppedClaims(
+            verdict.dropped().stream()
+                .map(dropped -> claimTrace(dropped.claim(), dropped.reason().name()))
+                .toList());
 
     return AnswerResult.builder()
         .mode(AnswerMode.ANSWERED)
         .claims(claims)
-        .sources(sources)
+        .sources(sourceReferences(numbering.citedInOrder(), retrievedById))
         .removedClaims(verdict.dropped().size())
         .traceId(traceId)
         .build();
+  }
+
+  private static AnswerResult fallback(AnswerMode mode, TraceId traceId) {
+    return AnswerResult.builder()
+        .mode(mode)
+        .claims(List.of())
+        .sources(List.of())
+        .removedClaims(0)
+        .traceId(traceId)
+        .build();
+  }
+
+  /**
+   * A trace that can't be written must not cost the Interviewer a verified answer, nor show them a
+   * stack trace; the failure is logged locally instead.
+   */
+  private void appendTrace(AskTrace trace) {
+    try {
+      traceSink.append(trace);
+    } catch (RuntimeException e) {
+      LOG.log(System.Logger.Level.WARNING, "Cannot append trace " + trace.getTraceId(), e);
+    }
+  }
+
+  /** For the local trace only; never shown to the Interviewer. */
+  private static String describe(RuntimeException e) {
+    var kind =
+        e instanceof AssistantApplicationException application
+            ? application.getErrorCode().name()
+            : e.getClass().getName();
+    return kind + ": " + e.getMessage();
   }
 
   /** Sources block lines, numbered as {@code cited} orders them. */
@@ -143,5 +208,9 @@ public class AskQuestionService implements AskQuestionUseCase {
 
   private static long millisBetween(long startNanos, long endNanos) {
     return (endNanos - startNanos) / 1_000_000;
+  }
+
+  private static long millisSince(long startNanos) {
+    return millisBetween(startNanos, System.nanoTime());
   }
 }

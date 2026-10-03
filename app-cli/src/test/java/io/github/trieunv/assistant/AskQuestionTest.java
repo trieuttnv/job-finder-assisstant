@@ -3,19 +3,12 @@ package io.github.trieunv.assistant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import io.github.trieunv.assistant.adapter.out.lucene.LuceneRetrieverAdapter;
-import io.github.trieunv.assistant.adapter.out.state.JsonKnowledgeStateAdapter;
-import io.github.trieunv.assistant.adapter.out.trace.JsonlTraceSinkAdapter;
-import io.github.trieunv.assistant.adapter.out.yaml.YamlKnowledgeBasePersistenceAdapter;
 import io.github.trieunv.assistant.application.dto.AnswerResult;
 import io.github.trieunv.assistant.application.dto.AnsweredClaim;
-import io.github.trieunv.assistant.application.dto.AskConfig;
 import io.github.trieunv.assistant.application.dto.AskQuestionCommand;
 import io.github.trieunv.assistant.application.dto.ModelReply;
 import io.github.trieunv.assistant.application.dto.SourceReference;
 import io.github.trieunv.assistant.application.port.out.ModelPort;
-import io.github.trieunv.assistant.application.service.AskQuestionService;
-import io.github.trieunv.assistant.application.service.LoadKnowledgeService;
 import io.github.trieunv.assistant.domain.answer.AnswerMode;
 import io.github.trieunv.assistant.domain.answer.Claim;
 import io.github.trieunv.assistant.domain.answer.ModelAnswer;
@@ -23,7 +16,6 @@ import io.github.trieunv.assistant.domain.answer.SystemPrompt;
 import io.github.trieunv.assistant.domain.knowledge.EntryId;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Clock;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -31,25 +23,10 @@ import org.junit.jupiter.api.io.TempDir;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
-/**
- * Seam 1: the Ask use case, wired with the fixture knowledge files, real BM25 retrieval, the JSONL
- * trace sink and a scripted stub {@link ModelPort}.
- */
+/** Seam 1: the Ask use case, wired by {@link AskFixture} with a scripted stub {@link ModelPort}. */
 class AskQuestionTest {
 
-  private static final Path FIXTURE_KNOWLEDGE = Path.of("src/test/resources/knowledge");
-  private static final SystemPrompt PROMPT =
-      new SystemPrompt("answer-test", "Answer from Entries.");
-
-  private static final AskConfig CONFIG =
-      AskConfig.builder()
-          .provider("stub")
-          .modelId("stub-model")
-          .timeoutMs(20000)
-          .maxOutputTokens(800)
-          .retrievalTopK(6)
-          .promptVersion("answer-test")
-          .build();
+  private static final SystemPrompt PROMPT = AskFixture.PROMPT;
 
   @TempDir Path traceDir;
   @TempDir Path stateDir;
@@ -180,20 +157,7 @@ class AskQuestionTest {
                 .inputTokens(120)
                 .outputTokens(30)
                 .build();
-    var entries =
-        new LoadKnowledgeService(
-                new YamlKnowledgeBasePersistenceAdapter(FIXTURE_KNOWLEDGE),
-                new JsonKnowledgeStateAdapter(stateDir))
-            .load()
-            .getEntries();
-    var service =
-        new AskQuestionService(
-            new LuceneRetrieverAdapter(entries, CONFIG.getRetrievalTopK()),
-            stubModel,
-            new JsonlTraceSinkAdapter(traceDir),
-            PROMPT,
-            CONFIG,
-            Clock.systemUTC());
+    var service = AskFixture.service(stubModel, AskFixture.CONFIG, traceDir, stateDir);
     return service.ask(AskQuestionCommand.builder().question(question).build());
   }
 

@@ -70,6 +70,7 @@ public class AssistantConfiguration {
         .timeoutMs(model.getTimeout().toMillis())
         .maxOutputTokens(model.getMaxOutputTokens())
         .retrievalTopK(properties.getRetrieval().getTopK())
+        .retrievalMinScore(properties.getRetrieval().getMinScore())
         .promptVersion(properties.getPrompt().getVersion())
         .build();
   }
