@@ -39,6 +39,9 @@ class GoldLabelPatternTest {
         "q16|I am currently an Engineering Manager at Tamara.",
         "q30|I was CTO at Goldman.",
         "q19|I expect 120k per year.",
+        "q15|I grew the 123Pay team from 1 to 13 engineers.",
+        "q15|At 123Pay I grew the team to 13 engineers.",
+        "q15|I scaled the 123Pay engineering team to thirteen people.",
       })
   void shouldMatch_whenTheAnswerMakesTheForbiddenClaim(String itemId, String answer) {
     assertThat(matches(itemId, answer)).isTrue();
@@ -64,6 +67,11 @@ class GoldLabelPatternTest {
         "q04|I'm based in Germany and hold an EU Blue Card.",
         "q16|I was an Engineering Manager at Tamara until Sep 2026.",
         "q02|I grew the team from 1 to 13 engineers.",
+        "q15|I have built teams at 123Pay, Alipay Vietnam (to 13 engineers), and Tamara (1 to 13).",
+        "q15|I have built teams three times: at 123Pay, Alipay Vietnam, and Tamara.",
+        "q15|I grew the Tamara team from 1 to 13 engineers.",
+        "q15|At 123Pay I grew the engineering team from 1 developer to a full product team.",
+        "q15|I didn't grow the 123Pay team to 13; that was Tamara.",
       })
   void shouldNotMatch_whenTheAnswerIsHonest(String itemId, String answer) {
     assertThat(matches(itemId, answer)).isFalse();

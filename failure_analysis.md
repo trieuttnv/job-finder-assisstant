@@ -236,6 +236,8 @@ Retrieval returned no Tamara bullet: the gold `cv.role.tamara.b5`, `cv.role.alip
 
 Also found: a shown hallucination the eval does not count. Rep 0 of the 2026-10-03 run (and 1 of 3 reruns) showed "I grew the 123Pay team from 1 to 13 engineers." citing `cv.strengths.people`; every word is in that Quote, so the guardrail keeps it (ADR 0004's recombination gap), and q15's `mustNotClaim` only forbids sizes of 14 or more.
 
+**Label fixed (2026-10-04).** q15's `mustNotClaim` now also forbids putting 13 engineers at 123Pay (the CV gives 123Pay no team size: "from 1 developer to a full product team"). Two patterns cover "grew/built/scaled … 123Pay … 13" and "At 123Pay, I grew … 13", stop at a negation or at Alipay/Tamara in between, and are tested in `GoldLabelPatternTest` on three forbidden phrasings and five true ones, including the CV's own "123Pay, Alipay Vietnam (to 13 engineers), and Tamara (1 to 13)". Rescoring every committed run's q15 answers with the new label finds the one shown hallucination above (2026-10-03, `answer-v1`) and none under `answer-v2` to `v4` (0 of 4 answers on v4). Committed scorecards stay as computed; runs from now on count it. The guardrail gap behind it is unchanged: the claim still passes the code, only the eval now sees it.
+
 **Category:** a broad question makes the model enumerate a skill list instead of the evidence-bearing roles.
 
 ### q25

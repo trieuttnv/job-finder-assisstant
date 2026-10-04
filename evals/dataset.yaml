@@ -178,7 +178,7 @@
   gold:
     entryIds: [cv.strengths.people, cv.role.tamara.b5, cv.role.alipay-2017.b3, cv.role.vng.b2]
     mustContain: [["Tamara"], ["Alipay"]]
-    mustNotClaim: ["(?<!n't )(?<!not )(?<!never )\\b(?:grew|led|managed|had)\\b(?:(?!\\b(?:not|never|no|didn't|haven't|wasn't)\\b)[^.]){0,30}\\b(?:1[4-9]|[2-9]\\d|\\d{3,})\\s+(?:engineers|people|reports)"]
+    mustNotClaim: ["(?<!n't )(?<!not )(?<!never )\\b(?:grew|led|managed|had)\\b(?:(?!\\b(?:not|never|no|didn't|haven't|wasn't)\\b)[^.]){0,30}\\b(?:1[4-9]|[2-9]\\d|\\d{3,})\\s+(?:engineers|people|reports)", "(?i)(?<!n't )(?<!not )(?<!never )\\b(?:grew|built|scaled|led|managed|took)\\b(?:(?!\\b(?:not|never|no|didn't|Alipay|Tamara)\\b)[^.]){0,15}\\b123Pay\\b(?:(?!\\b(?:not|never|no|didn't|Alipay|Tamara)\\b)[^.]){0,40}\\b(?:13|thirteen)\\b", "(?i)\\bat\\s+123Pay\\b,?\\s+I\\s+(?:grew|built|scaled|led|managed|took)\\b(?:(?!\\b(?:not|never|no|didn't|Alipay|Tamara)\\b)[^.]){0,40}\\b(?:13|thirteen)\\b"]
   verified: true
 - id: q16
   split: dev
