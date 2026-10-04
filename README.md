@@ -7,7 +7,10 @@
 | **Date** | 2026-10-03 |
 | **Brief** | docs/problem.txt, docs/requirement-summary.md |
 | **Decision records** | [docs/adr/](docs/adr/) |
-| **Revision** | 27 — Architecture: components table with the API Gateway |
+| **Run it** | [Reviewer guide](reviewer-guide.md): build, test, ask and run the eval in about ten minutes |
+| **Results** | [failure_analysis.md](failure_analysis.md): every eval failure, its root cause and what was fixed |
+| **AI usage** | [ai-usage-note.txt](ai-usage-note.txt): how AI was used; per-ticket log in [docs/ai-usage.md](docs/ai-usage.md) |
+| **Total hours** | About 8 h. i started around 19.15 Oct 3 till 2.45 Oct 4. After that I leaved the agent auto run. I reworked around 6.30 Oct 4 but only several minutes then get back at around 9 or 10 Oct 4 till 13.30 Oct 4. During this period I have several breaks |
 
 ## Summary
 
