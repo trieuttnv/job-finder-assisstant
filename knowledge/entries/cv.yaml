@@ -13,7 +13,7 @@
 - id: cv.contact
   type: summary
   source: cv
-  quote: "linkedin.com/in/trieu-nguyen-1069611b · Germany · EU Blue Card Holder"
+  quote: "Germany"
 - id: cv.summary.s1
   type: summary
   source: cv
