@@ -1,6 +1,6 @@
 # Failure analysis: anthropic claude-haiku-4-5, 2026-10-04
 
-The failures of this run, with each call's cost and the root cause of each. Every value comes from `results.jsonl` and `run.json` in [`evals/results/2026-10-04-anthropic-claude-haiku-4-5/`](evals/results/2026-10-04-anthropic-claude-haiku-4-5/). Each failure ends with its verified root cause; decisions and open questions are in [`open_discussion.md`](open_discussion.md). The Subject writes the error analysis in `errors.md`.
+The failures of this run, with each call's cost and the root cause of each. Every value comes from `results.jsonl` and `run.json` in [`evals/results/2026-10-04-anthropic-claude-haiku-4-5/`](evals/results/2026-10-04-anthropic-claude-haiku-4-5/). Each failure ends with its verified root cause; the q25 trade-off is in [`open_discussion.md`](open_discussion.md). The Subject writes the error analysis in `errors.md`.
 
 ## Run
 
@@ -329,7 +329,7 @@ Under `answer-v2` all three q25 answers are "I grew the BNPL Card team at Tamara
 
 The raw output in both reps holds the correct claim ("I integrated 15+ banks and networks directly…", citing `cv.role.vng.b3`) **and** `"notInSources": true`, which breaks prompt rule 3 ("return no claims"). [`AskQuestionService.java:144-145`](core/src/main/java/io/github/trieunv/assistant/application/service/AskQuestionService.java) checks the flag before the guardrail, so the flag wins and the correct claim is discarded for "That isn't in my sources." The model reads a false premise ("over 100 banks") as missing information.
 
-**Category:** a false premise is answered with the flag instead of the correct fact. `answer-v2` rule 6 (see q25) did not change it (3 of 3 still set the flag). Open: should a kept claim win over the flag? See `open_discussion.md`.
+**Category:** a false premise is answered with the flag instead of the correct fact. `answer-v2` rule 6 (see q25) did not change it (3 of 3 still set the flag). Open: should a kept claim win over the flag?
 
 ### q29
 
