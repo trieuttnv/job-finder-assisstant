@@ -6,19 +6,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * What one evaluation question got in one repetition: the answer's mode and shown claims (from the
- * answer value), and what its trace line recorded: the ranked retrieval hits, the claims the Output
- * Guardrail dropped and why, tokens, latency and cost. A committed results file therefore explains
- * each failure on its own, without the git-ignored traces.
+ * What one evaluation question got in one repetition: the question, the answer's mode and shown
+ * claims (from the answer value), and what its trace line recorded: the ranked retrieval hits, the
+ * claims the Output Guardrail dropped and why, the model's exact reply, tokens, latency and cost. A
+ * committed results file therefore explains each failure on its own, without the git-ignored
+ * traces. {@code rawOutput} is null when the model was not called.
  */
 public record QuestionResult(
     String itemId,
     int rep,
+    String question,
     AnswerMode mode,
     List<ShownClaim> claims,
     List<RetrievedHit> retrieved,
     int proposedClaims,
     List<DroppedClaim> dropped,
+    String rawOutput,
     int inputTokens,
     int outputTokens,
     long latencyMs,

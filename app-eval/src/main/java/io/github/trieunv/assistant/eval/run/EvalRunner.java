@@ -93,14 +93,17 @@ public class EvalRunner {
                         claim.path("entryIds").valueStream().map(JsonNode::asString).toList(),
                         claim.path("dropReason").asString(""))));
     var cost = trace.get("costUsd");
+    var rawOutput = trace.get("rawOutput");
     return new QuestionResult(
         asked.item().id(),
         asked.rep(),
+        asked.item().question(),
         answer.getMode(),
         claims,
         retrieved,
         trace.path("keptClaims").size() + dropped.size(),
         dropped,
+        Objects.nonNull(rawOutput) && rawOutput.isString() ? rawOutput.asString() : null,
         trace.path("inputTokens").asInt(0),
         trace.path("outputTokens").asInt(0),
         trace.path("totalLatencyMs").asLong(0),

@@ -213,11 +213,13 @@ class ScorerTest {
           new QuestionResult(
               "q" + n,
               0,
+              "question",
               AnswerMode.ANSWERED,
               List.of(new ShownClaim("2014", List.of("cv.role.atlassian"))),
               List.of(),
               2,
               dropped,
+              "{}",
               1000,
               50,
               n * 100L,
@@ -236,8 +238,8 @@ class ScorerTest {
   void shouldCountTheCostOfAFallback_whenTheModelWasCalled() {
     var unverified =
         new QuestionResult(
-            "q01", 0, AnswerMode.UNVERIFIED, List.of(), List.of(), 1, List.of(), 900, 40, 800,
-            0.03, "t");
+            "q01", 0, "question", AnswerMode.UNVERIFIED, List.of(), List.of(), 1, List.of(), "{}",
+            900, 40, 800, 0.03, "t");
 
     var card =
         score(
@@ -301,11 +303,13 @@ class ScorerTest {
     return new QuestionResult(
         itemId,
         rep,
+        "question",
         AnswerMode.ANSWERED,
         List.of(claims),
         List.of(),
         claims.length,
         List.of(),
+        "{}",
         1000,
         50,
         1000,
@@ -317,11 +321,13 @@ class ScorerTest {
     return new QuestionResult(
         itemId,
         rep,
+        "question",
         AnswerMode.NOT_IN_SOURCES,
         List.of(),
         List.of(),
         0,
         List.of(),
+        null,
         0,
         0,
         50,
@@ -333,11 +339,13 @@ class ScorerTest {
     return new QuestionResult(
         result.itemId(),
         result.rep(),
+        result.question(),
         result.mode(),
         result.claims(),
         Arrays.stream(ids).map(id -> new RetrievedHit(id, 1.0, false)).toList(),
         result.proposedClaims(),
         result.dropped(),
+        result.rawOutput(),
         result.inputTokens(),
         result.outputTokens(),
         result.latencyMs(),

@@ -67,6 +67,8 @@ class EvalRunnerTest {
 
     assertThat(run.results()).hasSize(2);
     var result = run.results().getFirst();
+    assertThat(result.question()).isEqualTo("When did you work at Atlassian?");
+    assertThat(result.rawOutput()).isEqualTo("{}");
     assertThat(result.mode()).isEqualTo(AnswerMode.ANSWERED);
     assertThat(result.claims())
         .containsExactly(
@@ -84,6 +86,31 @@ class EvalRunnerTest {
     assertThat(run.results().get(1).rep()).isEqualTo(1);
     assertThat(run.config().path("modelId").asString()).isEqualTo("stub-model");
     assertThat(run.promptHash()).isNotBlank();
+  }
+
+  @Test
+  void shouldLeaveTheRawOutputEmpty_whenTheModelWasNotCalled() {
+    var offTopic =
+        new EvalItem(
+            "q02",
+            Split.DEV,
+            Category.NOT_ANSWERABLE,
+            null,
+            "Who is Lionel Messi?",
+            Expectation.FALLBACK,
+            new GoldLabel(List.of(), List.of(), List.of()),
+            null,
+            true);
+
+    var result =
+        new EvalRunner(useCase(List.of()), new TraceLines(traceDir))
+            .run(List.of(offTopic), 1)
+            .results()
+            .getFirst();
+
+    assertThat(result.mode()).isEqualTo(AnswerMode.NOT_IN_SOURCES);
+    assertThat(result.question()).isEqualTo("Who is Lionel Messi?");
+    assertThat(result.rawOutput()).isNull();
   }
 
   @Test
