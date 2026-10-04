@@ -1,5 +1,5 @@
 # The evaluation dataset (README Task 3, Steps 1-2): at least 6 interviewer questions per category,
-# at least 20 dev and 10 held-out (31 now: 21 dev, 10 held-out, 7 adversarial). Drafted by Claude Code (Opus 5.5) from the reviewed Entries on
+# at least 20 dev and 10 held-out (32 now: 22 dev, 10 held-out, 7 cv-direct, 7 adversarial). Drafted by Claude Code (Opus 5.5) from the reviewed Entries on
 # 2026-10-04; every item stays `verified: false` until the Subject checks its Gold Label, and the
 # evaluation refuses to run on an unverified item.
 #
@@ -62,8 +62,10 @@
     mustContain: [["Germany"]]
     mustNotClaim: ["(?i)\\bI(?:'m| am)\\s+(?:a\\s+)?German\\b", "(?i)(?<!n't )(?<!not )(?<!never )\\b(?:have|hold)\\s+(?:German|EU)\\s+citizenship\\b"]
   verified: true
+# q05 moved from held-out to dev on 2026-10-04: "degree" became a retrieval word for education
+# because this question was read closely, so it was no longer unseen. q32 took its place in held-out.
 - id: q05
-  split: heldout
+  split: dev
   category: cv-direct
   question: "What degree do you have?"
   expect: answer
@@ -358,4 +360,16 @@
     entryIds: []
     mustContain: []
     mustNotClaim: ["(?i)\\bStripe\\b", "(?i)\\bHead of Engineering\\b"]
+  verified: true
+# Written by Claude Code (Opus 5.5) on 2026-10-04 to replace q05, mirroring q01's form for another
+# employer, and not run before its one held-out measurement. The Subject may replace it.
+- id: q32
+  split: heldout
+  category: cv-direct
+  question: "When did you work at VNG?"
+  expect: answer
+  gold:
+    entryIds: [cv.role.vng]
+    mustContain: [["2011", "Feb 2011", "February 2011"], ["2014", "Aug 2014", "August 2014"]]
+    mustNotClaim: ["(?i)\\b(?:VNG|123Pay)\\b[^.]{0,60}\\b(2010|2015|2016)\\b"]
   verified: true

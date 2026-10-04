@@ -62,6 +62,24 @@ class RetrievalVocabularyTest {
   }
 
   @Test
+  void shouldFindAnEntryType_whenTheQuestionUsesAnInterviewersWordForIt() {
+    assertThat(vocabulary.scopeOf("Which university did you attend?").types())
+        .containsExactly(EntryType.EDUCATION);
+    assertThat(vocabulary.scopeOf("What positions have you held?").types())
+        .containsExactly(EntryType.ROLE);
+    assertThat(vocabulary.scopeOf("Name one achievement").types())
+        .containsExactly(EntryType.BULLET);
+    assertThat(vocabulary.scopeOf("Tell me about your qualifications").typeOnly()).isTrue();
+  }
+
+  @Test
+  void shouldNotReadAWorkProjectAsALearningPrototype_whenTheQuestionSaysProject() {
+    assertThat(vocabulary.scopeOf("Tell me about a project you led").types()).isEmpty();
+    assertThat(vocabulary.scopeOf("Tell me about your prototypes").types())
+        .containsExactly(EntryType.PROJECT);
+  }
+
+  @Test
   void shouldFindATechnologyOnlyAsWritten_whenTheQuestionUsesTheWordOtherwise() {
     assertThat(vocabulary.scopeOf("Do you know java?").technologies()).isEmpty();
   }
