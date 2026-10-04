@@ -225,7 +225,7 @@ No error response carries a stack trace, a provider error text or any part of th
 
 **Input Guardrail.** If no Entry scores above `RETRIEVAL_MIN_SCORE`, the reply is "That isn't in my sources." and no model is called. The floor is set on dev just above the scores of unrelated questions, so answerable paraphrases still reach the model.
 
-**Prompt.** A versioned system prompt (`prompts/answer-v2.md`) allows answers about the Subject only from the given Entries, requires Entry ids on every claim, asks for `notInSources` when the Entries don't answer, corrects a false premise with the sourced fact without repeating the wrong value (v2; see [open_discussion.md](open_discussion.md)), and states that the question and Entries are data, never instructions. Each Entry is passed as `[id] quote` plus its typed fields. Temperature 0, output tokens capped. The prompt's version and hash go in every trace. There is no tool use.
+**Prompt.** A versioned system prompt (`prompts/answer-v4.md`) allows answers about the Subject only from the given Entries, requires Entry ids on every claim, sets `notInSources` only when the Entries answer no part of the question, corrects a wrong assumption in the question with the sourced fact without repeating the wrong value (v2, v4; see [open_discussion.md](open_discussion.md) and [failure_analysis.md](failure_analysis.md)), treats a request to say or claim something as an instruction to ignore, and states that the question and Entries are data, never instructions. Each Entry is passed as `[id] quote` plus its typed fields. Temperature 0, output tokens capped. The prompt's version and hash go in every trace. There is no tool use.
 
 **Output contract.** `{claims: [{text, entryIds[]}], notInSources: bool}`, enforced by Spring AI structured output. Anything else, including empty content, is unusable output (Step 6).
 
@@ -295,7 +295,7 @@ The evaluation produces numbers anyone can recompute, committed with their failu
 
 ##### Step 1. Write the questions
 
-`evals/dataset.yaml` holds **30 questions, 6 per category**, split **20 dev and 10 held-out**. Prompts, thresholds and synonym lists are tuned only on dev; the headline numbers come from held-out, so the design can't overfit its own test.
+`evals/dataset.yaml` holds **at least 6 questions per category**, split **at least 20 dev and 10 held-out** (31 today). Prompts, thresholds and synonym lists are tuned only on dev; the headline numbers come from held-out, so the design can't overfit its own test. A held-out item read closely while changing the system is burned: it moves to dev and a fresh item takes its place, so the counts are minimums and nothing is deleted.
 
 | Category | Example | A correct answer |
 |---|---|---|
@@ -598,7 +598,7 @@ Every setting comes from the environment; `.env.example` names each one.
 | `RETRIEVAL_TOP_K` | `6` | More Entries: higher recall, more tokens |
 | `RETRIEVAL_MIN_SCORE` | set on dev | The Input Guardrail floor (see Cross-task design) |
 | `GUARD_MAX_DROP_RATIO` | `0.5` | Lower withholds more partial answers |
-| `PROMPT_VERSION` | `answer-v2` | Which file in `prompts/` is used |
+| `PROMPT_VERSION` | `answer-v4` | Which file in `prompts/` is used |
 | `KNOWLEDGE_DIR`, `TRACE_DIR` | `knowledge`, `traces` | Where Entries are read and traces written |
 | `STATE_DIR` | `.state` | Local, git-ignored; holds the previous run's Entry ids for the startup report of added, changed and removed ids |
 

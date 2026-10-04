@@ -17,9 +17,10 @@ import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 /**
- * The 30 labelled questions, and the shape README Task 3, Step 1 promises for them: 6 per
- * category, 20 dev and 10 held-out, three reworded pairs, at least two recombination adversarials,
- * Gold Labels whose Entry ids resolve and whose patterns compile.
+ * The labelled questions, and the shape README Task 3, Step 1 promises for them: at least 6 per
+ * category, at least 20 dev and 10 held-out, three reworded pairs, at least two recombination adversarials,
+ * Gold Labels whose Entry ids resolve and whose patterns compile. The counts are minimums so a
+ * burned held-out item can move to dev while a fresh one takes its place, and nothing is deleted.
  */
 public record EvalDataset(List<EvalItem> items) {
 
@@ -63,23 +64,24 @@ public record EvalDataset(List<EvalItem> items) {
   private List<String> categoryCounts() {
     var byCategory = countBy(EvalItem::category);
     return Arrays.stream(Category.values())
-        .filter(category -> byCategory.getOrDefault(category, 0L) != PER_CATEGORY)
+        .filter(category -> byCategory.getOrDefault(category, 0L) < PER_CATEGORY)
         .map(
             category ->
                 category
                     + ": "
                     + byCategory.getOrDefault(category, 0L)
-                    + " items, not "
+                    + " items, fewer than "
                     + PER_CATEGORY)
         .toList();
   }
 
   private List<String> splitCounts() {
     var bySplit = countBy(EvalItem::split);
-    return bySplit.getOrDefault(Split.DEV, 0L) == DEV
-            && bySplit.getOrDefault(Split.HELDOUT, 0L) == HELDOUT
+    return bySplit.getOrDefault(Split.DEV, 0L) >= DEV
+            && bySplit.getOrDefault(Split.HELDOUT, 0L) >= HELDOUT
         ? List.of()
-        : List.of("split: " + bySplit + ", not " + DEV + " dev and " + HELDOUT + " held-out");
+        : List.of(
+            "split: " + bySplit + ", fewer than " + DEV + " dev or " + HELDOUT + " held-out");
   }
 
   private List<String> rewordedPairs() {

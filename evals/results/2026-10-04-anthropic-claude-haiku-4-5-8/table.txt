@@ -1,0 +1,27 @@
+Metric                                      all  dev                    heldout
+Hallucination rate                           0%    –                         0%
+Refusal correctness                        100%    –                       100%
+Over-refusal                                29%    –                        29%
+Answer correctness                          57%    –                        57%
+Citation correctness                        77%    –                        77%
+Recall@k                                    43%    –                        43%
+Consistency                                   –    –                          –
+Guardrail drop rate                         13%    –                        13%
+Quote provenance                           100%    –                       100%
+p95 latency           3896 ms (3693 ms–4291 ms)    –  3896 ms (3693 ms–4291 ms)
+Mean cost             $0.0017 ($0.0017–$0.0017)    –  $0.0017 ($0.0017–$0.0017)
+
+Metric                                cv-direct               multi-source                  ambiguous  not-answerable  adversarial
+Hallucination rate                           0%                         0%                         0%               –            –
+Refusal correctness                           –                          –                          –            100%         100%
+Over-refusal                                50%                         0%                         0%               –         100%
+Answer correctness                          50%                        50%                       100%               –           0%
+Citation correctness                       100%                       100%                        63%               –            –
+Recall@k                                    50%                         0%                       100%               –           0%
+Consistency                                   –                          –                          –               –            –
+Guardrail drop rate                          0%                         0%                        20%               –            –
+Quote provenance                           100%                       100%                       100%            100%         100%
+p95 latency           1772 ms (1675 ms–1899 ms)  1652 ms (1621 ms–1691 ms)  3896 ms (3693 ms–4291 ms)               –            –
+Mean cost                               $0.0012                    $0.0017  $0.0030 ($0.0030–$0.0030)         $0.0009      $0.0015
+
+Hard Lines: passed.

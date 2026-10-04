@@ -26,8 +26,28 @@ class EvalDatasetTest {
   void shouldKeepEveryPromiseOfTheDatasetDesign_whenReadingTheCommittedDataset() {
     var dataset = new YamlEvalDatasetReader().read(DATASET);
 
-    assertThat(dataset.items()).hasSize(30);
+    assertThat(dataset.items()).hasSizeGreaterThanOrEqualTo(30);
     assertThat(dataset.problems(knownEntryIds())).isEmpty();
+  }
+
+  @Test
+  void shouldAcceptMoreThanTheMinimum_whenABurnedItemMovesToDevAndAFreshOneJoinsHeldOut() {
+    var items = new ArrayList<EvalItem>();
+    var n = 0;
+    for (var category : Category.values()) {
+      var size = category == Category.ADVERSARIAL ? 7 : 6;
+      for (var i = 0; i < size; i++) {
+        n++;
+        var split = n <= 21 ? Split.DEV : Split.HELDOUT;
+        items.add(item("q" + n, split, category, null, List.of("cv.role.atlassian")));
+      }
+    }
+
+    var problems = new EvalDataset(items).problems(Set.of("cv.role.atlassian"));
+
+    assertThat(problems)
+        .noneMatch(line -> line.startsWith("ADVERSARIAL:"))
+        .noneMatch(line -> line.startsWith("split:"));
   }
 
   @Test
@@ -60,9 +80,18 @@ class EvalDatasetTest {
 
   private static EvalItem item(
       String id, Category category, EvalItem.AdversarialKind kind, List<String> gold) {
+    return item(id, Split.DEV, category, kind, gold);
+  }
+
+  private static EvalItem item(
+      String id,
+      Split split,
+      Category category,
+      EvalItem.AdversarialKind kind,
+      List<String> gold) {
     return new EvalItem(
         id,
-        Split.DEV,
+        split,
         category,
         kind,
         "Question?",
