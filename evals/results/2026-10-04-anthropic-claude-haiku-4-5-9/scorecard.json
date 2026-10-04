@@ -1,0 +1,637 @@
+{
+  "stats" : {
+    "multi-source" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.8333333333333334,
+        "min" : 0.8333333333333334,
+        "max" : 0.8333333333333334,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.6,
+        "min" : 0.6,
+        "max" : 0.6,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.5,
+        "min" : 0.5,
+        "max" : 0.5,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 2206.0,
+        "min" : 2206.0,
+        "max" : 2206.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0018198333333333332,
+        "min" : 0.0018198333333333332,
+        "max" : 0.0018198333333333332,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "ambiguous" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.5,
+        "min" : 0.5,
+        "max" : 0.5,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.3333333333333333,
+        "min" : 0.3333333333333333,
+        "max" : 0.3333333333333333,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.09090909090909091,
+        "min" : 0.09090909090909091,
+        "max" : 0.09090909090909091,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 4627.0,
+        "min" : 4627.0,
+        "max" : 4627.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.002388,
+        "min" : 0.002388,
+        "max" : 0.002388,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "heldout" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.2857142857142857,
+        "min" : 0.2857142857142857,
+        "max" : 0.2857142857142857,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.5714285714285714,
+        "min" : 0.5714285714285714,
+        "max" : 0.5714285714285714,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.7692307692307693,
+        "min" : 0.7692307692307693,
+        "max" : 0.7692307692307693,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.42857142857142855,
+        "min" : 0.42857142857142855,
+        "max" : 0.42857142857142855,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.13333333333333333,
+        "min" : 0.13333333333333333,
+        "max" : 0.13333333333333333,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 4627.0,
+        "min" : 4627.0,
+        "max" : 4627.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0017216666666666667,
+        "min" : 0.0017216666666666667,
+        "max" : 0.0017216666666666667,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "dev" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.7857142857142857,
+        "min" : 0.7857142857142857,
+        "max" : 0.7857142857142857,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.5172413793103449,
+        "min" : 0.5172413793103449,
+        "max" : 0.5172413793103449,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.5,
+        "min" : 0.5,
+        "max" : 0.5,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 3074.0,
+        "min" : 3074.0,
+        "max" : 3074.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0016541764705882353,
+        "min" : 0.0016541764705882353,
+        "max" : 0.0016541764705882353,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "cv-direct" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.16666666666666666,
+        "min" : 0.16666666666666666,
+        "max" : 0.16666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.8,
+        "min" : 0.8,
+        "max" : 0.8,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 3074.0,
+        "min" : 3074.0,
+        "max" : 3074.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0013581666666666666,
+        "min" : 0.0013581666666666666,
+        "max" : 0.0013581666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "not-answerable" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "OVER_REFUSAL" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "RECALL_AT_K" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "CONSISTENCY" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 8.89E-4,
+        "min" : 8.89E-4,
+        "max" : 8.89E-4,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "all" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.09523809523809523,
+        "min" : 0.09523809523809523,
+        "max" : 0.09523809523809523,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.7142857142857143,
+        "min" : 0.7142857142857143,
+        "max" : 0.7142857142857143,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 0.5952380952380952,
+        "min" : 0.5952380952380952,
+        "max" : 0.5952380952380952,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.47619047619047616,
+        "min" : 0.47619047619047616,
+        "max" : 0.47619047619047616,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.045454545454545456,
+        "min" : 0.045454545454545456,
+        "max" : 0.045454545454545456,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 4627.0,
+        "min" : 4627.0,
+        "max" : 4627.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0016775384615384616,
+        "min" : 0.0016775384615384616,
+        "max" : 0.0016775384615384616,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    },
+    "adversarial" : {
+      "HALLUCINATION_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "REFUSAL_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "OVER_REFUSAL" : {
+        "mean" : 0.3333333333333333,
+        "min" : 0.3333333333333333,
+        "max" : 0.3333333333333333,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "ANSWER_CORRECTNESS" : {
+        "mean" : 0.6666666666666666,
+        "min" : 0.6666666666666666,
+        "max" : 0.6666666666666666,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CITATION_CORRECTNESS" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "RECALL_AT_K" : {
+        "mean" : 0.3333333333333333,
+        "min" : 0.3333333333333333,
+        "max" : 0.3333333333333333,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "CONSISTENCY" : {
+        "mean" : "NaN",
+        "min" : "NaN",
+        "max" : "NaN",
+        "repetitions" : 0,
+        "empty" : true
+      },
+      "GUARDRAIL_DROP_RATE" : {
+        "mean" : 0.0,
+        "min" : 0.0,
+        "max" : 0.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "QUOTE_PROVENANCE" : {
+        "mean" : 1.0,
+        "min" : 1.0,
+        "max" : 1.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "P95_LATENCY_MS" : {
+        "mean" : 1271.0,
+        "min" : 1271.0,
+        "max" : 1271.0,
+        "repetitions" : 1,
+        "empty" : false
+      },
+      "MEAN_COST_USD" : {
+        "mean" : 0.0013330000000000002,
+        "min" : 0.0013330000000000002,
+        "max" : 0.0013330000000000002,
+        "repetitions" : 1,
+        "empty" : false
+      }
+    }
+  },
+  "hardLineFailures" : [ ]
+}

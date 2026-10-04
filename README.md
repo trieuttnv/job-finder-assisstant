@@ -375,7 +375,7 @@ Results are committed as they are, with at least two failures. Each failure is t
 | Guardrail false drop | A correct claim was removed | Normalisation (Task 2, Step 4) |
 | Label too strict | A correct answer, worded outside the synonym list | The Gold Label (dev only) |
 
-The Subject writes the analysis in `evals/results/<run>/errors.md`; this README summarises it.
+The error analysis is in [failure_analysis.md](failure_analysis.md): every failure with its cost, trace, raw model reply and verified root cause. In summary, the first Haiku run (2026-10-04, `answer-v1`) failed 8 items. Two were fixed in the prompt: q25, a guardrail false drop of an honest correction ("13, not 50"), by `answer-v2`; and q27, a correct claim discarded because the model also set `notInSources`, by `answer-v4` (whose first draft, `answer-v3`, answered a held-out injection and was rejected). The final run, [`2026-10-04-anthropic-claude-haiku-4-5-9`](evals/results/2026-10-04-anthropic-claude-haiku-4-5-9/) (`answer-v4`, 31 questions, 1 repetition), has 0% hallucination, 100% refusal correctness and 6 failures: four retrieval misses (q04, q05, q13, q29) and two generation failures (q11, q15). The trade-off behind the q25 fix is in [open_discussion.md](open_discussion.md).
 
 ##### Step 7. Guard money movement and run continuously
 
