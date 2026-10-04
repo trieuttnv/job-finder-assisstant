@@ -11,6 +11,8 @@
 | **Results** | [failure_analysis.md](failure_analysis.md): every eval failure, its root cause and what was fixed |
 | **AI usage** | [ai-usage-note.txt](ai-usage-note.txt): how AI was used; per-ticket log in [docs/ai-usage.md](docs/ai-usage.md) |
 | **Total hours** | About 8 h. i started around 19.15 Oct 3 till 2.45 Oct 4. After that I leaved the agent auto run. I reworked around 6.30 Oct 4 but only several minutes then get back at around 9 or 10 Oct 4 till 13.30 Oct 4. During this period I have several breaks |
+| **Cost per test case** | $0.0017 per model call on average ($0.0009 to $0.0033), measured on `claude-haiku-4-5` at $1 / $5 per million tokens; $0 when a question stops before the model (out of scope) |
+| **Cost of all tests** | Unit tests (`./mvnw test`): $0, no model calls. Full eval, 32 questions × 1 repetition: about $0.05 (run [`-9`](evals/results/2026-10-04-anthropic-claude-haiku-4-5-9/) measured $0.0436 for 31); × 3 repetitions: about $0.15 |
 
 ## Summary
 

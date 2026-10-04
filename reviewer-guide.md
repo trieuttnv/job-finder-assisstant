@@ -19,17 +19,30 @@ Expect `BUILD SUCCESS` with 197 tests and no failures. They cover the Output Gua
 
 ## 3. Ask a question without a key (baseline mode)
 
-The no-LLM baseline answers with the retrieved Quotes, so you can see retrieval, citations and the fallbacks without a key:
+Without a key, the assistant runs as a no-LLM baseline: it skips the model and replies with the retrieved Quotes, word for word, each with its source. It shows retrieval, citations and the fallback, and every word it prints is from the knowledge base. The first run builds the CLI.
 
 ```bash
-MODEL_PROVIDER=baseline MODEL_ID= ./ask "When did you work at Atlassian?"
+MODEL_PROVIDER=baseline MODEL_ID= ./ask "What degree do you have?"
 ```
+
+Prints the one Entry that answers it:
+
+```
+Bachelor of Engineering, Computer Science · University of Natural Science, Ho Chi Minh City, Vietnam [1]
+
+Sources
+ [1] cv.education  cv  "Bachelor of Engineering, Computer Science · University of Natural Science, Ho Chi Minh City, Vietnam"
+```
+
+A question the knowledge base can't answer gets the fixed fallback, without calling anything:
 
 ```bash
 MODEL_PROVIDER=baseline MODEL_ID= ./ask "What is your favourite football club?"
 ```
 
-The first prints an answer with numbered Sources; the second prints "That isn't in my sources." The first run builds the CLI.
+Prints "That isn't in my sources."
+
+A broader question returns every retrieved Quote, not just the one that answers it: the baseline has no model to choose. Step 4 shows the same pipeline with the model writing the answer.
 
 ## 4. Ask the model
 
