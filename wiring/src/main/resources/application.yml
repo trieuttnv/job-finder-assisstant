@@ -38,7 +38,7 @@ assistant:
   guard:
     max-drop-ratio: ${GUARD_MAX_DROP_RATIO:0.5}
   prompt:
-    version: ${PROMPT_VERSION:answer-v1}
+    version: ${PROMPT_VERSION:answer-v2}
     dir: prompts
   knowledge-dir: ${KNOWLEDGE_DIR:knowledge}
   trace-dir: ${TRACE_DIR:traces}

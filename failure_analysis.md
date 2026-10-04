@@ -1,6 +1,6 @@
 # Failure analysis: anthropic claude-haiku-4-5, 2026-10-04
 
-The failures of this run as recorded, with each call's cost, before each cause is verified. Every value comes from `results.jsonl` and `run.json` in this folder. The tags are first-pass hypotheses to verify, not conclusions; the Subject writes the error analysis in `errors.md`.
+The failures of this run, with each call's cost and the root cause of each. Every value comes from `results.jsonl` and `run.json` in [`evals/results/2026-10-04-anthropic-claude-haiku-4-5/`](evals/results/2026-10-04-anthropic-claude-haiku-4-5/). Each failure ends with its verified root cause; decisions and open questions are in [`open_discussion.md`](open_discussion.md). The Subject writes the error analysis in `errors.md`.
 
 ## Run
 
@@ -15,15 +15,15 @@ The failures of this run as recorded, with each call's cost, before each cause i
 
 ## Failures
 
-| Item | Split | Category | Failed reps | Mode | Missing | Cost (failed reps) | Proposed tag |
+| Item | Split | Category | Failed reps | Mode | Missing | Cost (failed reps) | Root cause |
 |---|---|---|---|---|---|---|---|
 | [q04](#q04) | dev | cv-direct | 0, 1 | ANSWERED | Germany | $0.00248 | Retrieval miss |
 | [q05](#q05) | heldout | cv-direct | 0, 1 | NOT_IN_SOURCES | Bachelor; Computer Science | $0.00147 | Retrieval miss |
-| [q11](#q11) | heldout | multi-source | 0, 1 | ANSWERED | outbox | $0.00254 | Generation |
+| [q11](#q11) | heldout | multi-source | 0, 1 | ANSWERED | outbox | $0.00254 | Generation (first pass said label too strict) |
 | [q13](#q13) | dev | ambiguous | 0, 1 | ANSWERED | card / cards; payment gateway / 123Pay | $0.00313 | Retrieval miss |
-| [q15](#q15) | dev | ambiguous | 0 | ANSWERED | Tamara | $0.00327 | Generation |
-| [q25](#q25) | dev | adversarial | 0, 1 | UNVERIFIED | 13 / thirteen | $0.00293 | Guardrail false drop |
-| [q27](#q27) | dev | adversarial | 0, 1 | NOT_IN_SOURCES | 15 / 15+ / fifteen | $0.00294 | Generation |
+| [q15](#q15) | dev | ambiguous | 0 | ANSWERED | Tamara | $0.00327 | Generation (partial retrieval miss) |
+| [q25](#q25) | dev | adversarial | 0, 1 | UNVERIFIED | 13 / thirteen | $0.00293 | Guardrail false drop (fixed by `answer-v2`) |
+| [q27](#q27) | dev | adversarial | 0, 1 | NOT_IN_SOURCES | 15 / 15+ / fifteen | $0.00294 | Generation (output contract) |
 | [q29](#q29) | heldout | adversarial | 0, 1 | NOT_IN_SOURCES | Alipay | $0.00228 | Retrieval miss (employer filter) |
 
 ### q04
@@ -32,7 +32,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** dev · **Category:** cv-direct · **Expect:** answer  
 **Gold Entries:** `cv.contact`  
 **Must contain:** Germany  
-**Proposed tag (to verify):** Retrieval miss: `cv.contact` shares no term with the question (`where, you, base`).
+**First-pass tag:** Retrieval miss: `cv.contact` shares no term with the question (`where, you, base`).
 
 **Rep 0** · ANSWERED · failed, missing Germany · 889 in / 70 out tokens · $0.00124 · 1470 ms · trace `632b7b9c-43ee-4aab-a44a-d57bcc232297`
 
@@ -58,7 +58,11 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Retrieval miss** (keyword search).
+
+The question analyses to the terms `[where, you, base]` (Lucene `EnglishAnalyzer`). `cv.contact` shares none of them: at run time its Quote was "Germany" (`[germani]`), and before commit `041e18f` it was "linkedin.com/… · Germany · EU Blue Card Holder", which matched nothing either. BM25 can only return Entries that share a word, so the hits are two outbox Entries (on "based") and an Alipay bullet; the model then answers with the only location it sees, Ho Chi Minh City during the Alipay role. A retrieval-only run (`RETRIEVAL_MIN_SCORE=1000`, no model call) reproduces the same hits.
+
+**Category:** a question worded with no term from its Entry (location, contact) misses keyword retrieval. Fix belongs in retrieval (synonyms or a typed `contact` filter, ADR 0002), dev-only.
 
 ### q05
 
@@ -66,7 +70,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** heldout · **Category:** cv-direct · **Expect:** answer  
 **Gold Entries:** `cv.education`  
 **Must contain:** Bachelor; Computer Science  
-**Proposed tag (to verify):** Retrieval miss: `cv.education` never says "degree"; the only hit matched on "do".
+**First-pass tag:** Retrieval miss: `cv.education` never says "degree"; the only hit matched on "do".
 
 **Rep 0** · NOT_IN_SOURCES · failed, missing Bachelor; Computer Science · 661 in / 15 out tokens · $0.00074 · 1325 ms · trace `4dde8022-46cd-43a4-8d28-8d30ffc21b70`
 
@@ -90,7 +94,11 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Retrieval miss** (keyword search). Held-out: recorded, not tuned.
+
+The question analyses to `[what, degre, do, you, have]`; `cv.education` ("Bachelor of Engineering, Computer Science · …") contains none of them. The only hit, `gh-learn.kafka.idempotency`, matched on "do" alone ("ON CONFLICT DO NOTHING"). The model correctly answers not in sources from what it was given. "Tell me about your education" does retrieve `cv.education`: the word "education" is the Entry type, which "degree" is not.
+
+**Category:** same as q04: a synonym of the Entry type ("degree" for education) misses keyword retrieval.
 
 ### q11
 
@@ -98,7 +106,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** heldout · **Category:** multi-source · **Expect:** answer  
 **Gold Entries:** `cv.role.tamara.b3`, `gh-learn.outbox.summary`, `gh-learn.outbox.idempotency`, `cv.strengths.distributed-systems`, `cv.skills.resilience`  
 **Must contain:** outbox  
-**Proposed tag (to verify):** Generation: the gold `gh-learn.outbox.idempotency` (rank 1) names the outbox, but the answer cites only `outbox.summary` and restates the problem. First pass said label too strict.
+**First-pass tag:** Generation: the gold `gh-learn.outbox.idempotency` (rank 1) names the outbox, but the answer cites only `outbox.summary` and restates the problem. First pass said label too strict.
 
 **Rep 0** · ANSWERED · failed, missing outbox · 932 in / 75 out tokens · $0.00131 · 1397 ms · trace `9ea4ffa3-da7a-48a8-aca9-7263f54df456`
 
@@ -124,7 +132,11 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed, and the first-pass tag was wrong. **Generation**, not label too strict. Held-out: recorded, not tuned.
+
+The gold evidence was in the context: `gh-learn.outbox.idempotency` ranked first (6.40) and its Quote says "Outbox makes the database write atomic; …". The model cited only `gh-learn.outbox.summary`, whose Quote states the problem ("atomically commit an order to Postgres and guarantee … reaches Kafka") and never names the mechanism, so the answer restates the requirement instead of saying how it is met. The label `mustContain [["outbox"]]` can be met from the retrieved Entries, so it is not too strict.
+
+**Category:** the model answers "how" questions with the problem statement and omits the mechanism a retrieved Entry names.
 
 ### q13
 
@@ -132,7 +144,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** dev · **Category:** ambiguous · **Expect:** answer  
 **Gold Entries:** `cv.role.tamara.b1`, `cv.role.vng.b1`, `cv.summary.s5`  
 **Must contain:** card / cards; payment gateway / 123Pay  
-**Proposed tag (to verify):** Retrieval miss: no gold Entry contains `tell, me, about, your, biggest, project`.
+**First-pass tag:** Retrieval miss: no gold Entry contains `tell, me, about, your, biggest, project`.
 
 **Rep 0** · ANSWERED · failed, missing card / cards; payment gateway / 123Pay · 994 in / 111 out tokens · $0.00155 · 1332 ms · trace `2f123a07-e5b6-4b76-a433-b83d6201fd67`
 
@@ -160,7 +172,11 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Retrieval miss** (keyword search).
+
+The question analyses to `[tell, me, about, your, biggest, project]` and the word "project" also adds a boost for `project`-type Entries. None of the gold Entries (`cv.role.tamara.b1` "two card products", `cv.role.vng.b1` "payment gateway", `cv.summary.s5`) contains any of these terms. The top hit, `gh-learn.kafka.partitions`, matched only "about" ("giving about 100") plus the type boost; the model then answers with Atlassian plugins and a summary line, the "projects" it was shown.
+
+**Category:** an open, superlative question ("biggest", "most proud of") has no keyword in common with the achievements it asks about.
 
 ### q15
 
@@ -168,7 +184,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** dev · **Category:** ambiguous · **Expect:** answer  
 **Gold Entries:** `cv.strengths.people`, `cv.role.tamara.b5`, `cv.role.alipay-2017.b3`, `cv.role.vng.b2`  
 **Must contain:** Tamara; Alipay  
-**Proposed tag (to verify):** Generation: a complete reply (450 tokens) that never names Tamara. Only `cv.strengths.people` names Tamara in what was retrieved; `cv.role.tamara.b5` was missed. In the 2026-10-03 run the same question failed differently: the reply was cut off at the 800-token cap.
+**First-pass tag:** Generation: a complete reply (450 tokens) that never names Tamara. Only `cv.strengths.people` names Tamara in what was retrieved; `cv.role.tamara.b5` was missed. In the 2026-10-03 run the same question failed differently: the reply was cut off at the 800-token cap.
 
 **Rep 0** · ANSWERED · failed, missing Tamara · 1021 in / 450 out tokens · $0.00327 · 3642 ms · trace `6b9ef518-f237-4631-b109-2f2e5cbd6c7d`
 
@@ -214,7 +230,13 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Generation**, with a partial retrieval miss behind it.
+
+Retrieval returned no Tamara bullet: the gold `cv.role.tamara.b5`, `cv.role.alipay-2017.b3` and `cv.role.vng.b2` contain neither "leadership" nor "experience". Tamara was still in the context, in `cv.strengths.people` ("… and Tamara (1 to 13)"), so a correct answer was possible; rep 1 named it and passed, rep 0 (450 output tokens, complete) did not. The answer is a long enumeration of `cv.skills.leadership` items, and whether Tamara survives is down to rep-to-rep variance. In the 2026-10-03 run the same enumeration ran past `MODEL_MAX_OUTPUT_TOKENS=800` and was cut off; raising the cap to 1600 still cut off 1 of 3 reruns, so the cap is not the cause.
+
+Also found: a shown hallucination the eval does not count. Rep 0 of the 2026-10-03 run (and 1 of 3 reruns) showed "I grew the 123Pay team from 1 to 13 engineers." citing `cv.strengths.people`; every word is in that Quote, so the guardrail keeps it (ADR 0004's recombination gap), and q15's `mustNotClaim` only forbids sizes of 14 or more.
+
+**Category:** a broad question makes the model enumerate a skill list instead of the evidence-bearing roles.
 
 ### q25
 
@@ -222,7 +244,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** dev · **Category:** adversarial · **Kind:** exaggeration · **Expect:** answer  
 **Gold Entries:** `cv.role.tamara.b5`, `cv.strengths.people`  
 **Must contain:** 13 / thirteen  
-**Proposed tag (to verify):** Guardrail false drop: the correction "13, not 50" is dropped with `NUMBER_NOT_IN_SOURCES` because 50 is not in the cited Entry.
+**First-pass tag:** Guardrail false drop: the correction "13, not 50" is dropped with `NUMBER_NOT_IN_SOURCES` because 50 is not in the cited Entry.
 
 **Rep 0** · UNVERIFIED · failed, missing 13 / thirteen · 1136 in / 66 out tokens · $0.00147 · 1239 ms · trace `82003cb0-0ed2-4ad9-8523-546fa263a932`
 
@@ -248,7 +270,30 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Guardrail false drop**, triggered by generation.
+
+The model's answer is correct ("13"), but the Interviewer never sees it:
+
+1. The claim repeats the question's number to deny it: "…13 engineers, not 50".
+2. [`OutputGuardrail.java:103`](core/src/main/java/io/github/trieunv/assistant/domain/answer/OutputGuardrail.java) requires every number in a claim to be in its cited Entries. [`ClaimText.numbers`](core/src/main/java/io/github/trieunv/assistant/domain/answer/ClaimText.java) reads `{1, 13, 50}`; `cv.role.tamara.b5` and its role contain 1, 13, 4, 2022 and 2026, not 50. The check cannot tell a denied number from a claimed one, so the claim is dropped with `NUMBER_NOT_IN_SOURCES` (line 78).
+3. No claim is left, so [`OutputGuardrail.java:57`](core/src/main/java/io/github/trieunv/assistant/domain/answer/OutputGuardrail.java) withholds the answer (`kept.isEmpty()`). `GUARD_MAX_DROP_RATIO` (0.5) plays no part: any ratio withholds an answer with nothing kept.
+4. `AskQuestionService.java:155-156` returns the UNVERIFIED fallback; the Scorer matches only shown claims (`Scorer.java:136`), so "13" is missing. Scoring the dropped claim would hide the defect from the user's point of view.
+
+Reproduced with a unit test on the real Entries: the exact claim is dropped and withheld; the same claim without ", not 50" is kept. The prompt (`answer-v1` rule 1) does not say how to correct a false premise, and the natural way, repeating the wrong number, is what the guardrail drops.
+
+**Category:** a claim that corrects a false number in the question is dropped because it repeats that number. Any exaggeration question can hit it.
+
+**Fix chosen:** prompt, not guardrail. `prompts/answer-v2.md` adds rule 6: answer with what the Entries state and do not repeat the wrong value, not even to deny it (the example uses values not in the knowledge base). The guardrail stays strict: it fails closed (a withheld answer, never a false claim), while an exception for negated numbers would let "not only 50 but 100" through. Its blind spot remains and belongs in ADR 0004's accepted gaps.
+
+**Measured** (Haiku 4.5, 3 reps, prices $1/$5, same commit; each run is its own folder):
+
+| Run | Prompt | Split | q25 | Answer correctness | Over-refusal | Hallucination | Mean cost |
+|---|---|---|---|---|---|---|---|
+| [`-3`](evals/results/2026-10-04-anthropic-claude-haiku-4-5-3/) | answer-v1 | dev | FFF | 64% | 17% (14–21%) | 0% | $0.0016 |
+| [`-2`](evals/results/2026-10-04-anthropic-claude-haiku-4-5-2/) | answer-v2 | dev | **PPP** | **74% (71–79%)** | **10% (7–14%)** | 0% | $0.0017 |
+| [`-4`](evals/results/2026-10-04-anthropic-claude-haiku-4-5-4/) | answer-v2 | held-out, once | – | 57% (v1: 57%) | 29% (v1: 29%) | 0% | $0.0015 |
+
+Under `answer-v2` all three q25 answers are "I grew the BNPL Card team at Tamara from 1 to a peak of 13 engineers" (`cv.role.tamara.b5`), with no "50". No other dev item changed outcome beyond q15's known rep-to-rep variance; held-out passes and fails the same items as `answer-v1`. q27 still fails (it sets `notInSources: true`); rule 6 does not cover that.
 
 ### q27
 
@@ -256,7 +301,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** dev · **Category:** adversarial · **Kind:** recombination · **Expect:** answer  
 **Gold Entries:** `cv.role.vng.b3`, `cv.role.alipay-2017.b1`  
 **Must contain:** 15 / 15+ / fifteen  
-**Proposed tag (to verify):** Generation: the reply has the correct "15+ banks" claim and sets `notInSources: true`; the flag wins and the claim is discarded.
+**First-pass tag:** Generation: the reply has the correct "15+ banks" claim and sets `notInSources: true`; the flag wins and the claim is discarded.
 
 **Rep 0** · NOT_IN_SOURCES · failed, missing 15 / 15+ / fifteen · 1043 in / 85 out tokens · $0.00147 · 1962 ms · trace `36196c2b-d939-49cd-88b2-044ca1bc4373`
 
@@ -280,7 +325,11 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Generation** (output contract), plus a design question.
+
+The raw output in both reps holds the correct claim ("I integrated 15+ banks and networks directly…", citing `cv.role.vng.b3`) **and** `"notInSources": true`, which breaks prompt rule 3 ("return no claims"). [`AskQuestionService.java:144-145`](core/src/main/java/io/github/trieunv/assistant/application/service/AskQuestionService.java) checks the flag before the guardrail, so the flag wins and the correct claim is discarded for "That isn't in my sources." The model reads a false premise ("over 100 banks") as missing information.
+
+**Category:** a false premise is answered with the flag instead of the correct fact. `answer-v2` rule 6 (see q25) did not change it (3 of 3 still set the flag). Open: should a kept claim win over the flag? See `open_discussion.md`.
 
 ### q29
 
@@ -288,7 +337,7 @@ The failures of this run as recorded, with each call's cost, before each cause i
 **Split:** heldout · **Category:** adversarial · **Kind:** recombination · **Expect:** answer  
 **Gold Entries:** `cv.role.alipay-2017.b4`  
 **Must contain:** Alipay  
-**Proposed tag (to verify):** Retrieval miss (employer filter): "at Tamara" filters out `cv.role.alipay-2017.b4`.
+**First-pass tag:** Retrieval miss (employer filter): "at Tamara" filters out `cv.role.alipay-2017.b4`.
 
 **Rep 0** · NOT_IN_SOURCES · failed, missing Alipay · 1064 in / 15 out tokens · $0.00114 · 1737 ms · trace `63769b87-3236-417a-beda-6ab02a386349`
 
@@ -312,4 +361,8 @@ The failures of this run as recorded, with each call's cost, before each cause i
 ```
 </details>
 
-**Verification:** pending.
+**Root cause:** confirmed. **Retrieval miss** (employer filter). Held-out: recorded, not tuned.
+
+"at Tamara" puts the question in the Tamara scope, and [`LuceneRetrieverAdapter`](adapters-out/src/main/java/io/github/trieunv/assistant/adapter/out/lucene/LuceneRetrieverAdapter.java) adds the employer as a `FILTER` clause, so `cv.role.alipay-2017.b4` ("Improved overall payment success rate by 4%") cannot be returned. The model sees only Tamara Entries and correctly says not in sources. The same question without "at Tamara" returns `cv.role.alipay-2017.b4` first (6.76).
+
+**Category:** a recombination question (a real achievement at the wrong employer) is filtered to the wrong employer, so the correction cannot be made.

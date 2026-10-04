@@ -1,0 +1,27 @@
+{
+  "date" : "2026-10-04",
+  "commit" : "7bbec3a-dirty",
+  "split" : "dev",
+  "repetitions" : 3,
+  "questions" : 20,
+  "provider" : "anthropic",
+  "modelId" : "claude-haiku-4-5",
+  "promptHash" : "b78bb39ccfa287889285bc7b067641dfbf53198af661b1759158c4a194dc4b79",
+  "datasetSha256" : "c81729f832b30f450fd34d284793866d3289509fb947dae042cf8e7e262b6f19",
+  "quoteProvenance" : 1.0,
+  "entries" : 81,
+  "askConfig" : {
+    "provider" : "anthropic",
+    "modelId" : "claude-haiku-4-5",
+    "timeoutMs" : 20000,
+    "maxOutputTokens" : 800,
+    "retrievalTopK" : 6,
+    "retrievalMinScore" : 0.5,
+    "guardMaxDropRatio" : 0.5,
+    "price" : {
+      "inUsdPerMtok" : 1.0,
+      "outUsdPerMtok" : 5.0
+    },
+    "promptVersion" : "answer-v1"
+  }
+}
